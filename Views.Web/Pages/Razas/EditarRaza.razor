@@ -1,0 +1,32 @@
+﻿@page "/raza/editar/{RazaId:int}"
+@using Logic
+@using Models.Entity
+@inject NavigationManager Navigation
+@code {
+    [Parameter]
+    public int RazaId { get; set; }
+
+    private Models.Entity.Models.Raza raza = new Models.Entity.Models.Raza();
+
+    protected override async Task OnInitializedAsync()
+    {
+        raza = await RazasLogic.GetOne(RazaId);
+    }
+
+    private async Task GuardarCambios()
+    {
+        bool resultado = await RazasLogic.Editar(raza);
+        if (resultado)
+        {
+            Navigation.NavigateTo("/raza");
+        }
+    }
+}
+<h3>Editar Raza</h3>
+<div>
+    <label>Nombre: </label>
+    <input @bind="raza.Nombre" />
+</div>
+
+<button @onclick="GuardarCambios">Guardar Cambios</button>
+<button @onclick="@(() => Navigation.NavigateTo("/raza"))">Cancelar</button>

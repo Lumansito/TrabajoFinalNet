@@ -1,0 +1,23 @@
+﻿@page "/especie/crear"
+@using Logic
+@using Models.Entity
+@inject NavigationManager Navigation
+@code {
+    private Models.Entity.Models.Especie nuevaEspecie = new Models.Entity.Models.Especie();
+
+    private async Task GuardarEspecie()
+    {
+        bool resultado = await EspeciesLogic.Crear(nuevaEspecie);
+        if (resultado)
+        {
+            Navigation.NavigateTo("/especie");
+        }
+    }
+}
+<h3>Crear Nueva Especie</h3>
+<div>
+    <label>Nombre: </label>
+    <input @bind="nuevaEspecie.Nombre" />
+</div>
+<button @onclick="GuardarEspecie">Guardar</button>
+<button @onclick="@(() => Navigation.NavigateTo("/especie"))">Cancelar</button>

@@ -1,0 +1,131 @@
+﻿@* 
+@page "/register"
+@using Logic
+@using Models.Entity
+@inject NavigationManager NavigationManager
+@inject IToastService ToastService
+
+<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+        <div>
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                Create your account
+            </h2>
+        </div>
+        <EditForm Model="@model" OnValidSubmit="HandleRegistration" class="mt-8 space-y-6">
+            <DataAnnotationsValidator />
+            <div class="rounded-md shadow-sm -space-y-px">
+                
+                <div>
+                    <label for="Nombre" class="sr-only">Nombre</label>
+                    <InputText id="Nombre" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Nombre" @bind-Value="model.Nombre" />
+                    <ValidationMessage For="@(() => model.Nombre)" />
+                </div>
+
+                <div>
+                    <label for="Apellido" class="sr-only">Apellido</label>
+                    <InputText id="Apellido" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Apellido" @bind-Value="model.Apellido" />
+                    <ValidationMessage For="@(() => model.Apellido)" />
+                </div>
+
+                <div>
+                    <label for="Dni" class="sr-only">DNI</label>
+                    <InputText id="Dni" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                               placeholder="DNI"
+                               @bind-Value="model.DniString" />
+                    <ValidationMessage For="@(() => model.Dni)" />
+                </div>
+                
+                <div>
+                    <label for="email" class="sr-only">Mail</label>
+                    <InputText id="email" type="email" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Mail" @bind-Value="model.Mail" />
+                    <ValidationMessage For="@(() => model.Mail)" />
+                </div>
+
+                <div>
+                    <label for="Telefono" class="sr-only">Teléfono</label>
+                    <InputText id="Telefono" type="tel" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Teléfono" @bind-Value="model.Telefono" />
+                    <ValidationMessage For="@(() => model.Telefono)" />
+                </div>
+
+                <div>
+                    <label for="FechaNacimiento" class="sr-only">Fecha de Nacimiento</label>
+                    <InputDate id="FechaNacimiento" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Fecha de Nacimiento" @bind-Value="model.FechaNacimiento" />
+                    <ValidationMessage For="@(() => model.FechaNacimiento)" />
+                </div>
+                
+                <div>
+                    <label for="password" class="sr-only">Contraseña</label>
+                    <InputText id="password" type="password" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Contraseña" @bind-Value="model.Contraseña" />
+                    <ValidationMessage For="@(() => model.Contraseña)" />
+                </div>
+
+                <div>
+                    <label for="Rol" class="sr-only">Rol</label>
+                    <InputSelect id="Rol" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" @bind-Value="model.Rol">
+                        <option value="">Seleccione un rol</option>
+                        <option value="Profesional">Profesional</option>
+                        <option value="Secretario">Secretario</option>
+                    </InputSelect>
+                    <ValidationMessage For="@(() => model.Rol)" />
+                </div>
+
+                <div class="flex items-center">
+                    <label for="IsAdmin" class="mr-2">Es Admin</label>
+                    <InputCheckbox id="IsAdmin" class="form-checkbox h-5 w-5 text-indigo-600" @bind-Value="model.IsAdmin" />
+                </div>
+
+            </div>
+
+            <div>
+                <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                        <svg class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+                        </svg>
+                    </span>
+                    Register
+                </button>
+            </div>
+
+            <div class="mt-4 text-center">
+                <p class="text-sm text-gray-600">
+                    ¿Ya tienes una cuenta?
+                    <a href="/login" class="font-medium text-indigo-600 hover:text-indigo-500">
+                        Iniciar sesión
+                    </a>
+                </p>
+            </div>
+
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    Models.Entity.Clases.UsuarioRegisterDTO model = new Models.Entity.Clases.UsuarioRegisterDTO();
+
+    private async Task HandleRegistration()
+    {
+        Console.WriteLine("form enviado");
+        try
+        {
+
+            var result = await Logic.UsuariosLogic.Crear(model);
+            if (result)
+            {
+                ToastService.ShowSuccess("¡Registro exitoso! Bienvenido.");
+                NavigationManager.NavigateTo("/raza");
+            }
+            else
+            {
+                ToastService.ShowError("Falló el registro. Por favor, inténtalo de nuevo.");
+            }
+        }
+        catch (Exception ex)
+        {
+            ToastService.ShowError($"An error occurred: {ex.Message}");
+        }
+    }
+
+}
+ *@

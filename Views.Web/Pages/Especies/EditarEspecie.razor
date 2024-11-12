@@ -1,0 +1,32 @@
+﻿@page "/especie/editar/{EspecieId:int}"
+@using Logic
+@using Models.Entity
+@inject NavigationManager Navigation
+@code {
+    [Parameter]
+    public int EspecieId { get; set; }
+
+    private Models.Entity.Models.Especie especie = new ();
+
+    protected override async Task OnInitializedAsync()
+    {
+        especie = await EspeciesLogic.GetOne(EspecieId);
+    }
+
+    private async Task GuardarCambios()
+    {
+        bool resultado = await EspeciesLogic.Editar(especie);
+        if (resultado)
+        {
+            Navigation.NavigateTo("/especie");
+        }
+    }
+}
+<h3>Editar Especie</h3>
+<div>
+    <label>Nombre: </label>
+    <input @bind="especie.Nombre" />
+</div>
+
+<button @onclick="GuardarCambios">Guardar Cambios</button>
+<button @onclick="@(() => Navigation.NavigateTo("/especie"))">Cancelar</button>

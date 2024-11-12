@@ -1,0 +1,63 @@
+﻿@page "/raza"
+@using Logic
+@using Models.Entity
+@inject NavigationManager Navigation
+@code {
+    private List<Models.Entity.Models.Raza> razas;
+
+    protected override async Task OnInitializedAsync()
+    {
+        razas = await RazasLogic.GetAll();
+    }
+
+    private async Task EliminarRaza(int id)
+    {
+        bool resultado = await RazasLogic.Eliminar(id);
+        if (resultado)
+        {
+            razas = await RazasLogic.GetAll();
+        }
+    }
+}
+
+<AuthorizeView Roles="Admin, Profesional">
+    <Authorized>
+        <h3>Lista de Razas</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (razas != null && razas.Count > 0)
+                {
+                    @foreach (var raza in razas)
+                    {
+                        <tr>
+                            <td>@raza.Nombre</td>
+
+                            <td>
+                                <button @onclick="@(() => Navigation.NavigateTo($"/raza/editar/{raza.RazaId}"))">Editar</button>
+                                <button @onclick="@(() => EliminarRaza(raza.RazaId))">Eliminar</button>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <p>Cargando...</p>
+                }
+
+            </tbody>
+        </table>
+        <button @onclick="@(() => Navigation.NavigateTo("/raza/crear"))">Nueva Raza</button>
+
+    </Authorized>
+    <NotAuthorized>
+        <h3>No estás autorizado a ver esta página.</h3>
+    </NotAuthorized>
+</AuthorizeView>
+

@@ -1,0 +1,62 @@
+﻿@page "/especie"
+@using Logic
+@using Models.Entity
+@inject NavigationManager Navigation
+@code {
+    private List<Models.Entity.Models.Especie> especies;
+
+    protected override async Task OnInitializedAsync()
+    {
+        especies = await EspeciesLogic.GetAll();
+    }
+
+    private async Task EliminarEspecie(int id)
+    {
+        bool resultado = await EspeciesLogic.Eliminar(id);
+        if (resultado)
+        {
+            especies = await EspeciesLogic.GetAll();
+        }
+    }
+}
+
+<AuthorizeView Roles="Admin, Profesional">
+    <Authorized>
+        <h3>Lista de Especies</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (especies != null && especies.Count > 0)
+                {
+                    @foreach (var especie in especies)
+                    {
+                        <tr>
+                            <td>@especie.Nombre</td>
+
+                            <td>
+                                <button @onclick="@(() => Navigation.NavigateTo($"/especie/editar/{especie.EspecieId}"))">Editar</button>
+                                <button @onclick="@(() => EliminarEspecie(especie.EspecieId))">Eliminar</button>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <p>Cargando...</p>
+                }
+
+            </tbody>
+        </table>
+        <button @onclick="@(() => Navigation.NavigateTo("/especie/crear"))">Nueva Especie</button>
+
+    </Authorized>
+    <NotAuthorized>
+        <h3>No estás autorizado a ver esta página.</h3>
+    </NotAuthorized>
+</AuthorizeView>
+

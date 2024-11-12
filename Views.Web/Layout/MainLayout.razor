@@ -1,0 +1,87 @@
+﻿
+@inherits LayoutComponentBase
+@using Blazored.Toast.Configuration
+@inject IJSRuntime JS
+@inject AuthenticationStateProvider AuthStateProv
+@inject NavigationManager NavigationManager
+
+
+<AuthorizeView Roles="Admin, Profesional, Secretario">
+    <Authorized>
+        <div class="page">
+            <div class="sidebar">
+                <NavMenu />
+            </div>
+
+            <main>
+                <div class="top-row px-4">
+                    <button @onclick="handleLogOut">Log Out</button>
+                </div>
+
+                <article class="content px-4">
+                    @Body
+                </article>
+            </main>
+        </div>
+    </Authorized>
+
+    <NotAuthorized>
+        
+        <div class="min-h-screen flex flex-col justify-between bg-gradient-to-b from-blue-100 to-green-100 p-4">
+            
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container">
+                    <a class="navbar-brand" href="#">San Antón Veterinary Clinic</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <div class="container mb-4">
+                            <div class="text-end">
+                                <button class="btn btn-primary" onclick="location.href='/login'">Log In</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </nav>
+
+            <header class="text-center py-5">
+                <h1 class="display-4 text-primary">San Antón Veterinary Clinic</h1>
+                <p class="lead text-secondary">Caring for your pets like family</p>
+            </header>
+
+
+            <main class="flex-grow bg-white p-8 rounded-lg shadow-lg max-w-md w-full mx-auto">
+                <article class="content px-4">
+                    @Body
+                </article>
+            </main>
+
+            
+        </div>
+        
+    </NotAuthorized>
+</AuthorizeView>
+
+<BlazoredToasts Position="ToastPosition.BottomRight"
+                Timeout="10"
+                IconType="IconType.FontAwesome"
+                SuccessClass="success-toast-override"
+                SuccessIcon="fa fa-thumbs-up"
+                ErrorIcon="fa fa-bug" />
+
+@code {
+    private async Task handleLogOut()
+    {
+        await JS.InvokeVoidAsync("localStorage.removeItem", "Token"); // Elimina el token
+        await AuthStateProv.GetAuthenticationStateAsync(); // Cambia el estado de la autenticación
+    }
+
+    private void NavigateToLogin()
+    {
+        NavigationManager.NavigateTo("/login");
+        Console.WriteLine("al login");
+    }
+}

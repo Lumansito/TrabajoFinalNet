@@ -1,0 +1,23 @@
+﻿@page "/raza/crear"
+@using Logic
+@using Models.Entity
+@inject NavigationManager Navigation
+@code {
+    private Models.Entity.Models.Raza nuevaRaza = new Models.Entity.Models.Raza();
+
+    private async Task GuardarRaza()
+    {
+        bool resultado = await RazasLogic.Crear(nuevaRaza);
+        if (resultado)
+        {
+            Navigation.NavigateTo("/raza");
+        }
+    }
+}
+<h3>Crear Nueva Raza</h3>
+<div>
+    <label>Nombre: </label>
+    <input @bind="nuevaRaza.Nombre" />
+</div>
+<button @onclick="GuardarRaza">Guardar</button>
+<button @onclick="@(() => Navigation.NavigateTo("/raza"))">Cancelar</button>

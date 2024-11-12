@@ -1,0 +1,31 @@
+﻿@page "/"
+@using Microsoft.AspNetCore.Authorization
+@inject HttpClient Http
+@using System.Net.Http.Headers;
+@inject IJSRuntime JS
+
+<PageTitle>Home</PageTitle>
+
+<body>
+    
+    <main class="main-content container my-5">
+        <div class="content-card p-5">
+            <article class="content">
+                <!-- Your main content goes here -->
+                <h2>Welcome to San Antón Veterinary Clinic</h2>
+                <p>We are dedicated to providing the best care for your beloved pets. Our team of experienced veterinarians and staff are committed to ensuring the health and happiness of your furry friends.</p>
+                <p>Whether you need routine check-ups, vaccinations, or specialized treatments, we're here to help. Schedule an appointment today and experience the San Antón difference!</p>
+            </article>
+        </div>
+    </main>
+
+    <footer class="footer text-center py-4 mt-auto">
+        <div class="container">
+            <p class="mb-0">&copy; 2024 San Antón Veterinary Clinic. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+@code {
+        
+}
