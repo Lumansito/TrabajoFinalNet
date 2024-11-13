@@ -14,6 +14,7 @@ namespace Views.Desktop
     public partial class MembresiasCliente : Form
     {
         private Form _padre;
+        private int dni;
         public MembresiasCliente(Form padre)
         {
             InitializeComponent();
@@ -23,7 +24,7 @@ namespace Views.Desktop
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            int dni = int.Parse(textBoxMembresiasCliente.Text);
+            dni = int.Parse(textBoxMembresiasCliente.Text);
             var membresias = await ClientesLogic.GetAllByDni(dni);
             if (membresias == null)
             {
@@ -34,12 +35,18 @@ namespace Views.Desktop
             {
                 dgvMembresiasCliente.DataSource = membresias.ToList();
                 var clienteMembresia = await ClientesMembresiasLogic.GetUltimoClienteMembresia(dni);
+                if (clienteMembresia == null)
+                {
+                    labelNombreMembresia.Text = "No tiene una membresia vigente";
+                    labelTiempoRestante.Text = "No tiene una membresia vigente";
+                    return;
+                }
                 DateTime fechaActual = DateTime.Now;
                 TimeSpan diferencia = clienteMembresia.FechaDesde.AddDays(30) - fechaActual;
-
+                
                 if (diferencia.TotalDays > 0) // Verifica que queden días restantes
                 {
-                    var membresia = await MembresiasLogic.GetOne(0);  //se rompio
+                    var membresia = await MembresiasLogic.GetOne(clienteMembresia.MembresiaId);  //se rompio
                     labelNombreMembresia.Text = membresia.Descripcion;
                     labelTiempoRestante.Text = $"{diferencia.Days} días restantes";
                 }
@@ -49,7 +56,12 @@ namespace Views.Desktop
 
         private void button2_Click(object sender, EventArgs e)
         {
-            RegistrarPagoMembresia registrarPagoMembresia = new RegistrarPagoMembresia();
+            if (dni == 0)
+            {
+                MessageBox.Show("Por favor, introduce un número de DNI válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            RegistrarPagoMembresia registrarPagoMembresia = new RegistrarPagoMembresia(dni);
             registrarPagoMembresia.MdiParent = this.MdiParent;
             registrarPagoMembresia.Show();
         }

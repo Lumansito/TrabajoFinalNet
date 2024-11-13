@@ -18,7 +18,6 @@ namespace Views.Desktop.Membresias
         {
             InitializeComponent();
             this.MdiParent = padre;
-            InitializeComponent();
         }
 
         Membresia membresia = new();
@@ -28,6 +27,8 @@ namespace Views.Desktop.Membresias
             textBoxCodigo.Text = "";
             txtDescripcion.Text = "";
             txtAntiguedad.Text = "";
+            buttonGuardar.Text = "Registrar";
+
         }
 
         private async void LoadData()
@@ -64,23 +65,12 @@ namespace Views.Desktop.Membresias
             }
         }
 
-        private async void dataGridViewMembresias_DoubleClick(object sender, EventArgs e)
-        {
-            if (dataGridViewMembresias.CurrentRow.Index != -1)
-            {
-                int membresiaId = Convert.ToInt32(this.dataGridViewMembresias.CurrentRow.Cells["MembresiaId"].Value);
-                Membresia membresia = await MembresiasLogic.GetOne(membresiaId);
-                textBoxCodigo.Text = Convert.ToString(membresia.MembresiaId);
-                txtAntiguedad.Text = membresia.AntiguedadMinimaCliente.ToString();
-                txtDescripcion.Text = membresia.Descripcion;
-                buttonGuardar.Text = "Guardar cambios";
-                buttonEliminar.Enabled = true;
-            }
-        }
+     
 
         private async void buttonGuardar_Click(object sender, EventArgs e)
         {
-            if (txtAntiguedad.Text == "" || txtDescripcion.Text == "")
+            MessageBox.Show(this.txtAntiguedad.Text);
+            if (this.txtAntiguedad.Text == "" || this.txtDescripcion.Text == "")
             {
                 MessageBox.Show("Por favor, rellene todos los campos.", "Error");
             }
@@ -117,6 +107,20 @@ namespace Views.Desktop.Membresias
             precioForm.MdiParent = this.MdiParent;
             this.Visible = false;
             precioForm.Show();
+        }
+
+        private async void dataGridViewMembresias_DoubleClick_1(object sender, EventArgs e)
+        {
+            if (dataGridViewMembresias.CurrentRow.Index != -1)
+            {
+                int membresiaId = Convert.ToInt32(this.dataGridViewMembresias.CurrentRow.Cells["MembresiaId"].Value);
+                Membresia membresia = await MembresiasLogic.GetOne(membresiaId);
+                textBoxCodigo.Text = Convert.ToString(membresia.MembresiaId);
+                txtAntiguedad.Text = membresia.AntiguedadMinimaCliente.ToString();
+                txtDescripcion.Text = membresia.Descripcion;
+                buttonGuardar.Text = "Guardar cambios";
+                buttonEliminar.Enabled = true;
+            }
         }
     }
 }

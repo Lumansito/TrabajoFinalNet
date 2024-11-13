@@ -19,7 +19,7 @@ namespace Servicies.Controllers
         [HttpGet("{cod}")]
         public ActionResult<Membresia> GetOne(int cod)
         {
-            var membresia = _context.Membresia.Find(cod);
+            var membresia = _context.Membresia.Include(m => m.Precios).Where(m => m.MembresiaId == cod).FirstOrDefault();
 
             if (membresia == null)
             {

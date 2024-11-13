@@ -16,10 +16,12 @@ namespace Views.Desktop
 {
     public partial class RegistrarPagoMembresia : Form
     {
-        public RegistrarPagoMembresia()
+        private int dni;
+        public RegistrarPagoMembresia(int dni)
         {
             InitializeComponent();
             CargarMembresias();
+            this.dni = dni;
         }
 
         private async void CargarMembresias()
@@ -50,10 +52,12 @@ namespace Views.Desktop
         {
             ClienteMembresia cm = new ClienteMembresia();
 
-            cm.ClienteId = int.Parse(textBoxDni.Text);
+            
             Membresia membresiaSeleccionada = await MembresiasLogic.GetOne(comboBoxMembresias.SelectedIndex + 1);
-            cm.MembresiaId = membresiaSeleccionada.MembresiaId;
+            Cliente cliente = await ClientesLogic.GetByDni(dni);
 
+            cm.MembresiaId = membresiaSeleccionada.MembresiaId;
+            cm.ClienteId = cliente.ClienteId;
             cm.FechaDesde = DateTime.Today;
 
             await ClientesMembresiasLogic.Add(cm);

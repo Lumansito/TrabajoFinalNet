@@ -17,7 +17,7 @@ namespace Servicies.Controllers
             _context = context;
         }
 
-        [HttpGet(Name = "ClientesMembresias")]
+        [HttpGet]
         public ActionResult<IEnumerable<ClienteMembresia>> GetAll()
         {
             return _context.ClienteMembresia.Include(c => c.Cliente).Include(c => c.Membresia).ToList();
@@ -36,10 +36,28 @@ namespace Servicies.Controllers
 
         [HttpPost]
         public ActionResult<ClienteMembresia> Create(ClienteMembresia clienteMembresia)
-        {
-            _context.ClienteMembresia.Add(clienteMembresia);
+        { 
+            var cm = new ClienteMembresia();
+            
+            var cliente = _context.Cliente.Find(clienteMembresia.ClienteId);
+            var membresia = _context.Membresia.Find(clienteMembresia.MembresiaId);
+
+            if (cliente == null || membresia == null)
+            {
+                return NotFound();
+            }
+
+            cm.Membresia = membresia;
+
+
+            cm.Cliente = cliente;
+            cm.FechaDesde = clienteMembresia.FechaDesde;
+
+
+            _context.ClienteMembresia.Add(cm);
             _context.SaveChanges();
-            return CreatedAtAction(nameof(GetByCodAndDni), new { COD = clienteMembresia.MembresiaId, DNI = clienteMembresia.ClienteId }, clienteMembresia);
+            
+            return NoContent();
         }
     }
 }
