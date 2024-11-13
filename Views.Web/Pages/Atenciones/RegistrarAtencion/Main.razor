@@ -37,8 +37,10 @@
         var atencion = Atenciones.FirstOrDefault(a => a.AtencionId == idAtencion);
         if (atencion != null && !atencion.Servicios.Contains(servicio))
         {
+            string accion = "Agregar";
+
             AtencionPatchDTO atencionPatch = new AtencionPatchDTO { ServicioId = servicio.ServicioId };
-            await Logic.AtencionLogic.ActualizarAtencion(atencion.AtencionId, atencionPatch);
+            await Logic.AtencionLogic.ActualizarAtencion(atencion.AtencionId, atencionPatch, accion);
             Console.WriteLine("Se agregó un servicio a la atencion", servicio.Nombre);
         }
     }
@@ -48,8 +50,10 @@
         var atencion = Atenciones.FirstOrDefault(a => a.AtencionId == idAtencion);
         if (atencion != null && atencion.Servicios.Contains(servicio))
         {
+            string accion = "Borrar";
+
             AtencionPatchDTO atencionPatch = new AtencionPatchDTO { ServicioId = servicio.ServicioId };
-            await Logic.AtencionLogic.ActualizarAtencion(atencion.AtencionId, atencionPatch);
+            await Logic.AtencionLogic.ActualizarAtencion(atencion.AtencionId, atencionPatch,accion);
             Console.WriteLine("Se eliminó un servicio de la atencion", servicio.Nombre);
         }
     }
@@ -62,7 +66,7 @@
         {
             atencion.Observaciones = observaciones;
             // Aquí puedes actualizar la base de datos si es necesario
-            await Logic.AtencionLogic.ActualizarAtencion(atencion.AtencionId, new AtencionPatchDTO { Observaciones = observaciones });
+            await Logic.AtencionLogic.ActualizarAtencion(atencion.AtencionId, new AtencionPatchDTO { Observaciones = observaciones }, "");
         }
     }
 

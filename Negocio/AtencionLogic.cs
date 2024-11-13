@@ -175,9 +175,9 @@ namespace Logic
         }
 
 
-        public async static Task<bool> ActualizarAtencion(int idAtencion, AtencionPatchDTO patchDTO)
+        public async static Task<bool> ActualizarAtencion(int idAtencion, AtencionPatchDTO patchDTO, string accion)
         {
-            string url = $"https://localhost:7166/api/Atenciones/{idAtencion}/ActualizarAtencion";
+            string url = $"https://localhost:7166/api/Atenciones/{idAtencion}/ActualizarAtencion?accion={accion}";
 
 
             // Serializa el objeto AtencionPatchDTO

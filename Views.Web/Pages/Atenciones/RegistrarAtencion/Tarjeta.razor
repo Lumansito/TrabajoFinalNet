@@ -8,6 +8,8 @@
         <h5 class="card-title">@Atencion.NombreMascota</h5>
         <p><strong>Profesional:</strong> @Atencion.NombreProfesional</p>
         <p><strong>Fecha y Hora:</strong> @Atencion.FechaHora</p>
+        <p><strong>Monto a pagar:</strong> @Atencion.MontoApagar</p>
+
         <p><strong>Servicios:</strong> @(Atencion.Servicios.Any() ? string.Join(", ", Atencion.Servicios.Select(s => s.Nombre)) : "Ningún servicio agregado")</p>
 
         <div class="input-group">

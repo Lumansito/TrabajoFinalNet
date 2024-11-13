@@ -157,7 +157,7 @@ namespace Servicies.Controllers
 
 
         [HttpPatch("{idAtencion}/ActualizarAtencion")]
-        public async Task<IActionResult> PatchAtencion(int idAtencion, [FromBody] AtencionPatchDTO patchDto)
+        public async Task<IActionResult> PatchAtencion(int idAtencion, [FromBody] AtencionPatchDTO patchDto, [FromQuery] string accion)
         {
             var atencion = await _context.Atencion
                 .Include(a => a.Servicios)
@@ -187,18 +187,26 @@ namespace Servicies.Controllers
             // Agregar el servicio si ServicioId está presente en patchDto
             if (patchDto.ServicioId.HasValue)
             {
-                var servicio = await _context.Servicio.FindAsync(patchDto.ServicioId.Value);
+                var servicio = await _context.Servicio.Include(s => s.Precios).FirstOrDefaultAsync(s => s.ServicioId == patchDto.ServicioId.Value);
                 if (servicio == null)
                 {
                     return BadRequest("El servicio especificado no existe.");
                 }
 
-                if (!atencion.Servicios.Contains(servicio))
+                var precioValido = servicio.Precios
+                                   .Where(p => p.FechaDesde <= DateTime.Now)
+                                   .OrderByDescending(p => p.FechaDesde)
+                                   .FirstOrDefault();
+
+                if (accion == "Agregar" && !atencion.Servicios.Contains(servicio))
                 {
                     atencion.Servicios.Add(servicio);
+                    if (precioValido != null) atencion.MontoApagar += precioValido.Precio;
                 }
-                else { 
+                else if (accion == "Borrar" && atencion.Servicios.Contains(servicio))
+                {
                     atencion.Servicios.Remove(servicio);
+                    if (precioValido != null) atencion.MontoApagar -= precioValido.Precio;
                 }
             }
 
