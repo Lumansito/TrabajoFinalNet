@@ -17,19 +17,21 @@ using Logic;
 //a.GeneratePdf(@"C:\Users\matia\Desktop\ReporteBasico.pdf");
 //Console.WriteLine("Se creo");
 
-static async Task<List<Servicio>> pruebaServicios()
-{
-    var servicios = await Logic.AtencionLogic.GetServiciosPosiblesByIdAtencion(1);
-    Console.WriteLine(servicios);
-    return servicios;
-}
+//static async Task<List<Servicio>> pruebaServicios()
+//{
+//    var servicios = await Logic.AtencionLogic.GetServiciosPosiblesByIdAtencion(1);
+//    Console.WriteLine(servicios);
+//    return servicios;
+//}
+
+var context = new VeterinariaContext();
 
 
 Console.ReadLine();
 
 
 // Agregar usuarios (profesionales)
-/*
+
 context.InicializarBaseDatos();
 
 var especie1 = new Especie { Nombre = "Perro" };

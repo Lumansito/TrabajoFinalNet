@@ -1,6 +1,6 @@
 ﻿namespace Views.Desktop.Atenciones
 {
-    partial class RegistrarPago
+    partial class CancelarTurno
     {
         /// <summary>
         /// Required designer variable.
@@ -28,58 +28,58 @@
         /// </summary>
         private void InitializeComponent()
         {
-            lblConfirmacion = new Label();
             btnCancelar = new Button();
-            btnConfirmar = new Button();
+            btnVolver = new Button();
+            lblConfirmacion = new Label();
             SuspendLayout();
+            // 
+            // btnCancelar
+            // 
+            btnCancelar.Location = new Point(254, 191);
+            btnCancelar.Name = "btnCancelar";
+            btnCancelar.Size = new Size(124, 29);
+            btnCancelar.TabIndex = 4;
+            btnCancelar.Text = "Cancelar Turno";
+            btnCancelar.UseVisualStyleBackColor = true;
+            btnCancelar.Click += btnCancelar_Click;
+            // 
+            // btnVolver
+            // 
+            btnVolver.Location = new Point(97, 191);
+            btnVolver.Name = "btnVolver";
+            btnVolver.Size = new Size(94, 29);
+            btnVolver.TabIndex = 3;
+            btnVolver.Text = "Volver";
+            btnVolver.UseVisualStyleBackColor = true;
+            btnVolver.Click += btnVolver_Click;
             // 
             // lblConfirmacion
             // 
             lblConfirmacion.AutoSize = true;
-            lblConfirmacion.Location = new Point(103, 92);
+            lblConfirmacion.Location = new Point(81, 67);
             lblConfirmacion.Name = "lblConfirmacion";
-            lblConfirmacion.Size = new Size(315, 20);
-            lblConfirmacion.TabIndex = 0;
-            lblConfirmacion.Text = "¿Está seguro de que desea confirmar el pago?";
+            lblConfirmacion.Size = new Size(306, 20);
+            lblConfirmacion.TabIndex = 2;
+            lblConfirmacion.Text = "¿Está seguro de que desea cancelar el turno?";
             // 
-            // btnCancelar
-            // 
-            btnCancelar.Location = new Point(119, 216);
-            btnCancelar.Name = "btnCancelar";
-            btnCancelar.Size = new Size(94, 29);
-            btnCancelar.TabIndex = 1;
-            btnCancelar.Text = "Cancelar";
-            btnCancelar.UseVisualStyleBackColor = true;
-            btnCancelar.Click += btnCancelar_Click_1;
-            // 
-            // btnConfirmar
-            // 
-            btnConfirmar.Location = new Point(303, 216);
-            btnConfirmar.Name = "btnConfirmar";
-            btnConfirmar.Size = new Size(94, 29);
-            btnConfirmar.TabIndex = 1;
-            btnConfirmar.Text = "Confirmar";
-            btnConfirmar.UseVisualStyleBackColor = true;
-            btnConfirmar.Click += btnConfirmar_Click_1;
-            // 
-            // RegistrarPago
+            // CancelarTurno
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(529, 324);
-            Controls.Add(btnConfirmar);
+            ClientSize = new Size(468, 291);
             Controls.Add(btnCancelar);
+            Controls.Add(btnVolver);
             Controls.Add(lblConfirmacion);
-            Name = "RegistrarPago";
-            Text = "RegistrarPago";
+            Name = "CancelarTurno";
+            Text = "CancelarTurno";
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Label lblConfirmacion;
         private Button btnCancelar;
-        private Button btnConfirmar;
+        private Button btnVolver;
+        private Label lblConfirmacion;
     }
 }

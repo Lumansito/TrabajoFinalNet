@@ -51,7 +51,14 @@
 
     private async Task cargarServiciosParaLaAtencion()
     {
-        serviciosDisponibles = await Logic.AtencionLogic.GetServiciosPosiblesByIdAtencion(Atencion.AtencionId);
+        var servicios = await Logic.AtencionLogic.GetServiciosPosiblesByIdAtencion(Atencion.AtencionId);
+        foreach (var serv in servicios)
+        {
+            if (!serviciosDisponibles.Any(s => s.ServicioId == serv.ServicioId))
+            {
+                serviciosDisponibles.Add(serv);
+            }
+        }
     }
 
     private async Task AddService()
