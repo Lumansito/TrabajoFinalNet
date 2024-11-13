@@ -34,6 +34,8 @@
     [Parameter] public InfoAtencionesRealizadas Atencion { get; set; }
     @*[Parameter] public EventCallback<int> OnSaveObservations { get; set; }*@
     [Parameter] public EventCallback<(int, Servicio)> OnAddService { get; set; }
+    [Parameter] public EventCallback<(int, Servicio)> OnDeleteService { get; set; }
+
 
     private List<Servicio> serviciosDisponibles { get; set; } = new List<Servicio>();
     private string IdServicioSeleccionado { get; set; }
@@ -57,6 +59,18 @@
             if (servicio != null)
             {
                 await OnAddService.InvokeAsync((Atencion.AtencionId, servicio));
+            }
+        }
+    }
+
+    private async Task DeleteService()
+    {
+        if (int.TryParse(IdServicioSeleccionado, out int servicioId))
+        {
+            var servicio = Atencion.Servicios.FirstOrDefault(s => s.ServicioId == servicioId);
+            if (servicio != null)
+            {
+                await OnDeleteService.InvokeAsync((Atencion.AtencionId, servicio));
             }
         }
     }

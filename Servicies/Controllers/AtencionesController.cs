@@ -197,6 +197,9 @@ namespace Servicies.Controllers
                 {
                     atencion.Servicios.Add(servicio);
                 }
+                else { 
+                    atencion.Servicios.Remove(servicio);
+                }
             }
 
             await _context.SaveChangesAsync();
