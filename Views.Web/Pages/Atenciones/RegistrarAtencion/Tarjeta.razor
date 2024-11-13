@@ -2,6 +2,7 @@
 @using Logic
 @inject IJSRuntime JSRuntime
 
+
 <div class="card mb-3">
     <div class="card-body">
         <h5 class="card-title">@Atencion.NombreMascota</h5>
@@ -10,7 +11,7 @@
         <p><strong>Servicios:</strong> @(Atencion.Servicios.Any() ? string.Join(", ", Atencion.Servicios.Select(s => s.Nombre)) : "Ningún servicio agregado")</p>
 
         <div class="input-group">
-            <select class="form-select" @bind="IdServicioSeleccionado" >
+            <select class="form-select" @bind="IdServicioSeleccionado">
                 <option selected disabled value="">Agregar servicio</option>
                 @foreach (var servicio in serviciosDisponibles)
                 {
@@ -18,24 +19,25 @@
                 }
             </select>
             <button class="btn btn-primary" @onclick="AddService">Agregar</button>
-            <button class="btn btn-danger flex-md-row" @onclick="DeleteService">Eliminar</button>
-
+            <button class="btn btn-danger" @onclick="DeleteService">Eliminar</button>
         </div>
 
-        @* <button class="btn btn-outline-primary mt-2" @onclick="() => OpenObservationsModal(Atencion.Id)">Record Observations</button>
-        @if (!string.IsNullOrEmpty(Atencion.Observations))
-        {
-            <p class="card-text mt-2"><strong>Observations:</strong> @Atencion.Observations</p>
-        } *@
+        <div class="mb-3">
+            <label for="observaciones-@Atencion.AtencionId" class="form-label">Observaciones:</label>
+            <textarea class="form-control observaciones-text" id="observaciones-@Atencion.AtencionId" rows="3" @bind="Atencion.Observaciones"></textarea>
+            <button class="btn btn-primary" @onclick="SaveObservations">Guardar</button>
+        </div>
+
     </div>
 </div>
 
 @code {
     [Parameter] public InfoAtencionesRealizadas Atencion { get; set; }
-    @*[Parameter] public EventCallback<int> OnSaveObservations { get; set; }*@
     [Parameter] public EventCallback<(int, Servicio)> OnAddService { get; set; }
     [Parameter] public EventCallback<(int, Servicio)> OnDeleteService { get; set; }
+    [Parameter] public EventCallback<(int, string)> OnSaveObservaciones { get; set; }
 
+    [Parameter] public int AtencionId { get; set; }
 
     private List<Servicio> serviciosDisponibles { get; set; } = new List<Servicio>();
     private string IdServicioSeleccionado { get; set; }
@@ -49,7 +51,6 @@
     {
         serviciosDisponibles = await Logic.AtencionLogic.GetServiciosPosiblesByIdAtencion(Atencion.AtencionId);
     }
-
 
     private async Task AddService()
     {
@@ -75,8 +76,10 @@
         }
     }
 
-    // private async Task OpenObservationsModal(int shiftId)
-    // {
-    //     await JSRuntime.InvokeVoidAsync("bootstrap.Modal.getOrCreateInstance", "#observationsModal").Show();
-    // }
+    private async Task SaveObservations()
+    {
+        // Invocar el callback para pasar las observaciones al componente principal
+        await OnSaveObservaciones.InvokeAsync((Atencion.AtencionId, Atencion.Observaciones));
+    }
+
 }
