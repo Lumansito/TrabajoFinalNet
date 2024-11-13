@@ -8,7 +8,6 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Logic;
-using Models.Clases;
 using Models.Entity.Models;
 using Newtonsoft.Json;
 using Models.Entity.Clases;
@@ -88,14 +87,14 @@ namespace Logic
         public async static Task<List<InfoAtencionesRealizadas>> GetAllInfoAtencionesRealizadas()
         {
             var response = await Conexion.Instancia.Cliente.GetStringAsync("https://localhost:7166/api/Atenciones/");
-            var atenciones = JsonConvert.DeserializeObject<IEnumerable<Atencion>>(response);
+            var atenciones = JsonConvert.DeserializeObject<List<Atencion>>(response);
 
             if (atenciones == null)
             {
                 return null;
             }
             var infoAtenciones = atenciones
-                .Where(a => !string.IsNullOrWhiteSpace(a.Observaciones))
+                .Where(a => string.IsNullOrWhiteSpace(a.Observaciones))
                 .Select(a => new InfoAtencionesRealizadas
                 {
                     AtencionId = a.AtencionId,

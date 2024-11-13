@@ -44,7 +44,7 @@ namespace Views.Desktop
             }
             if (dgvGestionDeMascotas.Columns[e.ColumnIndex].Name == "eliminar")
             {
-                var mascota = await MascotasLogic.GetOne(dniCliente, nroMascota);
+                var mascota = await MascotasLogic.GetOne(dniCliente);
                 await MascotasLogic.Delete(mascota);
             }
         }

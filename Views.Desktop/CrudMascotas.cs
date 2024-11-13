@@ -18,7 +18,7 @@ namespace Views.Desktop
 
         private async void CargarDatos(int dniCliente, int nroMascota)
         {
-            var mascota = await MascotasLogic.GetOne(dniCliente, nroMascota);
+            var mascota = await MascotasLogic.GetOne(dniCliente);
 
             textBoxNombre.Text = mascota.Nombre;
 
@@ -47,7 +47,7 @@ namespace Views.Desktop
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            var mascota = await MascotasLogic.GetOne(dniCliente, nroMascota);
+            var mascota = await MascotasLogic.GetOne(dniCliente);
             mascota.Nombre = textBoxNombre.Text;
             mascota.FechaNac = dateTimePickerFechaNacimiento.Value;
             
