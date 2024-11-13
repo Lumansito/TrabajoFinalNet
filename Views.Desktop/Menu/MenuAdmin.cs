@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Views.Desktop.Membresias;
 
 namespace Views.Desktop.Menu
 {
@@ -28,6 +29,10 @@ namespace Views.Desktop.Menu
             menuCruds_Item3.Click += (sender, e) =>
             { CrudServicios menuCrudServicios = new CrudServicios(mdiParent); menuCrudServicios.Show(); };
 
+            ToolStripMenuItem menuCruds_Item4 = new ToolStripMenuItem("Gestión de Membresias");
+            menuCruds_Item4.Click += (sender, e) =>
+            { CrudMembresias menuCrudMembresias = new CrudMembresias(mdiParent); menuCrudMembresias.Show(); };
+
 
             ToolStripMenuItem menuReportes = new ToolStripMenuItem("Reportes");
 
@@ -45,7 +50,9 @@ namespace Views.Desktop.Menu
             menuCruds.DropDownItems.Add(menuCruds_Item1);
             menuCruds.DropDownItems.Add(menuCruds_Item2);
             menuCruds.DropDownItems.Add(menuCruds_Item3);
-            
+            menuCruds.DropDownItems.Add(menuCruds_Item4);
+
+
             menuReportes.DropDownItems.Add(menuCruds_Item1b);
 
             menuStrip.Items.Add(menuCruds);

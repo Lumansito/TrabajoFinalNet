@@ -191,7 +191,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(914, 600);
+            ClientSize = new Size(1127, 706);
             Controls.Add(BtnPrecio);
             Controls.Add(buttonEspecialidades);
             Controls.Add(textBoxCodigo);

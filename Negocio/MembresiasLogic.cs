@@ -1,5 +1,6 @@
 ﻿using Models.Entity.Models;
 using Newtonsoft.Json;
+using System.Net.Http.Json;
 
 namespace Logic
 {
@@ -51,6 +52,64 @@ namespace Logic
             {
                 Console.WriteLine($"Error inesperado: {e.Message}");
                 return null;
+            }
+        }
+
+        public async static Task<Boolean> Delete(int membresiaId)
+        {
+            try
+            {
+                await Conexion.Instancia.Cliente.DeleteAsync("https://localhost:7166/api/Membresias/" + membresiaId);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Ha ocurrido un error: {e.Message}");
+                return false;
+            }
+        }
+
+        public async static Task<Boolean> Create(Membresia membresia)
+        {
+            try
+            {
+                await Conexion.Instancia.Cliente.PostAsJsonAsync("https://localhost:7166/api/Membresias/", membresia);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Ha ocurrido un error: {e.Message}");
+                return false;
+            }
+        }
+
+        public async static Task<Boolean> Update(Membresia membresia)
+        {
+            try
+            {
+                await Conexion.Instancia.Cliente.PutAsJsonAsync("https://localhost:7166/api/Membresias/" + membresia.MembresiaId, membresia);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Ha ocurrido un error: {e.Message}");
+                return false;
+            }
+        }
+
+        public async static Task<bool> AsignarPrecio(int membresiaId, decimal nuevoPrecio)
+        {
+            try
+            {
+                string url = $"https://localhost:7166/api/Membresias/{membresiaId}/AsignarPrecio?precio={nuevoPrecio}";
+                var response = await Conexion.Instancia.Cliente.PatchAsync(url, null);
+
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Ha ocurrido un error: {e.Message}");
+                return false;
             }
         }
     }
