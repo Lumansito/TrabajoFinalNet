@@ -107,5 +107,15 @@ namespace Views.Desktop
             this.Visible = false;
             asignarE.Show();
         }
+
+        private async void BtnPrecio_Click(object sender, EventArgs e)
+        {
+            var id = Convert.ToInt32(textBoxCodigo.Text.Trim());
+            servicio = await ServiciosLogic.GetOne(id);
+            ActualizarPrecioServicio precioForm = new(servicio, this);
+            precioForm.MdiParent = this.MdiParent;
+            this.Visible = false;
+            precioForm.Show();
+        }
     }
 }

@@ -22,6 +22,7 @@ namespace Servicies.Controllers
             var servicio = _context.Servicio
                 .Where(s => s.ServicioId == ServicioId)
                 .Include(u => u.Especialidades)
+                .Include(s => s.Precios)
                 .FirstOrDefault();
             if (servicio == null)
             {
@@ -93,5 +94,29 @@ namespace Servicies.Controllers
             _context.SaveChanges();
             return NoContent();
         }
+
+        [HttpPatch("{id}/AsignarPrecio")]
+        public async Task<IActionResult> AsignarPrecio(int id, [FromQuery] decimal precio)
+        {
+            var servicio = await _context.Servicio.FindAsync(id);
+            if (servicio == null)
+            {
+                return NotFound();
+            }
+
+            PrecioServicio precioServicioNuevo = new PrecioServicio
+            {
+                ServicioId = servicio.ServicioId,
+                Precio = precio,
+                FechaDesde = DateTime.Now
+            };
+
+            servicio.Precios.Add(precioServicioNuevo);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+
     }
 }

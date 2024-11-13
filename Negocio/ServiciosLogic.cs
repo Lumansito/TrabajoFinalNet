@@ -1,6 +1,7 @@
 ﻿using Models.Entity.Models;
 using Newtonsoft.Json;
 using System.Net.Http.Json;
+using System.Text;
 
 namespace Logic
 {
@@ -100,5 +101,23 @@ namespace Logic
                 return false;
             }
         }
+
+        public async static Task<bool> AsignarPrecio(int servicioId, decimal nuevoPrecio)
+        {
+            try
+            {
+                string url = $"https://localhost:7166/api/Servicios/{servicioId}/AsignarPrecio?precio={nuevoPrecio}";
+                var response = await Conexion.Instancia.Cliente.PatchAsync(url, null);
+
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Ha ocurrido un error: {e.Message}");
+                return false;
+            }
+        }
+
+
     }
 }
