@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Models.Entity.Data;
 using Models.Entity.Models;
 using System.Diagnostics;
@@ -19,7 +20,7 @@ namespace Servicies.Controllers
         [HttpGet(Name = "ClientesMembresias")]
         public ActionResult<IEnumerable<ClienteMembresia>> GetAll()
         {
-            return _context.ClienteMembresia.ToList();
+            return _context.ClienteMembresia.Include(c => c.Cliente).Include(c => c.Membresia).ToList();
         }
 
         [HttpGet("{COD}/{DNI}")]

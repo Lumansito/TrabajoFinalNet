@@ -3,6 +3,7 @@ using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using System.Linq;
 using Models.Entity.Data;
+using Models.Entity.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Collections.Generic;

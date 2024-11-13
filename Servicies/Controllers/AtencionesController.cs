@@ -28,14 +28,16 @@ namespace Servicies.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Atencion>>> GetAtencion()
         {
-            return await _context.Atencion.ToListAsync();
+            return await _context.Atencion.Include(a => a.Servicios).Include(a => a.Usuario).Include(a => a.Mascota).ThenInclude(m => m.Cliente).ThenInclude(c => c.ClienteMembresia).ToListAsync();
         }
 
         // GET: api/Atenciones/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Atencion>> GetAtencion(int id)
         {
-            var atencion = await _context.Atencion.FindAsync(id);
+            var atencion = await _context.Atencion
+           .Include(a => a.Servicios)
+           .FirstOrDefaultAsync(a => a.AtencionId == id);
 
             if (atencion == null)
             {

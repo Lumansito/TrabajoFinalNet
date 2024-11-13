@@ -6,7 +6,30 @@ namespace Logic
 {
     public class ServiciosLogic
     {
-        public async static Task<Servicio?> GetOne(int ServicioId)
+
+
+        public async static Task<List<Servicio>> GetServiciosByIdAtencion(int idAtencion)
+        {
+            string urlAtencionServicios = $"https://localhost:7166/api/Atenciones/";
+            var responseAtencion = await Conexion.Instancia.Cliente.GetAsync(urlAtencionServicios);
+            if (responseAtencion.IsSuccessStatusCode)
+            {
+                var responseData = await responseAtencion.Content.ReadAsStringAsync();
+                var atencion = JsonConvert.DeserializeObject<List<Models.Entity.Models.Atencion>>(responseData);
+
+                var serviciosFiltrados = atencion?
+                .Where(a => a.AtencionId == idAtencion)
+                .SelectMany(a => a.Servicios) // Selecciona todos los servicios de la atenci�n
+                .ToList();
+                return serviciosFiltrados;
+            }
+
+            return null; // Si no es exitosa, devolver null 
+        }
+
+
+
+            public async static Task<Servicio?> GetOne(int ServicioId)
         {
             try
             {

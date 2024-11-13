@@ -53,7 +53,7 @@ namespace Logic
             {
                 var cm = await ClientesMembresiasLogic.GetAll();
                 var ultimaMembresia = cm?
-                    .Where(cm => cm.ClienteId == dniCliente)
+                    .Where(cm => cm.Cliente.Dni == dniCliente)
                     .OrderByDescending(cm => cm.FechaDesde)
                     .FirstOrDefault();
                 return ultimaMembresia;
@@ -86,12 +86,12 @@ namespace Logic
             var clientesMembresias = JsonConvert.DeserializeObject<IEnumerable<ClienteMembresia>>(response);
 
             var clienteMembresia = clientesMembresias?
-                .Where(cm => cm.ClienteId == dni)
+                .Where(cm => cm.Cliente.Dni == dni)
                 .OrderByDescending(p => p.FechaDesde)
                 .FirstOrDefault();
 
             var codUltimaMembresia = clientesMembresias?
-                    .Where(cm => cm.ClienteId == dni)
+                    .Where(cm => cm.Cliente.Dni == dni && cm.FechaDesde.AddDays(30) > DateTime.Now) //Falta agregar la validación para que no me traiga membresias vencidas
                     .OrderByDescending(p => p.FechaDesde)
                     .Select(cm => cm.MembresiaId) // Seleccionar la membresía asociada
                     .FirstOrDefault();

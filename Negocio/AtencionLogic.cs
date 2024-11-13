@@ -15,9 +15,9 @@ using Models.Entity.Clases;
 
 namespace Logic
 {
-    public class AtencionLogic 
+    public class AtencionLogic
     {
-        public async static Task<List<Atencion>> GetAtencionesByDate(DateTime date )
+        public async static Task<List<Atencion>> GetAtencionesByDate(DateTime date)
         {
             string url = $"https://localhost:7166/api/Atenciones/fecha/{date.ToString("yyyy-MM-dd")}";
             var response = await Conexion.Instancia.Cliente.GetAsync(url);
@@ -41,7 +41,7 @@ namespace Logic
             string ateJson = System.Text.Json.JsonSerializer.Serialize(atencion, options);
             var content = new StringContent(ateJson, Encoding.UTF8, "application/json");
 
-            var response = await Conexion.Instancia.Cliente.PostAsync("https://localhost:7166/api/Atenciones",  content);
+            var response = await Conexion.Instancia.Cliente.PostAsync("https://localhost:7166/api/Atenciones", content);
             return response.IsSuccessStatusCode;
 
         }
@@ -54,7 +54,8 @@ namespace Logic
                 var response = await Conexion.Instancia.Cliente.PostAsJsonAsync("https://localhost:7166/api/Atenciones/dto", dto);
                 return response.IsSuccessStatusCode;
 
-            }catch
+            }
+            catch
             (Exception e)
             {
                 return false;
@@ -62,5 +63,100 @@ namespace Logic
 
         }
 
+
+
+
+
+
+
+        public async static Task<List<InfoAtencionesRealizadas>> GetAllInfoAtencionesRealizadas()
+        {
+            var response = await Conexion.Instancia.Cliente.GetStringAsync("https://localhost:7166/api/Atenciones/");
+            var atenciones = JsonConvert.DeserializeObject<IEnumerable<Atencion>>(response);
+
+            if (atenciones == null)
+            {
+                return null;
+            }
+            var infoAtenciones = atenciones
+                .Where(a => !string.IsNullOrWhiteSpace(a.Observaciones))
+                .Select(a => new InfoAtencionesRealizadas
+                {
+                    AtencionId = a.AtencionId,
+                    FechaHora = a.FechaHora,
+                    DniCliente = a.Mascota.Cliente.Dni,
+                    MascotaId = a.Mascota.MascotaId,
+                    NombreMascota = a.Mascota.Nombre,
+                    UsuarioId = a.UsuarioId,
+                    NombreProfesional = a.Usuario.Nombre,
+                    Observaciones = a.Observaciones,
+                    MontoApagar = a.MontoApagar,
+                    Motivo = a.Motivo,
+                    FechaHoraPago = a.FechaHoraPago
+                }).ToList();
+            return infoAtenciones;
+        }
+
+
+
+
+
+
+        public async static Task<bool> RegistrarPago(int idAtencion, DateTime fechaHoraPago)
+        {
+            string url = $"https://localhost:7166/api/Atenciones/{idAtencion}";
+
+            // Crea el objeto AtencionPatchDTO y asigna la fecha de pago
+            var patchDto = new AtencionPatchDTO
+            {
+                FechaHoraPago = fechaHoraPago
+            };
+
+            // Serializa el objeto AtencionPatchDTO
+            var json = JsonConvert.SerializeObject(patchDto);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            // Realiza la solicitud PATCH
+            var response = await Conexion.Instancia.Cliente.PatchAsync(url, content);
+
+            // Retorna el estado de la respuesta
+            return response.IsSuccessStatusCode;
+        }
+
+
+
+
+
+        public async static Task<List<InfoAtencionesRealizadas>> GetAtencionesCliente(int dni)
+        {
+            var response = await Conexion.Instancia.Cliente.GetStringAsync("https://localhost:7166/api/Atenciones/");
+            var atenciones = JsonConvert.DeserializeObject<IEnumerable<Atencion>>(response);
+            var atencionesFiltradas = atenciones?.Where(a => a.Mascota.Cliente.Dni == dni && a.Observaciones is not null).ToList();
+
+
+            if (atencionesFiltradas == null)
+            {
+                return null;
+            }
+
+            var infoAtenciones = atencionesFiltradas.Select(a => new InfoAtencionesRealizadas
+            {
+                AtencionId = a.AtencionId,
+                FechaHora = a.FechaHora,
+                DniCliente = a.Mascota.Cliente.Dni,
+                MascotaId = a.Mascota.MascotaId,
+                NombreMascota = a.Mascota.Nombre,
+                UsuarioId = a.UsuarioId,
+                NombreProfesional = a.Usuario.Nombre,
+                Observaciones = a.Observaciones,
+                MontoApagar = a.MontoApagar,
+                Motivo = a.Motivo,
+                FechaHoraPago = a.FechaHoraPago
+            }).ToList();
+
+            return infoAtenciones;
+        }
     }
+
+
 }
