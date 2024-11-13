@@ -44,7 +44,7 @@ namespace Views.Desktop.Atenciones
                     dgvAtenciones.DataSource = atenciones.ToList();
 
                     //Oculto las columnas que no me interesan
-                    string[] columnasOcultas = { "AtencionId", "MascotaId", "UsuarioId", "Activo" };
+                    string[] columnasOcultas = { "AtencionId", "MascotaId", "UsuarioId", "Activo", "Servicios", "Observaciones" };
 
                     foreach (DataGridViewColumn column in dgvAtenciones.Columns)
                     {
