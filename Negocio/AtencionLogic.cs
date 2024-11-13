@@ -72,7 +72,7 @@ namespace Logic
             {
                 return null;
             }
-            
+
             var listaServicios = atencion.Usuario.Especialidades
                          .SelectMany(especialidad => especialidad.Servicios)
                          .ToList();
@@ -94,7 +94,6 @@ namespace Logic
                 return null;
             }
             var infoAtenciones = atenciones
-                .Where(a => string.IsNullOrWhiteSpace(a.Observaciones))
                 .Select(a => new InfoAtencionesRealizadas
                 {
                     AtencionId = a.AtencionId,
@@ -118,9 +117,9 @@ namespace Logic
 
 
 
-        public async static Task<bool> RegistrarPago(int idAtencion, DateTime fechaHoraPago)
+        public async static Task<bool> RegistrarPago(int idAtencion, DateTime fechaHoraPago, string accion)
         {
-            string url = $"https://localhost:7166/api/Atenciones/{idAtencion}";
+            string url = $"https://localhost:7166/api/Atenciones/{idAtencion}/ActualizarAtencion?accion={accion}";
 
             // Crea el objeto AtencionPatchDTO y asigna la fecha de pago
             var patchDto = new AtencionPatchDTO
@@ -188,6 +187,20 @@ namespace Logic
 
             // Retorna el estado de la respuesta
             return response.IsSuccessStatusCode;
+        }
+
+        public async static Task<Boolean> Delete(int atencionId)
+        {
+            try
+            {
+                await Conexion.Instancia.Cliente.DeleteAsync("https://localhost:7166/api/Atenciones/" + atencionId);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Ha ocurrido un error: {e.Message}");
+                return false;
+            }
         }
 
 

@@ -18,14 +18,14 @@ namespace Views.Desktop.Atenciones
             InitializeComponent();
         }
 
-        private void btnCancelar_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void btnConfirmar_Click_1(object sender, EventArgs e)
         {
             banderaDeConfirmacion = true;
+            this.Close();
+        }
+
+        private void btnCancelar_Click_1(object sender, EventArgs e)
+        {
             this.Close();
         }
     }

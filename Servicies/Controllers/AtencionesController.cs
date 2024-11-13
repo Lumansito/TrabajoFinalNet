@@ -172,12 +172,12 @@ namespace Servicies.Controllers
             }
 
             // Actualizar FechaHoraPago si está presente en patchDto
-            if (patchDto.FechaHoraPago.HasValue)
+            if (patchDto.FechaHoraPago is not null)
             {
                 atencion.FechaHoraPago = patchDto.FechaHoraPago.Value;
             }
 
-            if (patchDto.MontoApagar.HasValue)
+            if (patchDto.MontoApagar is not null)
             {
                 atencion.MontoApagar = patchDto.MontoApagar.Value;
             }
@@ -188,7 +188,7 @@ namespace Servicies.Controllers
             }
 
             // Agregar el servicio si ServicioId está presente en patchDto
-            if (patchDto.ServicioId.HasValue)
+            if (patchDto.ServicioId is not null)
             {
                 var servicio = await _context.Servicio.Include(s => s.Precios).FirstOrDefaultAsync(s => s.ServicioId == patchDto.ServicioId.Value);
                 if (servicio == null)

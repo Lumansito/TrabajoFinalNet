@@ -27,6 +27,7 @@ namespace Views.Desktop.Atenciones
             _padre = padre;
             SetupDataGridViewColumns();
             dgvAtenciones.CellClick += dataGridViewAttentions_CellClick;
+
         }
 
        
@@ -91,6 +92,18 @@ namespace Views.Desktop.Atenciones
                 };
                 dgvAtenciones.Columns.Add(pagoButton);
             }
+
+            if (!dgvAtenciones.Columns.Contains("CancelarButton"))
+            {
+                DataGridViewButtonColumn cancelarButton= new DataGridViewButtonColumn
+                {
+                    Name = "CancelarButton",
+                    HeaderText = "Cancelar Turno",
+                    Text = "Cancelar",
+                    UseColumnTextForButtonValue = true
+                };
+                dgvAtenciones.Columns.Add(cancelarButton);
+            }
         }
 
         private async void dataGridViewAttentions_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -130,29 +143,63 @@ namespace Views.Desktop.Atenciones
             else if (e.ColumnIndex == dgvAtenciones.Columns["PagoButton"].Index)
             {
                 DataGridViewRow row = dgvAtenciones.Rows[e.RowIndex];
-                //Validacion para cuando se vuelve a clickear luego de que ya se pagó. No ejecuta el pago nuevamente.
-                if (row.Cells["FechaHoraPago"].Value is not null)
-                {
-                    MessageBox.Show("Este servicio ya ha sido pagado.");
-                    return;
-                }
 
-                int idAtencion;
-                if (int.TryParse(dgvAtenciones.Rows[e.RowIndex].Cells["AtencionId"].Value?.ToString(), out idAtencion))
+                var valorObservaciones = row.Cells["Observaciones"].Value?.ToString();
+                if (string.IsNullOrWhiteSpace(valorObservaciones))
                 {
-                    RegistrarPago confirmarPagoForm = new RegistrarPago();
-                    confirmarPagoForm.ShowDialog();
-                    if (confirmarPagoForm.banderaDeConfirmacion)
                     {
-                        DateTime fechaHoraActual = DateTime.Now;
-                        dgvAtenciones.Rows[e.RowIndex].Cells["FechaHoraPago"].Value = fechaHoraActual;
-                        await AtencionLogic.RegistrarPago(idAtencion, fechaHoraActual);
-                        MessageBox.Show("Pago registrado con éxito");
+                        MessageBox.Show("La atención no se puede pagar porque aún no fue atendida");
+                        return;
+                    }
+                }
+                else
+                {
+                    //Validacion para cuando se vuelve a clickear luego de que ya se pagó. No ejecuta el pago nuevamente.
+                    if (row.Cells["FechaHoraPago"].Value is not null)
+                    {
+                        MessageBox.Show("Este servicio ya ha sido pagado.");
+                        return;
                     }
 
+                    int idAtencion;
+                    if (int.TryParse(dgvAtenciones.Rows[e.RowIndex].Cells["AtencionId"].Value?.ToString(), out idAtencion))
+                    {
+                        RegistrarPago confirmarPagoForm = new RegistrarPago();
+                        confirmarPagoForm.ShowDialog();
+                        if (confirmarPagoForm.banderaDeConfirmacion)
+                        {
+                            DateTime fechaHoraActual = DateTime.Now;
+                            var resultado = await AtencionLogic.RegistrarPago(idAtencion, fechaHoraActual, "RegistrarPago");
+                            if (resultado is true) { 
+                            dgvAtenciones.Rows[e.RowIndex].Cells["FechaHoraPago"].Value = fechaHoraActual;
+                            MessageBox.Show("Pago registrado con éxito");
+                            }
+                            else { MessageBox.Show("Error al registrar el pago"); };
+                        }
+
+                    }
                 }
+                
 
             }
+            else if (e.ColumnIndex == dgvAtenciones.Columns["CancelarButton"].Index)
+            {
+                DataGridViewRow row = dgvAtenciones.Rows[e.RowIndex];
+
+                var valorObservaciones = row.Cells["Observaciones"].Value?.ToString();
+                if (!string.IsNullOrWhiteSpace(valorObservaciones))
+                {
+                    {
+                        MessageBox.Show("La atención no se puede cancelar porque ya ha sido registrada");
+                        return;
+                    }
+                }
+                int idAtencion = Convert.ToInt32(dgvAtenciones.Rows[e.RowIndex].Cells["AtencionId"].Value?.ToString());
+                CancelarTurno cancelarTurnoForm = new CancelarTurno(idAtencion);
+                cancelarTurnoForm.ShowDialog();
+
+            }
+
         }
 
 
