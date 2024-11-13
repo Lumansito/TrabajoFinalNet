@@ -49,6 +49,8 @@
         await cargarServiciosParaLaAtencion();
     }
 
+
+
     private async Task cargarServiciosParaLaAtencion()
     {
         var servicios = await Logic.AtencionLogic.GetServiciosPosiblesByIdAtencion(Atencion.AtencionId);
@@ -69,6 +71,7 @@
             if (servicio != null)
             {
                 await OnAddService.InvokeAsync((Atencion.AtencionId, servicio));
+                await JSRuntime.InvokeVoidAsync("reloadPage");
             }
         }
     }
@@ -81,6 +84,7 @@
             if (servicio != null)
             {
                 await OnDeleteService.InvokeAsync((Atencion.AtencionId, servicio));
+                await JSRuntime.InvokeVoidAsync("reloadPage");
             }
         }
     }
@@ -90,5 +94,6 @@
         // Invocar el callback para pasar las observaciones al componente principal
         await OnSaveObservaciones.InvokeAsync((Atencion.AtencionId, Atencion.Observaciones));
     }
+
 
 }

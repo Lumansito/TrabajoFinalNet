@@ -154,7 +154,9 @@ namespace Logic
                 return null;
             }
 
-            var infoAtenciones = atencionesFiltradas.Select(a => new InfoAtencionesRealizadas
+            var infoAtenciones = atencionesFiltradas
+                .Where(a => a.Activo == true)
+                .Select(a => new InfoAtencionesRealizadas
             {
                 AtencionId = a.AtencionId,
                 FechaHora = a.FechaHora,
