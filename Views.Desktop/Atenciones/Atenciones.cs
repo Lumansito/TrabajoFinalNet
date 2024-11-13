@@ -26,6 +26,7 @@ namespace Views.Desktop.Atenciones
             this.MdiParent = padre;
             _padre = padre;
             SetupDataGridViewColumns();
+            dgvAtenciones.CellClick += dataGridViewAttentions_CellClick;
         }
 
        

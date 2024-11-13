@@ -78,6 +78,7 @@
             // 
             // txtMotivo
             // 
+            txtMotivo.Enabled = false;
             txtMotivo.Location = new Point(277, 39);
             txtMotivo.Name = "txtMotivo";
             txtMotivo.Size = new Size(515, 104);
@@ -86,6 +87,7 @@
             // 
             // txtObservaciones
             // 
+            txtObservaciones.Enabled = false;
             txtObservaciones.Location = new Point(277, 168);
             txtObservaciones.Name = "txtObservaciones";
             txtObservaciones.Size = new Size(515, 104);
@@ -94,6 +96,7 @@
             // 
             // txtServicios
             // 
+            txtServicios.Enabled = false;
             txtServicios.Location = new Point(277, 299);
             txtServicios.Name = "txtServicios";
             txtServicios.Size = new Size(515, 104);
@@ -102,6 +105,7 @@
             // 
             // txtDescuentos
             // 
+            txtDescuentos.Enabled = false;
             txtDescuentos.Location = new Point(277, 428);
             txtDescuentos.Name = "txtDescuentos";
             txtDescuentos.Size = new Size(515, 104);
@@ -116,6 +120,7 @@
             BtnCerrar.TabIndex = 2;
             BtnCerrar.Text = "Cerrar";
             BtnCerrar.UseVisualStyleBackColor = true;
+            BtnCerrar.Click += BtnCerrar_Click_1;
             // 
             // ObservacionesForm
             // 

@@ -28,7 +28,7 @@ namespace Views.Desktop.Atenciones
             }
         }
 
-        private void btnCerrar_Click(object sender, EventArgs e)
+        private void BtnCerrar_Click_1(object sender, EventArgs e)
         {
             this.Close();
         }
