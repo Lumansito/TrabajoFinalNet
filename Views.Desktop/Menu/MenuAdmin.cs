@@ -37,7 +37,7 @@ namespace Views.Desktop.Menu
             ToolStripMenuItem menuReportes = new ToolStripMenuItem("Reportes");
 
             ToolStripMenuItem menuCruds_Item1b = new ToolStripMenuItem("Atenciones e ingresos ultimo mes");
-            menuCruds_Item1.Click += (sender, e) =>
+            menuCruds_Item1b.Click += (sender, e) =>
             {
                 
                 QuestPDF.Settings.License = LicenseType.Community;

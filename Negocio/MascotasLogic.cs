@@ -8,7 +8,7 @@ namespace Logic
     public class MascotasLogic
     {
 
-        public async static Task<IEnumerable<ListadoMascotas>> GetAllByDni(int dniCliente)
+        public async static Task<IEnumerable<ListadoMascotas>> GetAllByDni2(int dniCliente)
         {
             /*    REVISAR!
             try
@@ -49,7 +49,7 @@ namespace Logic
             return null;
         }
 
-        public async static Task<List<Mascota>> GetAllByDni2(int dni)
+        public async static Task<List<Mascota>> GetAllByDni(int dni)
         {
             string url = $"https://localhost:7166/api/Mascotas/cliente/{dni}";
             var response = await Conexion.Instancia.Cliente.GetAsync(url);

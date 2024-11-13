@@ -38,6 +38,7 @@ namespace Services.Controllers
             var usuarios = await _context.Usuario
                 .Include(u => u.Jornadas)
                 .Include(u => u.Especialidades)
+                .Where(u => u.Activo==true)
                 .ToListAsync();
 
             return usuarios;

@@ -40,6 +40,7 @@ namespace Servicies.Controllers
            .Include(a => a.Usuario)
            .ThenInclude(u => u.Especialidades)
            .ThenInclude(e => e.Servicios)
+           .Where(a => a.Activo==true)
            .FirstOrDefaultAsync(a => a.AtencionId == id);
 
             if (atencion == null)
@@ -89,8 +90,8 @@ namespace Servicies.Controllers
 
             Atencion a = new Atencion();
             a= atencion;
+            a.Activo = true;
 
-            
             _context.Atencion.Add(a);
             await _context.SaveChangesAsync();
 
@@ -108,7 +109,9 @@ namespace Servicies.Controllers
             Atencion a = new Atencion();
             a.FechaHora = dto.FechaHora;
             a.Motivo = dto.Motivo;
-
+            a.FechaHoraPago = DateTime.MinValue;    
+            a.MontoApagar = 0;
+            a.Activo = true;
             var mascota =  _context.Mascota.Find(dto.MascotaId);
             var usuario =  _context.Usuario.Find(dto.UsuarioId);
 

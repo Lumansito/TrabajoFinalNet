@@ -1,4 +1,5 @@
 ﻿using Logic;
+using Models.Entity.Models;
 using Models.Models;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace Views.Desktop
             this.MdiParent = padre;
             InitializeComponent();
         }
-        Clientes cliente = new Clientes();
+        Cliente cliente = new Cliente();
 
         private void Clear()
         {
@@ -30,7 +31,7 @@ namespace Views.Desktop
             txtTelefono.Text = "";
             btnGuardar.Text = "Guardar";
             btnBorrar.Enabled = false;
-            cliente.DniCliente = 0;
+            cliente.Dni = 0;
             txtDni.Enabled = true;
         }
 
@@ -55,9 +56,9 @@ namespace Views.Desktop
                 cliente.Apellido = txtApellido.Text.Trim();
                 cliente.Mail = txtMail.Text.Trim();
                 cliente.Telefono = txtTelefono.Text.Trim();
-                cliente.FechaAlta = DateOnly.FromDateTime(DateTime.Now);
-                cliente.FechaNacimiento = DateOnly.FromDateTime(timePicker.Value);
-                cliente.DniCliente = Convert.ToInt32(txtDni.Text.Trim());
+                cliente.FechaAlta = DateTime.Now;
+                cliente.FechaNacimiento = timePicker.Value;
+                cliente.Dni = Convert.ToInt32(txtDni.Text.Trim());
 
                 bool success;
                 if (btnGuardar.Text == "Guardar")
@@ -89,7 +90,7 @@ namespace Views.Desktop
         private async void LoadData()
         {
             //dgvClientes.AutoGenerateColumns = true; //momentaneamente, deberian estar establecidas las columnas
-            List<Clientes> clientes = await ClientesLogic.GetAll();
+            List<Cliente> clientes = await ClientesLogic.GetAll();
             dgvClientes.DataSource = clientes;
 
         }
@@ -118,21 +119,30 @@ namespace Views.Desktop
             if (dgvClientes.CurrentRow.Index != -1)
             {
 
-                int dni = Convert.ToInt32(this.dgvClientes.CurrentRow.Cells["DniCliente"].Value);
+                int dni = Convert.ToInt32(this.dgvClientes.CurrentRow.Cells["Dni"].Value);
 
                 
                 cliente = await ClientesLogic.GetByDni(dni);
 
                 txtApellido.Text = cliente.Apellido;
                 txtNombre.Text = cliente.Nombre;
-                txtDni.Text = Convert.ToString(cliente.DniCliente);
+                txtDni.Text = Convert.ToString(cliente.Dni);
                 txtMail.Text = cliente.Mail;
                 txtTelefono.Text = cliente.Telefono;
-                timePicker.Value = cliente.FechaNacimiento.HasValue ? cliente.FechaNacimiento.Value.ToDateTime(TimeOnly.MinValue) : DateTime.Now;
+                if (cliente.FechaNacimiento > timePicker.MinDate)
+                {
+                    timePicker.Value = cliente.FechaNacimiento;
+                }
+                else
+                {
+                    timePicker.Value = DateTime.Today;
+                }
+
+                
 
                 btnGuardar.Text = "Editar";
                 btnBorrar.Enabled = true;
-                txtDni.Enabled = false;
+                
             }
         }
     }

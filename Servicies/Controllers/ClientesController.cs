@@ -21,10 +21,21 @@ namespace Servicies.Controllers
             return _context.Cliente.ToList();
         }
 
-        [HttpGet("{dni}")]
+        [HttpGet("{id}")]
+        public ActionResult<Cliente> GetById(int id)
+        {
+            var cliente = _context.Cliente.Find(id);
+            if (cliente == null)
+            {
+                return NotFound();
+            }
+            return cliente;
+        }
+
+        [HttpGet("dni/{dni}")]
         public ActionResult<Cliente> GetByDni(int dni)
         {
-            var cliente = _context.Cliente.Find(dni);
+            var cliente = _context.Cliente.Where(c => c.Dni == dni).FirstOrDefault();
             if (cliente == null)
             {
                 return NotFound();
@@ -37,13 +48,15 @@ namespace Servicies.Controllers
         {
             _context.Cliente.Add(cliente);
             _context.SaveChanges();
-            return CreatedAtAction(nameof(GetByDni), new { dni = cliente.Dni }, cliente);
+            return CreatedAtAction(nameof(GetById), new { dni = cliente.Dni }, cliente);
         }
 
 
-        [HttpDelete("{dni}")]
-        public ActionResult Delete(int dni) {
-            var cliente = _context.Cliente.Find(dni);
+
+
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id) {
+            var cliente = _context.Cliente.Find(id);
             if (cliente == null)
             {
                 return NotFound();
@@ -61,7 +74,7 @@ namespace Servicies.Controllers
                 return BadRequest();
             }
 
-            var clienteExistente = _context.Cliente.Find(dni);
+            var clienteExistente = _context.Cliente.Where(c => c.Dni == dni).FirstOrDefault();
             if (clienteExistente == null)
             {
                 return NotFound();

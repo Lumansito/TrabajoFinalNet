@@ -1,5 +1,5 @@
 ﻿using Models.Clases;
-using Models.Models;
+using Models.Entity.Models;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -11,8 +11,8 @@ namespace Logic
         {
             try
             {
-                var response = await Conexion.Instancia.Cliente.GetStringAsync("https://localhost:7166/api/Clientes/" + dni);
-                var cliente = JsonConvert.DeserializeObject<Clientes>(response);
+                var response = await Conexion.Instancia.Cliente.GetStringAsync("https://localhost:7166/api/Clientes/dni/" + dni);
+                var cliente = JsonConvert.DeserializeObject<Cliente>(response);
 
                 response = await Conexion.Instancia.Cliente.GetStringAsync("https://localhost:7166/api/Membresias/");
                 var membresias = JsonConvert.DeserializeObject<List<Membresia>>(response);
@@ -24,13 +24,13 @@ namespace Logic
                 var preciosMembresias = JsonConvert.DeserializeObject<List<PrecioMembresia>>(response);
 
                 var membresiasFiltradas = clientesMembresias?
-                        .Where(cm => cm.DniCliente == dni)
+                        .Where(cm => cm.ClienteId == cliente.ClienteId)
                         .Select(cm => new MembresiasCliente
                         {
-                            Descripcion = membresias?.FirstOrDefault(m => m.CodMembresia == cm.CodMembresia)?.Descripcion,
-                            FechaDesde = cm.FechaDesde,
-                            Precio = preciosMembresias?.FirstOrDefault(pm => pm.CodMembresia == cm.CodMembresia && pm.FechaVigencia <= cm.FechaDesde)?.Precio,
-                            PorcentajeDescuento = membresias?.FirstOrDefault(m => m.CodMembresia == cm.CodMembresia)?.PorcentajeDescuento,
+                            Descripcion = membresias?.FirstOrDefault(m => m.MembresiaId == cm.MembresiaId)?.Descripcion,
+                            FechaDesde = DateOnly.FromDateTime(cm.FechaDesde),
+                            Precio = preciosMembresias?.FirstOrDefault(pm => pm.MembresiaId == cm.MembresiaId && pm.FechaVigencia <= cm.FechaDesde)?.Precio,
+                            PorcentajeDescuento = membresias?.FirstOrDefault(m => m.MembresiaId == cm.MembresiaId)?.PorcentajeDescuento,
                         });
                 return membresiasFiltradas;
             }
@@ -41,7 +41,7 @@ namespace Logic
             }
         }
 
-        public async static Task<List<Clientes>> GetAll()
+        public async static Task<List<Cliente>> GetAll()
         {
             try
             {
@@ -49,7 +49,7 @@ namespace Logic
                 if (response.IsSuccessStatusCode)
                 {
                     var responseBody = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<List<Clientes>>(responseBody) ?? new List<Clientes>();
+                    return JsonConvert.DeserializeObject<List<Cliente>>(responseBody) ?? new List<Cliente>();
                 }
                 else
                 {
@@ -59,19 +59,19 @@ namespace Logic
             catch (Exception ex)
             {
                 Console.WriteLine($"Error al obtener la lista de clientes: {ex.Message}");
-                return new List<Clientes>();
+                return new List<Cliente>();
             }
         }
 
-        public async static Task<Clientes> GetByDni(int Dni)
+        public async static Task<Cliente> GetByDni(int Dni)
         {
             try
             {
-                var response = await Conexion.Instancia.Cliente.GetAsync("https://localhost:7166/api/Clientes/" + Dni.ToString());
+                var response = await Conexion.Instancia.Cliente.GetAsync("https://localhost:7166/api/Clientes/dni/" + Dni.ToString());
                 if (response.IsSuccessStatusCode)
                 {
                     var responseBody = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<Clientes>(responseBody) ?? new Clientes();
+                    return JsonConvert.DeserializeObject<Cliente>(responseBody) ?? new Cliente();
                 }
                 else
                 {
@@ -81,7 +81,7 @@ namespace Logic
             catch (Exception ex)
             {
                 Console.WriteLine($"Error al obtener el Cliente : {ex.Message}");
-                return new Clientes();
+                return new Cliente();
             }
 
         }
@@ -107,7 +107,7 @@ namespace Logic
             }
         }
 
-        public async static Task<bool> Crear(Clientes cliente)
+        public async static Task<bool> Crear(Cliente cliente)
         {
             try
             {
@@ -131,13 +131,13 @@ namespace Logic
             }
         }
 
-        public async static Task<bool> Editar(Clientes cliente)
+        public async static Task<bool> Editar(Cliente cliente)
         {
             try
             {
                 var clienteJson = JsonConvert.SerializeObject(cliente);
                 var content = new StringContent(clienteJson, Encoding.UTF8, "application/json");
-                var response = await Conexion.Instancia.Cliente.PutAsync("https://localhost:7166/api/Clientes/" + cliente.DniCliente, content);
+                var response = await Conexion.Instancia.Cliente.PutAsync("https://localhost:7166/api/Clientes/" + cliente.Dni, content);
 
                 if (response.IsSuccessStatusCode)
                 {
