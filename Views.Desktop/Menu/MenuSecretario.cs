@@ -24,9 +24,7 @@ namespace Views.Desktop.Menu
 
             ToolStripMenuItem menuCliente_Item4 = new ToolStripMenuItem("Atenciones Realizadas");
             menuCliente_Item4.Click += (sender, e) => {
-                //AtencionesRealizadas menuAtencionesRealizadas = new AtencionesRealizadas();
-                //menuAtencionesRealizadas.MdiParent = mdiParent;
-                //menuAtencionesRealizadas.Show();
+                Atenciones.Atenciones menuAtencionesRealizadas = new Atenciones.Atenciones(mdiParent); menuAtencionesRealizadas.Show();
             };
 
             ToolStripMenuItem menuCliente_Item5 = new ToolStripMenuItem("Membresias");

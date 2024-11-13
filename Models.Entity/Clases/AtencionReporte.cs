@@ -11,9 +11,9 @@ namespace Models.Entity.Clases
         
         public DateTime FechaHora { get; set; }
         public string Motivo { get; set; } = string.Empty;
-        public decimal MontoAPagar { get; set; }
+        public decimal? MontoAPagar { get; set; }
         public string Dni { get; set; } = string.Empty;
         public decimal Descuento { get; set; }
-        public decimal MontoFinal { get; set; }
+        public decimal? MontoFinal { get; set; }
     }
 }

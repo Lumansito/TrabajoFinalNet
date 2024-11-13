@@ -16,7 +16,7 @@ namespace Models.Entity.Models
 
         public string Observaciones { get; set; } = string.Empty;
 
-        public decimal MontoApagar { get; set; }
+        public decimal? MontoApagar { get; set; }
 
         public string Motivo { get; set; } = string.Empty;
 

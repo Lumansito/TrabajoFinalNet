@@ -69,7 +69,7 @@ namespace Models.Entity.Clases
             }
 
             // Calcular el total de los MontoFinal
-            decimal totalMontoFinal = muestra.Sum(a => a.MontoFinal);
+            decimal? totalMontoFinal = muestra.Sum(a => a.MontoFinal);
 
             return Document.Create(container =>
             {
@@ -117,15 +117,15 @@ namespace Models.Entity.Clases
                             {
                                 table.Cell().Text(atencion.FechaHora.ToString("dd/MM/yyyy"));
                                 table.Cell().Text(atencion.Motivo);
-                                table.Cell().Text(atencion.MontoAPagar.ToString("C"));
+                                table.Cell().Text(atencion.MontoAPagar?.ToString("C"));
                                 table.Cell().Text(atencion.Dni);
                                 table.Cell().Text(atencion.Descuento.ToString("0.00"));
-                                table.Cell().Text(atencion.MontoFinal.ToString("C"));
+                                table.Cell().Text(atencion.MontoFinal?.ToString("C"));
                             }
 
                             // Agregar una fila al final con la suma de los Montos Finales
                             table.Cell().ColumnSpan(5).Text("Total Monto Final:").Bold();
-                            table.Cell().Text(totalMontoFinal.ToString("C")).Bold();
+                            table.Cell().Text(totalMontoFinal?.ToString("C")).Bold();
                         });
                     });
                 });
