@@ -5,18 +5,22 @@
 <div class="card mb-3">
     <div class="card-body">
         <h5 class="card-title">@Atencion.NombreMascota</h5>
-        <p><strong>Professional:</strong> @Atencion.NombreProfesional</p>
-        <p><strong>Date & Time:</strong> @Atencion.FechaHora</p>
-        <p><strong>Services:</strong> @(Atencion.Servicios.Any() ? string.Join(", ", Atencion.Servicios) : "Ningún servicio agregado")</p>
+        <p><strong>Profesional:</strong> @Atencion.NombreProfesional</p>
+        <p><strong>Fecha y Hora:</strong> @Atencion.FechaHora</p>
+        <p><strong>Servicios:</strong> @(Atencion.Servicios.Any() ? string.Join(", ", Atencion.Servicios.Select(s => s.Nombre)) : "Ningún servicio agregado")</p>
 
-        <select class="form-select" @onchange="AddService">
-            <option selected disabled>Agregar servicio</option>
-            @foreach (var servicio in serviciosDisponibles)
-            {
-                //Validar que no se agreguen servicios repetidos
-                <option value="@servicio">@servicio.Nombre</option>
-            }
-        </select>
+        <div class="input-group">
+            <select class="form-select" @bind="IdServicioSeleccionado" >
+                <option selected disabled value="">Agregar servicio</option>
+                @foreach (var servicio in serviciosDisponibles)
+                {
+                    <option value="@servicio.ServicioId.ToString()">@servicio.Nombre</option>
+                }
+            </select>
+            <button class="btn btn-primary" @onclick="AddService">Agregar</button>
+            <button class="btn btn-danger flex-md-row" @onclick="DeleteService">Eliminar</button>
+
+        </div>
 
         @* <button class="btn btn-outline-primary mt-2" @onclick="() => OpenObservationsModal(Atencion.Id)">Record Observations</button>
         @if (!string.IsNullOrEmpty(Atencion.Observations))
@@ -32,6 +36,7 @@
     [Parameter] public EventCallback<(int, Servicio)> OnAddService { get; set; }
 
     private List<Servicio> serviciosDisponibles { get; set; } = new List<Servicio>();
+    private string IdServicioSeleccionado { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
@@ -44,12 +49,15 @@
     }
 
 
-    private async Task AddService(ChangeEventArgs e)
+    private async Task AddService()
     {
-        if (e.Value != null && e.Value.ToString() != "Agregar servicio")
+        if (int.TryParse(IdServicioSeleccionado, out int servicioId))
         {
-            Servicio servicioSeleccionado = serviciosDisponibles.FirstOrDefault(s => s.Nombre == e.Value.ToString());
-            await OnAddService.InvokeAsync((Atencion.AtencionId, servicioSeleccionado)); //Invoco a la función onAddService del padre
+            var servicio = serviciosDisponibles.FirstOrDefault(s => s.ServicioId == servicioId);
+            if (servicio != null)
+            {
+                await OnAddService.InvokeAsync((Atencion.AtencionId, servicio));
+            }
         }
     }
 

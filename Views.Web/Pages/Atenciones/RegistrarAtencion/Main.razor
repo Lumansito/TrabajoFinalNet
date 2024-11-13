@@ -3,6 +3,7 @@
 @using Logic
 @inject IJSRuntime JSRuntime
 @using System.Linq
+@using Models.Entity.Data
 
 
 <h1>Registrar Atenciones</h1>
@@ -10,7 +11,7 @@
 <div class="container mt-4">
     @foreach (var atencion in Atenciones)
     {
-        <Tarjeta Atencion="atencion" OnAddService="(args) => AddService(args.Item1, args.Item2)" />
+        <Tarjeta Atencion="atencion" OnAddService="(args) => OnAddService(args.Item1, args.Item2)" />
     }
 </div>
 
@@ -28,12 +29,16 @@
     }
 
 
-    private void AddService(int idAtencion, Servicio servicio)
+    private async void OnAddService(int idAtencion, Servicio servicio)
     {
         var atencion = Atenciones.FirstOrDefault(a => a.AtencionId == idAtencion);
         if (atencion != null && !atencion.Servicios.Contains(servicio))
         {
-            atencion.Servicios.Add(servicio);
+            AtencionPatchDTO atencionPatch = new AtencionPatchDTO();
+            atencionPatch.ServicioId = servicio.ServicioId;
+            
+            await Logic.AtencionLogic.ActualizarAtencion(atencion.AtencionId,atencionPatch);
+            Console.WriteLine("Se agregó un servicio a la atencion",servicio.Nombre);
         }
     }
 

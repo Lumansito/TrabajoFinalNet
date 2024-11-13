@@ -154,5 +154,55 @@ namespace Servicies.Controllers
 
             return await _context.Atencion.Where(x => x.FechaHora.Date == date.Date).ToListAsync();
         }
+
+
+        [HttpPatch("{idAtencion}/ActualizarAtencion")]
+        public async Task<IActionResult> PatchAtencion(int idAtencion, [FromBody] AtencionPatchDTO patchDto)
+        {
+            var atencion = await _context.Atencion
+                .Include(a => a.Servicios)
+                .FirstOrDefaultAsync(a => a.AtencionId == idAtencion);
+
+            if (atencion == null)
+            {
+                return NotFound();
+            }
+
+            // Actualizar FechaHoraPago si está presente en patchDto
+            if (patchDto.FechaHoraPago.HasValue)
+            {
+                atencion.FechaHoraPago = patchDto.FechaHoraPago.Value;
+            }
+
+            if (patchDto.MontoApagar.HasValue)
+            {
+                atencion.MontoApagar = patchDto.MontoApagar.Value;
+            }
+
+            if (!string.IsNullOrEmpty(patchDto.Observaciones))
+            {
+                atencion.Observaciones = patchDto.Observaciones;
+            }
+
+            // Agregar el servicio si ServicioId está presente en patchDto
+            if (patchDto.ServicioId.HasValue)
+            {
+                var servicio = await _context.Servicio.FindAsync(patchDto.ServicioId.Value);
+                if (servicio == null)
+                {
+                    return BadRequest("El servicio especificado no existe.");
+                }
+
+                if (!atencion.Servicios.Contains(servicio))
+                {
+                    atencion.Servicios.Add(servicio);
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+
     }
 }

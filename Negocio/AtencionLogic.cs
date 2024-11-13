@@ -108,7 +108,8 @@ namespace Logic
                     Observaciones = a.Observaciones,
                     MontoApagar = a.MontoApagar,
                     Motivo = a.Motivo,
-                    FechaHoraPago = a.FechaHoraPago
+                    FechaHoraPago = a.FechaHoraPago,
+                    Servicios = a.Servicios.ToList()
                 }).ToList();
             return infoAtenciones;
         }
@@ -172,6 +173,25 @@ namespace Logic
 
             return infoAtenciones;
         }
+
+
+        public async static Task<bool> ActualizarAtencion(int idAtencion, AtencionPatchDTO patchDTO)
+        {
+            string url = $"https://localhost:7166/api/Atenciones/{idAtencion}/ActualizarAtencion";
+
+
+            // Serializa el objeto AtencionPatchDTO
+            var json = JsonConvert.SerializeObject(patchDTO);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            // Realiza la solicitud PATCH
+            var response = await Conexion.Instancia.Cliente.PatchAsync(url, content);
+
+            // Retorna el estado de la respuesta
+            return response.IsSuccessStatusCode;
+        }
+
+
     }
 
 

@@ -10,5 +10,7 @@ namespace Models.Entity.Clases
     {
         public DateTime? FechaHoraPago { get; set; }
         public string? Observaciones { get; set; }
+        public int? ServicioId { get; set; }
+        public decimal? MontoApagar { get; set; }
     }
 }

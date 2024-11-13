@@ -20,7 +20,7 @@ namespace Models.Entity.Models
 
         public string Motivo { get; set; } = string.Empty;
 
-        public DateTime FechaHoraPago { get; set; } 
+        public DateTime? FechaHoraPago { get; set; } 
 
         public bool Activo { get; set; }
 
