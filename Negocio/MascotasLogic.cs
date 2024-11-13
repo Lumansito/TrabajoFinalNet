@@ -7,47 +7,7 @@ namespace Logic
 {
     public class MascotasLogic
     {
-
-        public async static Task<IEnumerable<ListadoMascotas>> GetAllByDni2(int dniCliente)
-        {
-            /*    REVISAR!
-            try
-            {
-                var response = await Conexion.Instancia.Cliente.GetStringAsync("https://localhost:7166/api/Mascotas/");
-                var mascotas = JsonConvert.DeserializeObject<List<Mascota>>(response);
-
-                response = await Conexion.Instancia.Cliente.GetStringAsync("https://localhost:7166/api/Razas/");
-                var razas = JsonConvert.DeserializeObject<List<Raza>>(response);
-
-                response = await Conexion.Instancia.Cliente.GetStringAsync("https://localhost:7166/api/Especies/");
-                var especies = JsonConvert.DeserializeObject<List<Especie>>(response);
-
-                DateOnly fechaActual = DateOnly.FromDateTime(DateTime.Now);
-
-                var listadoMascotas = mascotas
-                        .Where(m => m.ClienteId == dniCliente)
-                        .Select
-                        (
-                            m => new
-                            ListadoMascotas
-                            {
-                                NombreMascota = m.NombreMascota,
-                                Edad = (fechaActual.DayNumber - m.FechaNac.Value.DayNumber) / 365,
-                                NombreRaza = razas.FirstOrDefault(r => r.CodRaza == m.CodRaza)?.NombreRaza ?? "Raza desconocida",
-                                NombreEspecie = especies.FirstOrDefault(e => e.CodEspecie == m.CodEspecie)?.NombreEspecie ?? "Especie desconocida",
-                                FechaDefuncion = m.FechaDefuncion,
-                            }
-                        );
-                return listadoMascotas;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al obtener las mascotas del cliente ingresado: {ex.Message}");
-                return new List<ListadoMascotas>();
-            }
-            */
-            return null;
-        }
+       
 
         public async static Task<List<Mascota>> GetAllByDni(int dni)
         {
@@ -66,7 +26,7 @@ namespace Logic
             return null;
         }
 
-        public async static Task<Mascota?> GetOne(int MascotaId, int a) //REVISAR se coloca la "a" para mentirle al compilñador y q no haga ruido
+        public async static Task<Mascota?> GetOne(int MascotaId) //REVISAR se coloca la "a" para mentirle al compilñador y q no haga ruido
         {
             try
             {

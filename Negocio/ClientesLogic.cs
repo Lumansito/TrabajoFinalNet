@@ -137,7 +137,7 @@ namespace Logic
             {
                 var clienteJson = JsonConvert.SerializeObject(cliente);
                 var content = new StringContent(clienteJson, Encoding.UTF8, "application/json");
-                var response = await Conexion.Instancia.Cliente.PutAsync("https://localhost:7166/api/Clientes/" + cliente.Dni, content);
+                var response = await Conexion.Instancia.Cliente.PutAsync("https://localhost:7166/api/Clientes/" + cliente.ClienteId, content);
 
                 if (response.IsSuccessStatusCode)
                 {

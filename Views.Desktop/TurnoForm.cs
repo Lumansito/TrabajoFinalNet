@@ -46,11 +46,9 @@ namespace Views.Desktop
             //dgvMascotas.AutoGenerateColumns = true; //deberia ser false
 
             int dniCliente = Convert.ToInt32(txtBoxDni.Text);
-            var mascotas = await MascotasLogic.GetAllByDni2(dniCliente);
+            var mascotas = await MascotasLogic.GetAllByDni(dniCliente);
             if (mascotas.IsNullOrEmpty()) MessageBox.Show("No hay mascotas para el cliente seleccionado");
-            
             dgvMascotas.DataSource = mascotas;
-
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)

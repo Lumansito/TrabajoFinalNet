@@ -66,15 +66,15 @@ namespace Servicies.Controllers
             return NoContent();
         }
 
-        [HttpPut("{dni}")]
-        public IActionResult EditarCliente(int dni, Cliente cliente)
+        [HttpPut("{id}")]
+        public IActionResult EditarCliente(int id, Cliente cliente)
         {
-            if (dni != cliente.Dni)
+            if (id != cliente.ClienteId)
             {
                 return BadRequest();
             }
 
-            var clienteExistente = _context.Cliente.Where(c => c.Dni == dni).FirstOrDefault();
+            var clienteExistente = _context.Cliente.Where(c => c.ClienteId == id).FirstOrDefault();
             if (clienteExistente == null)
             {
                 return NotFound();
@@ -85,6 +85,7 @@ namespace Servicies.Controllers
             clienteExistente.Telefono = cliente.Telefono;
             clienteExistente.Mail = cliente.Mail;
             clienteExistente.FechaNacimiento = cliente.FechaNacimiento;
+            clienteExistente.Dni = cliente.Dni;
             _context.SaveChanges();
 
             return NoContent();

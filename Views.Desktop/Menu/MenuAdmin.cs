@@ -33,6 +33,9 @@ namespace Views.Desktop.Menu
             menuCruds_Item4.Click += (sender, e) =>
             { CrudMembresias menuCrudMembresias = new CrudMembresias(mdiParent); menuCrudMembresias.Show(); };
 
+            ToolStripMenuItem menuCruds_Item5 = new ToolStripMenuItem("Gestión de Jornadas");
+            menuCruds_Item5.Click += (sender, e) =>
+            { CrudJornadas menuCrudJornadas = new CrudJornadas(mdiParent); menuCrudJornadas.Show(); };
 
             ToolStripMenuItem menuReportes = new ToolStripMenuItem("Reportes");
 
@@ -51,6 +54,7 @@ namespace Views.Desktop.Menu
             menuCruds.DropDownItems.Add(menuCruds_Item2);
             menuCruds.DropDownItems.Add(menuCruds_Item3);
             menuCruds.DropDownItems.Add(menuCruds_Item4);
+            menuCruds.DropDownItems.Add(menuCruds_Item5);
 
 
             menuReportes.DropDownItems.Add(menuCruds_Item1b);
