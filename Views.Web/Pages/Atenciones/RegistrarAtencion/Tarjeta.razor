@@ -1,0 +1,60 @@
+﻿@using Models.Entity.Models
+@using Logic
+@inject IJSRuntime JSRuntime
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h5 class="card-title">@Atencion.NombreMascota</h5>
+        <p><strong>Professional:</strong> @Atencion.NombreProfesional</p>
+        <p><strong>Date & Time:</strong> @Atencion.FechaHora</p>
+        <p><strong>Services:</strong> @(Atencion.Servicios.Any() ? string.Join(", ", Atencion.Servicios) : "Ningún servicio agregado")</p>
+
+        <select class="form-select" @onchange="AddService">
+            <option selected disabled>Agregar servicio</option>
+            @foreach (var servicio in serviciosDisponibles)
+            {
+                //Validar que no se agreguen servicios repetidos
+                <option value="@servicio">@servicio.Nombre</option>
+            }
+        </select>
+
+        @* <button class="btn btn-outline-primary mt-2" @onclick="() => OpenObservationsModal(Atencion.Id)">Record Observations</button>
+        @if (!string.IsNullOrEmpty(Atencion.Observations))
+        {
+            <p class="card-text mt-2"><strong>Observations:</strong> @Atencion.Observations</p>
+        } *@
+    </div>
+</div>
+
+@code {
+    [Parameter] public InfoAtencionesRealizadas Atencion { get; set; }
+    @*[Parameter] public EventCallback<int> OnSaveObservations { get; set; }*@
+    [Parameter] public EventCallback<(int, Servicio)> OnAddService { get; set; }
+
+    private List<Servicio> serviciosDisponibles { get; set; } = new List<Servicio>();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await cargarServiciosParaLaAtencion();
+    }
+
+    private async Task cargarServiciosParaLaAtencion()
+    {
+        serviciosDisponibles = await Logic.AtencionLogic.GetServiciosPosiblesByIdAtencion(Atencion.AtencionId);
+    }
+
+
+    private async Task AddService(ChangeEventArgs e)
+    {
+        if (e.Value != null && e.Value.ToString() != "Agregar servicio")
+        {
+            Servicio servicioSeleccionado = serviciosDisponibles.FirstOrDefault(s => s.Nombre == e.Value.ToString());
+            await OnAddService.InvokeAsync((Atencion.AtencionId, servicioSeleccionado)); //Invoco a la función onAddService del padre
+        }
+    }
+
+    // private async Task OpenObservationsModal(int shiftId)
+    // {
+    //     await JSRuntime.InvokeVoidAsync("bootstrap.Modal.getOrCreateInstance", "#observationsModal").Show();
+    // }
+}

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models.Entity.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,6 +32,9 @@ namespace Models.Entity.Clases
         public DateTime? FechaHoraPago { get; set; }
 
         public bool? Activo { get; set; }
+
+        public virtual ICollection<Servicio> Servicios { get; set; } = new List<Servicio>();
+
 
     }
 }

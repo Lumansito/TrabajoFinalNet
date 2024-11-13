@@ -37,6 +37,9 @@ namespace Servicies.Controllers
         {
             var atencion = await _context.Atencion
            .Include(a => a.Servicios)
+           .Include(a => a.Usuario)
+           .ThenInclude(u => u.Especialidades)
+           .ThenInclude(e => e.Servicios)
            .FirstOrDefaultAsync(a => a.AtencionId == id);
 
             if (atencion == null)

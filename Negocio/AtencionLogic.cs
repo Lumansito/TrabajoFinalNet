@@ -64,7 +64,23 @@ namespace Logic
         }
 
 
+        public async static Task<List<Servicio>> GetServiciosPosiblesByIdAtencion(int atencionId)
+        {
+            var response = await Conexion.Instancia.Cliente.GetStringAsync($"https://localhost:7166/api/Atenciones/{atencionId}");
+            var atencion = JsonConvert.DeserializeObject<Atencion>(response);
 
+            if (atencion == null || atencion.Usuario == null)
+            {
+                return null;
+            }
+            
+            var listaServicios = atencion.Usuario.Especialidades
+                         .SelectMany(especialidad => especialidad.Servicios)
+                         .ToList();
+
+            return listaServicios;
+
+        }
 
 
 

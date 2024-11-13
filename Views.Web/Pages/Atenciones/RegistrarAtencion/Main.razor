@@ -1,0 +1,48 @@
+﻿@page "/RegistrarAtencion"
+@using Models.Entity.Models
+@using Logic
+@inject IJSRuntime JSRuntime
+@using System.Linq
+
+
+<h1>Registrar Atenciones</h1>
+
+<div class="container mt-4">
+    @foreach (var atencion in Atenciones)
+    {
+        <Tarjeta Atencion="atencion" OnAddService="(args) => AddService(args.Item1, args.Item2)" />
+    }
+</div>
+
+@code {
+    private List<InfoAtencionesRealizadas> Atenciones { get; set; } = new List<InfoAtencionesRealizadas>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await cargarAtenciones();
+    }
+
+    private async Task cargarAtenciones()
+    {
+        Atenciones = await AtencionLogic.GetAllInfoAtencionesRealizadas();
+    }
+
+
+    private void AddService(int idAtencion, Servicio servicio)
+    {
+        var atencion = Atenciones.FirstOrDefault(a => a.AtencionId == idAtencion);
+        if (atencion != null && !atencion.Servicios.Contains(servicio))
+        {
+            atencion.Servicios.Add(servicio);
+        }
+    }
+
+    // private void SaveObservations(int idAtencion, string observations)
+    // {
+    //     var shift = Atenciones.FirstOrDefault(s => s.Id == idAtencion);
+    //     if (shift != null)
+    //     {
+    //         shift.Observations = observations;
+    //     }
+    // }
+}

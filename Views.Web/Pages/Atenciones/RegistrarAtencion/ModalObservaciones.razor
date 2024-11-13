@@ -1,0 +1,32 @@
+﻿
+@* <div class="modal fade" id="observationsModal" tabindex="-1" aria-labelledby="observationsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="observationsModalLabel">Record Observations</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <textarea class="form-control" rows="3" @bind="@Observations"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" @onclick="SaveObservations">Save Observations</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public EventCallback<string> OnSaveObservations { get; set; }
+
+    private string Observations = "";
+
+    private async Task SaveObservations()
+    {
+        await OnSaveObservations.InvokeAsync(Observations);
+        Observations = "";
+        await JSRuntime.InvokeVoidAsync("bootstrap.Modal.getOrCreateInstance", "#observationsModal").Hide();
+    }
+}
+ *@

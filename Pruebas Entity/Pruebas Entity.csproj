@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Models.Entity\Models.Entity.csproj" />
+    <ProjectReference Include="..\Negocio\Logic.csproj" />
   </ItemGroup>
 
 </Project>

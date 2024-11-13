@@ -6,15 +6,23 @@ using System.Text.Json;
 using Models.Entity.Clases;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
+using Logic;
 
 
 
-var a =PDFExporter.CreateDocument();
-QuestPDF.Settings.License = LicenseType.Community;
+//var a =PDFExporter.CreateDocument();
+//QuestPDF.Settings.License = LicenseType.Community;
 
 
-a.GeneratePdf(@"C:\Users\matia\Desktop\ReporteBasico.pdf");
-Console.WriteLine("Se creo");
+//a.GeneratePdf(@"C:\Users\matia\Desktop\ReporteBasico.pdf");
+//Console.WriteLine("Se creo");
+
+static async Task<List<Servicio>> pruebaServicios()
+{
+    var servicios = await Logic.AtencionLogic.GetServiciosPosiblesByIdAtencion(1);
+    Console.WriteLine(servicios);
+    return servicios;
+}
 
 
 Console.ReadLine();
