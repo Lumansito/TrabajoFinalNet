@@ -46,9 +46,17 @@ namespace Servicies.Controllers
         [HttpPost]
         public ActionResult<Cliente> PostCliente(Cliente cliente)
         {
-            _context.Cliente.Add(cliente);
+            var c = new Cliente();
+            c.Nombre = cliente.Nombre;
+            c.Telefono = cliente.Telefono;
+            c.Mail = cliente.Mail;
+            c.FechaNacimiento = cliente.FechaNacimiento;
+            c.Dni = cliente.Dni;
+            _context.Cliente.Add(c);
+
+
             _context.SaveChanges();
-            return CreatedAtAction(nameof(GetById), new { dni = cliente.Dni }, cliente);
+            return NoContent();
         }
 
 
@@ -56,11 +64,12 @@ namespace Servicies.Controllers
 
         [HttpDelete("{id}")]
         public ActionResult Delete(int id) {
-            var cliente = _context.Cliente.Find(id);
+            var cliente = _context.Cliente.Where(c => c.ClienteId ==id).FirstOrDefault();
             if (cliente == null)
             {
                 return NotFound();
             }
+
             _context.Cliente.Remove(cliente);
             _context.SaveChanges();
             return NoContent();

@@ -106,8 +106,8 @@ namespace Views.Desktop
             if (MessageBox.Show(text: "Estas seguro que queres borrar?", caption: "Confirmación", buttons: MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 
-                int dni = Convert.ToInt32(this.dgvClientes.CurrentRow.Cells["DniCliente"].Value);
-                await ClientesLogic.Eliminar(dni);
+                int id = Convert.ToInt32(this.dgvClientes.CurrentRow.Cells["ClienteId"].Value);
+                await ClientesLogic.Eliminar(id);
                 LoadData();
                 Clear();
                 MessageBox.Show("Se elimino correctamente", "Mensaje");

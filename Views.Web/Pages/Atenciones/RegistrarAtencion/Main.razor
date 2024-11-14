@@ -42,7 +42,7 @@
     private async Task cargarAtencionesDelDia()
     {
         var atenciones = await AtencionLogic.GetAllInfoAtencionesRealizadas();
-        Atenciones = atenciones.Where(a => a.FechaHora.Day == DateTime.Now.Day && a.FechaHoraPago == null).ToList(); //Muestra turnos del dia y que no esten pagos
+        Atenciones = atenciones.Where(a => a.FechaHora.Day == DateTime.Now.Day && a.FechaHoraPago == DateTime.MinValue && a.Observaciones =="").ToList(); //Muestra turnos del dia y que no esten pagos
     }
 
     private async void OnAddService(int idAtencion, Servicio servicio)

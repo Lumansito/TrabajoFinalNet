@@ -86,11 +86,11 @@ namespace Logic
 
         }
 
-        public async static Task<bool> Eliminar(int Dni)
+        public async static Task<bool> Eliminar(int id)
         {
             try
             {
-                var response = await Conexion.Instancia.Cliente.DeleteAsync("https://localhost:7166/api/Clientes/" + Dni.ToString());
+                var response = await Conexion.Instancia.Cliente.DeleteAsync("https://localhost:7166/api/Clientes/" + id);
                 if (response.IsSuccessStatusCode)
                 {
                     return true;
@@ -121,6 +121,8 @@ namespace Logic
                 }
                 else
                 {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine($"Error: {errorContent}");
                     throw new Exception($"Error al crear el cliente: {response.StatusCode}");
                 }
             }
