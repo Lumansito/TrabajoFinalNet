@@ -14,7 +14,7 @@ namespace Views.Desktop
             this.MdiParent = padre;
         }
 
-        private async void buttonBuscarMascotas_Click(object sender, EventArgs e)
+        private async void CargaDatos()
         {
             int dni = int.Parse(textBoxDni.Text);
             List<Mascota>? mascotas = await MascotasLogic.GetAllByDni(dni);
@@ -29,7 +29,7 @@ namespace Views.Desktop
                 {
                     ListadoMascotas lm = new()
                     {
-                        
+
                         MascotaId = mascota.MascotaId,
                         NombreMascota = mascota.Nombre,
                         Edad = ((DateTime.Now - mascota.FechaNac).Days) / 365,
@@ -45,13 +45,20 @@ namespace Views.Desktop
             }
         }
 
+        private  void buttonBuscarMascotas_Click(object sender, EventArgs e)
+        {
+            CargaDatos();
+        }
+
         private async void dgvGestionDeMascotas_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             int dni = int.Parse(textBoxDni.Text);
             int mascotaId = Convert.ToInt32(dgvGestionDeMascotas.Rows[e.RowIndex].Cells["MascotaId"].Value);
             if (e.RowIndex >= 0 && dgvGestionDeMascotas.Columns[e.ColumnIndex].Name == "editar")
             {
-                CrudMascotas crudMascotas = new CrudMascotas(mascotaId, dni);
+                this.Hide();
+
+                CrudMascotas crudMascotas = new CrudMascotas(mascotaId, dni, this);
                 crudMascotas.MdiParent = this.MdiParent;
                 crudMascotas.Show();
             }
@@ -67,19 +74,33 @@ namespace Views.Desktop
                 {
                     MessageBox.Show("Error al intentar eliminar la mascota.");
                 }
+                CargaDatos();
+
             }
         }
 
         private void buttonAgregar_Click(object sender, EventArgs e)
         {
+
             string dni = textBoxDni.Text;
-            if (string.IsNullOrEmpty(dni)) {
+            if (string.IsNullOrEmpty(dni))
+            {
                 MessageBox.Show("Debe ingresar un DNI para agregar una mascota.");
                 return;
             }
-            CrudMascotas crudMascotas = new CrudMascotas(Convert.ToInt32(dni));
+            this.Hide();
+            CrudMascotas crudMascotas = new CrudMascotas(Convert.ToInt32(dni), this);
             crudMascotas.MdiParent = this.MdiParent;
             crudMascotas.Show();
+        }
+
+        private void dgvGestionDeMascotas_VisibleChanged(object sender, EventArgs e)
+        {
+            if(string.IsNullOrEmpty(textBoxDni.Text))
+            {
+                return;
+            }
+            CargaDatos();
         }
     }
 }

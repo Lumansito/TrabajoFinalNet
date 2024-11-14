@@ -8,20 +8,28 @@ namespace Views.Desktop
     {
         private int mascotaId;
         private int clienteDni;
+        private Form padree;
 
-        public CrudMascotas(int mascotaId, int clienteDni)
+        public CrudMascotas(int mascotaId, int clienteDni, Form padre)
         {
             this.mascotaId = mascotaId;
+            padree = padre;
             InitializeComponent();
             CargarDatos();
             CargarMascota();
+            this.button1.Visible = true;
+            this.buttonAgregar.Visible = false;
         }
 
-        public CrudMascotas(int clienteDni)
+        public CrudMascotas(int clienteDni, Form padre)
         {
             this.clienteDni = clienteDni;
             InitializeComponent();
             CargarDatos();
+            padree = padre;
+            this.button1.Visible = false;
+            this.buttonAgregar.Visible = true;
+
         }
         private async void CargarMascota()
         {
@@ -40,27 +48,27 @@ namespace Views.Desktop
 
         private async void CargarDatos()
         {
-            
-                
-                // Cargar ComboBox de Razas
-                comboBoxRazas.Items.Clear();
-                var razas = await RazasLogic.GetAll();
-                comboBoxRazas.DisplayMember = "Nombre";
-                comboBoxRazas.ValueMember = "RazaId";
-                comboBoxRazas.DataSource = razas;
-                
 
-                // Cargar ComboBox de Especies
-                comboBoxEspecies.Items.Clear();
-                var especies = await EspeciesLogic.GetAll();
-                comboBoxEspecies.DisplayMember = "Nombre";
-                comboBoxEspecies.ValueMember = "EspecieId";
-                comboBoxEspecies.DataSource = especies;
-                
-            
+
+            // Cargar ComboBox de Razas
+            comboBoxRazas.Items.Clear();
+            var razas = await RazasLogic.GetAll();
+            comboBoxRazas.DisplayMember = "Nombre";
+            comboBoxRazas.ValueMember = "RazaId";
+            comboBoxRazas.DataSource = razas;
+
+
+            // Cargar ComboBox de Especies
+            comboBoxEspecies.Items.Clear();
+            var especies = await EspeciesLogic.GetAll();
+            comboBoxEspecies.DisplayMember = "Nombre";
+            comboBoxEspecies.ValueMember = "EspecieId";
+            comboBoxEspecies.DataSource = especies;
+
+
         }
 
-       
+
 
         private async void button1_Click(object sender, EventArgs e)
         {
@@ -86,6 +94,7 @@ namespace Views.Desktop
                 // Actualizar la mascota
                 await MascotasLogic.Update(mascota);
                 Dispose();
+                padree.Show();
             }
         }
 
@@ -127,6 +136,15 @@ namespace Views.Desktop
                 return;
             }
             MessageBox.Show("Mascota registrada con éxito!");
+
+            Dispose();
+            padree.Show();
+        }
+
+        private void CrudMascotas_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            padree.Show();
+
         }
     }
 }
