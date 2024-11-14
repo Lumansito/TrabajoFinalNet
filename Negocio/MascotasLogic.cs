@@ -40,12 +40,14 @@ namespace Logic
         {
             try
             {
-                var response = await Conexion.Instancia.Cliente.PostAsJsonAsync("https://localhost:7166/api/Mascotas/", mascota);
+                var response = await Conexion.Instancia.Cliente.PostAsJsonAsync("https://localhost:7166/api/Mascotas", mascota);
                 if (response.IsSuccessStatusCode)
                 {
                     return true;
                 }
+                
                 return false;
+               
             }
             catch (Exception e)
             {

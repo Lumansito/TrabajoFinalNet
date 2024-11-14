@@ -6,7 +6,7 @@ namespace Logic
 {
     public class EspeciesLogic
     {
-        public async static Task<Especie?> GetOne(int EspecieId)
+        public async static Task<Especie> GetOne(int EspecieId)
         {
             try
             {

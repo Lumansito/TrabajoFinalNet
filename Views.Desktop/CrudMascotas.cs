@@ -80,6 +80,7 @@ namespace Views.Desktop
                 if (comboBoxRazas.SelectedValue != null)
                 {
                     mascota.RazaId = (int)comboBoxRazas.SelectedValue;
+
                 }
 
                 // Actualizar la mascota
@@ -102,12 +103,17 @@ namespace Views.Desktop
             // Asignar RazaId y EspecieId usando SelectedValue
             if (comboBoxRazas.SelectedValue != null)
             {
-                mascota.RazaId = (int)comboBoxRazas.SelectedValue;
+                var RazaId = (int)comboBoxRazas.SelectedValue;
+                mascota.Raza = await RazasLogic.GetOne(RazaId);
+
+
             }
 
             if (comboBoxEspecies.SelectedValue != null)
             {
-                mascota.EspecieId = (int)comboBoxEspecies.SelectedValue;
+                var EspecieId = (int)comboBoxEspecies.SelectedValue;
+                mascota.Especie = await EspeciesLogic.GetOne(EspecieId);
+
             }
 
             mascota.FechaNac = dateTimePickerFechaNacimiento.Value;

@@ -43,11 +43,16 @@ namespace Servicies.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Mascota mascota)
+        public ActionResult Create([FromBody] Mascota mascota)
         {
-           
+            var nuevaMascota = new Mascota();
 
-            _context.Mascota.Add(mascota);
+            nuevaMascota.Cliente = _context.Cliente.Find(mascota.ClienteId);
+            nuevaMascota.Raza = _context.Raza.Find(mascota.Raza.RazaId);
+            nuevaMascota.Especie = _context.Especie.Find(mascota.Especie.EspecieId);
+            nuevaMascota.FechaNac = mascota.FechaNac;
+            nuevaMascota.Nombre = mascota.Nombre;
+            _context.Mascota.Add(nuevaMascota);
             _context.SaveChanges();
             return NoContent();
         }

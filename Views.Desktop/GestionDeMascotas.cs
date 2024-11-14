@@ -73,6 +73,10 @@ namespace Views.Desktop
         private void buttonAgregar_Click(object sender, EventArgs e)
         {
             string dni = textBoxDni.Text;
+            if (string.IsNullOrEmpty(dni)) {
+                MessageBox.Show("Debe ingresar un DNI para agregar una mascota.");
+                return;
+            }
             CrudMascotas crudMascotas = new CrudMascotas(Convert.ToInt32(dni));
             crudMascotas.MdiParent = this.MdiParent;
             crudMascotas.Show();
