@@ -140,7 +140,7 @@ namespace Servicies.Controllers
                 return NotFound();
             }
 
-            atencion.Activo = false;
+            _context.Atencion.Remove(atencion);
             await _context.SaveChangesAsync();
 
             return NoContent();

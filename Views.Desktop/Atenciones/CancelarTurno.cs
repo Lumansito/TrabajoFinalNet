@@ -14,6 +14,7 @@ namespace Views.Desktop.Atenciones
     public partial class CancelarTurno : Form
     {
         private int _idAtencion;
+        public bool seCancelo;
         public CancelarTurno(int idAtencion)
         {
             InitializeComponent();
@@ -22,8 +23,17 @@ namespace Views.Desktop.Atenciones
 
         private async void btnCancelar_Click(object sender, EventArgs e)
         {
-            await AtencionLogic.Delete(_idAtencion);
-            MessageBox.Show("Turno cancelado con éxito");
+            var resultado = await AtencionLogic.Delete(_idAtencion);
+            if (resultado == true)
+            {
+                MessageBox.Show("Turno cancelado con éxito");
+                seCancelo = true;
+            }
+            else
+            {
+                MessageBox.Show("Hubo un error al cancelar el turno");
+            }
+
         }
 
         private void btnVolver_Click(object sender, EventArgs e)
