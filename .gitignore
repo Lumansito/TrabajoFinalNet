@@ -513,5 +513,3 @@ Views.Desktop/obj/Debug/net8.0-windows/Views.Desktop.designer.runtimeconfig.json
 /Servicies/obj/Debug/net8.0/staticwebassets.build.json
 /Models/obj/Debug/net8.0/Models.csproj.FileListAbsolute.txt
 /Models/obj/Debug/net8.0/Models.GeneratedMSBuildEditorConfig.editorconfig
-/Servicies/Program.cs
-/Models.Entity/Data/VeterinariaContext.cs

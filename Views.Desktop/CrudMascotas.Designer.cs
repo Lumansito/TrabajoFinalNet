@@ -37,7 +37,6 @@
             comboBoxRazas = new ComboBox();
             comboBoxEspecies = new ComboBox();
             button1 = new Button();
-            buttonAgregar = new Button();
             SuspendLayout();
             // 
             // label1
@@ -117,22 +116,11 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
-            // buttonAgregar
-            // 
-            buttonAgregar.Location = new Point(336, 388);
-            buttonAgregar.Name = "buttonAgregar";
-            buttonAgregar.Size = new Size(214, 43);
-            buttonAgregar.TabIndex = 11;
-            buttonAgregar.Text = "Agregar nueva mascota";
-            buttonAgregar.UseVisualStyleBackColor = true;
-            buttonAgregar.Click += buttonAgregar_Click;
-            // 
             // CrudMascotas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(buttonAgregar);
             Controls.Add(button1);
             Controls.Add(comboBoxEspecies);
             Controls.Add(comboBoxRazas);
@@ -159,6 +147,5 @@
         private ComboBox comboBoxRazas;
         private ComboBox comboBoxEspecies;
         private Button button1;
-        private Button buttonAgregar;
     }
 }

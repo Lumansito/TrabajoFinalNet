@@ -1,4 +1,5 @@
 ﻿using Models.Entity.Models;
+using Models.Clases;
 using Newtonsoft.Json;
 using System.Net.Http.Json;
 
@@ -6,26 +7,30 @@ namespace Logic
 {
     public class MascotasLogic
     {
-        public async static Task<List<Mascota>?> GetAllByDni(int dni)
+       
+
+        public async static Task<List<Mascota>> GetAllByDni(int dni)
         {
-            try
+            string url = $"https://localhost:7166/api/Mascotas/cliente/{dni}";
+            var response = await Conexion.Instancia.Cliente.GetAsync(url);
+
+            if (response.IsSuccessStatusCode)
             {
-                var response = await Conexion.Instancia.Cliente.GetStringAsync("https://localhost:7166/api/Mascotas/cliente/" + dni);
-                var mascotas = JsonConvert.DeserializeObject<List<Mascota>>(response);
-                return mascotas;
+                var responseData = await response.Content.ReadAsStringAsync();
+                var data = JsonConvert.DeserializeObject<List<Mascota>>(responseData);
+
+                return data;
+
             }
-            catch (Exception e)
-            {
-                Console.WriteLine($"Error inesperado: {e.Message}");
-                return [];
-            }
+
+            return null;
         }
 
-        public async static Task<Mascota?> GetOne(int mascotaId)
+        public async static Task<Mascota?> GetOne(int MascotaId) //REVISAR se coloca la "a" para mentirle al compilñador y q no haga ruido
         {
             try
             {
-                var response = await Conexion.Instancia.Cliente.GetStringAsync("https://localhost:7166/api/Mascotas/" + mascotaId);
+                var response = await Conexion.Instancia.Cliente.GetStringAsync("https://localhost:7166/api/Mascotas/"+ MascotaId );
                 var mascota = JsonConvert.DeserializeObject<Mascota>(response);
                 return mascota;
             }
@@ -33,24 +38,6 @@ namespace Logic
             {
                 Console.WriteLine($"Error inesperado: {e.Message}");
                 return null;
-            }
-        }
-
-        public async static Task<Boolean> Create(Mascota mascota)
-        {
-            try
-            {
-                var response = await Conexion.Instancia.Cliente.PostAsJsonAsync("https://localhost:7166/api/Mascotas/", mascota);
-                if (response.IsSuccessStatusCode)
-                {
-                    return true;
-                }
-                return false;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"Ha ocurrido un error: {e.Message}");
-                return false;
             }
         }
 
@@ -79,7 +66,7 @@ namespace Logic
         {
             try
             {
-                var response = await Conexion.Instancia.Cliente.DeleteAsync("https://localhost:7166/api/Mascotas/" + mascota.MascotaId);
+                var response = await Conexion.Instancia.Cliente.DeleteAsync("https://localhost:7166/api/Mascotas/" +mascota.MascotaId);
                 if (response.IsSuccessStatusCode)
                 {
                     return true;

@@ -69,7 +69,7 @@ namespace Views.Desktop.Membresias
 
         private async void buttonGuardar_Click(object sender, EventArgs e)
         {
-            
+            MessageBox.Show(this.txtAntiguedad.Text);
             if (this.txtAntiguedad.Text == "" || this.txtDescripcion.Text == "")
             {
                 MessageBox.Show("Por favor, rellene todos los campos.", "Error");
