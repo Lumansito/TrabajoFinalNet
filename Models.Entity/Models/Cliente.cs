@@ -17,8 +17,6 @@ namespace Models.Entity.Models
 
         public string Telefono { get; set; } = string.Empty;
 
-        public bool Activo { get; set; }
-
         public DateTime FechaAlta { get; set; }
 
         public DateTime FechaNacimiento { get; set; }
