@@ -13,7 +13,8 @@ namespace Views.Desktop
         {
             this.mascotaId = mascotaId;
             InitializeComponent();
-            CargarDatos(mascotaId);
+            CargarDatos();
+            CargarMascota();
         }
 
         public CrudMascotas(int clienteDni)
@@ -22,69 +23,66 @@ namespace Views.Desktop
             InitializeComponent();
             CargarDatos();
         }
-
-        private async void CargarDatos(int mascotaId)
+        private async void CargarMascota()
         {
-            Mascota? mascota = await MascotasLogic.GetOne(mascotaId);
-            if (mascota != null)
-            {
-                textBoxNombre.Text = mascota.Nombre;
-                dateTimePickerFechaNacimiento.Value = mascota.FechaNac;
+            var mascota = await MascotasLogic.GetOne(mascotaId);
 
-                comboBoxRazas.Items.Clear();
-                comboBoxRazas.Text = mascota.Raza.Nombre;
-                List<Raza>? razas = await RazasLogic.GetAll();
-                foreach (Raza raza in razas)
-                {
-                    comboBoxRazas.Items.Add(raza.Nombre);
-                }
-                comboBoxRazas.Refresh();
+            // Setear nombre y fecha de nacimiento
+            textBoxNombre.Text = mascota.Nombre;
+            dateTimePickerFechaNacimiento.Value = mascota.FechaNac > dateTimePickerFechaNacimiento.MinDate
+                ? mascota.FechaNac
+                : DateTime.Today;
 
-                comboBoxEspecies.Items.Clear();
-                comboBoxEspecies.Text = mascota.Especie.Nombre;
-                List<Especie>? especies = await EspeciesLogic.GetAll();
-                foreach (Especie especie in especies)
-                {
-                    comboBoxEspecies.Items.Add(especie.Nombre);
-                }
-                comboBoxEspecies.Refresh();
-            }
+            comboBoxRazas.SelectedValue = mascota.RazaId;
+            comboBoxEspecies.SelectedValue = mascota.EspecieId;
         }
+
 
         private async void CargarDatos()
         {
-            comboBoxRazas.Items.Clear();
-            var razas = await RazasLogic.GetAll();
-            foreach (var raza in razas)
-            {
-                comboBoxRazas.Items.Add(raza.Nombre);
-            }
-            comboBoxRazas.Refresh();
+            
+                
+                // Cargar ComboBox de Razas
+                comboBoxRazas.Items.Clear();
+                var razas = await RazasLogic.GetAll();
+                comboBoxRazas.DisplayMember = "Nombre";
+                comboBoxRazas.ValueMember = "RazaId";
+                comboBoxRazas.DataSource = razas;
+                
 
-            comboBoxEspecies.Items.Clear();
-            var especies = await EspeciesLogic.GetAll();
-            foreach (var especie in especies)
-            {
-                comboBoxEspecies.Items.Add(especie.Nombre);
-            }
-            comboBoxEspecies.Refresh();
+                // Cargar ComboBox de Especies
+                comboBoxEspecies.Items.Clear();
+                var especies = await EspeciesLogic.GetAll();
+                comboBoxEspecies.DisplayMember = "Nombre";
+                comboBoxEspecies.ValueMember = "EspecieId";
+                comboBoxEspecies.DataSource = especies;
+                
+            
         }
+
+       
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            Mascota? mascota = await MascotasLogic.GetOne(mascotaId);
-            if (mascota != null)
             {
+                var mascota = await MascotasLogic.GetOne(mascotaId);
+
+                // Actualizar datos de la mascota
                 mascota.Nombre = textBoxNombre.Text;
                 mascota.FechaNac = dateTimePickerFechaNacimiento.Value;
-                if (comboBoxRazas.SelectedIndex != -1)
+
+                // Asignar IDs seleccionados en los ComboBox
+                if (comboBoxEspecies.SelectedValue != null)
                 {
-                    mascota.RazaId = comboBoxRazas.SelectedIndex + 1;
+                    mascota.EspecieId = (int)comboBoxEspecies.SelectedValue;
                 }
-                if (comboBoxEspecies.SelectedIndex != -1)
+
+                if (comboBoxRazas.SelectedValue != null)
                 {
-                    mascota.EspecieId = comboBoxEspecies.SelectedIndex + 1;
+                    mascota.RazaId = (int)comboBoxRazas.SelectedValue;
                 }
+
+                // Actualizar la mascota
                 await MascotasLogic.Update(mascota);
                 Dispose();
             }
@@ -93,21 +91,36 @@ namespace Views.Desktop
         private async void buttonAgregar_Click(object sender, EventArgs e)
         {
             Mascota mascota = new();
+
+            // Obtener cliente por DNI
             Cliente cliente = await ClientesLogic.GetByDni(clienteDni);
             mascota.ClienteId = cliente.ClienteId;
+
+            // Asignar datos de la mascota
             mascota.Nombre = textBoxNombre.Text;
-            if (comboBoxRazas.SelectedIndex != -1)
+
+            // Asignar RazaId y EspecieId usando SelectedValue
+            if (comboBoxRazas.SelectedValue != null)
             {
-                mascota.RazaId = comboBoxRazas.SelectedIndex + 1;
+                mascota.RazaId = (int)comboBoxRazas.SelectedValue;
             }
-            if (comboBoxEspecies.SelectedIndex != -1)
+
+            if (comboBoxEspecies.SelectedValue != null)
             {
-                mascota.EspecieId = comboBoxEspecies.SelectedIndex + 1;
+                mascota.EspecieId = (int)comboBoxEspecies.SelectedValue;
             }
+
             mascota.FechaNac = dateTimePickerFechaNacimiento.Value;
             mascota.FechaDefuncion = DateTime.MaxValue;
-            await MascotasLogic.Create(mascota);
-            MessageBox.Show("Mascota registrada con exito!");
+
+            // Crear mascota en la base de datos
+            var result = await MascotasLogic.Create(mascota);
+            if (!result)
+            {
+                MessageBox.Show("Error al intentar crear la mascota.");
+                return;
+            }
+            MessageBox.Show("Mascota registrada con éxito!");
         }
     }
 }

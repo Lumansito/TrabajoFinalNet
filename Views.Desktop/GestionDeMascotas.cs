@@ -29,6 +29,7 @@ namespace Views.Desktop
                 {
                     ListadoMascotas lm = new()
                     {
+                        
                         MascotaId = mascota.MascotaId,
                         NombreMascota = mascota.Nombre,
                         Edad = ((DateTime.Now - mascota.FechaNac).Days) / 365,

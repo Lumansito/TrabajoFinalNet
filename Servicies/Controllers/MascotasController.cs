@@ -45,6 +45,8 @@ namespace Servicies.Controllers
         [HttpPost]
         public ActionResult Create(Mascota mascota)
         {
+           
+
             _context.Mascota.Add(mascota);
             _context.SaveChanges();
             return NoContent();
