@@ -12,7 +12,7 @@
             <div class="sidebar">
                 <NavMenu />
             </div>
-
+            
             <main>
                 <div class="top-row px-4">
                     <button @onclick="handleLogOut">Log Out</button>
@@ -28,11 +28,11 @@
     <NotAuthorized>
         
         <div class="min-h-screen flex flex-col justify-between bg-gradient-to-b from-blue-100 to-green-100 p-4">
-            
+
 
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container">
-                    <a class="navbar-brand" href="#">San Antón Veterinary Clinic</a>
+                    <a class="navbar-brand" href="#">Clínica Veterinaria San Antón</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -48,8 +48,8 @@
             </nav>
 
             <header class="text-center py-5">
-                <h1 class="display-4 text-primary">San Antón Veterinary Clinic</h1>
-                <p class="lead text-secondary">Caring for your pets like family</p>
+                <h1 class="display-4 text-primary">Clínica Veterinaria San Antón</h1>
+                <p class="lead text-secondary">Cuidando de tus mascotas como familia</p>
             </header>
 
 
@@ -59,8 +59,9 @@
                 </article>
             </main>
 
-            
+
         </div>
+
         
     </NotAuthorized>
 </AuthorizeView>
@@ -77,11 +78,12 @@
     {
         await JS.InvokeVoidAsync("localStorage.removeItem", "Token"); // Elimina el token
         await AuthStateProv.GetAuthenticationStateAsync(); // Cambia el estado de la autenticación
+        NavigationManager.NavigateTo("/");
+
     }
 
     private void NavigateToLogin()
     {
         NavigationManager.NavigateTo("/login");
-        Console.WriteLine("al login");
     }
 }

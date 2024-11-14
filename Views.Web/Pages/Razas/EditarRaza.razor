@@ -22,11 +22,15 @@
         }
     }
 }
-<h3>Editar Raza</h3>
-<div>
-    <label>Nombre: </label>
-    <input @bind="raza.Nombre" />
+<h3 class="mb-4">Editar Raza</h3>
+
+<div class="mb-3">
+    <label class="form-label">Nombre:</label>
+    <input class="form-control" @bind="raza.Nombre" />
 </div>
 
-<button @onclick="GuardarCambios">Guardar Cambios</button>
-<button @onclick="@(() => Navigation.NavigateTo("/raza"))">Cancelar</button>
+<div>
+    <button class="btn btn-primary me-2" @onclick="GuardarCambios">Guardar Cambios</button>
+    <button class="btn btn-secondary" @onclick="@(() => Navigation.NavigateTo("/raza"))">Cancelar</button>
+</div>
+

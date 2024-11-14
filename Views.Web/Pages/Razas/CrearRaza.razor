@@ -14,10 +14,15 @@
         }
     }
 }
-<h3>Crear Nueva Raza</h3>
-<div>
-    <label>Nombre: </label>
-    <input @bind="nuevaRaza.Nombre" />
+<h3 class="mb-4">Crear Nueva Raza</h3>
+
+<div class="mb-3">
+    <label class="form-label">Nombre:</label>
+    <input class="form-control" @bind="nuevaRaza.Nombre" />
 </div>
-<button @onclick="GuardarRaza">Guardar</button>
-<button @onclick="@(() => Navigation.NavigateTo("/raza"))">Cancelar</button>
+
+<div>
+    <button class="btn btn-primary me-2" @onclick="GuardarRaza">Guardar</button>
+    <button class="btn btn-secondary" @onclick="@(() => Navigation.NavigateTo("/raza"))">Cancelar</button>
+</div>
+

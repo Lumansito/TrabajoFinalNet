@@ -90,7 +90,7 @@
 
             var token = await response.Content.ReadAsStringAsync();
             await GuardarSesion(token);
-            NavigationManager.NavigateTo("/raza");
+            NavigationManager.NavigateTo("/");
         }
         catch (Exception ex)
         {

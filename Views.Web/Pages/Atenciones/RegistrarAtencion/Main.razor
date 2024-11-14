@@ -2,23 +2,33 @@
 @using Models.Entity.Models
 @using Logic
 @inject IJSRuntime JSRuntime
+@inject AuthenticationStateProvider AuthStateProv
 @using System.Linq
 @using Models.Entity.Data
 @inject IToastService toastService
 
 
-<h1>Registrar Atenciones</h1>
 
-<div class="container mt-4">
-    @foreach (var atencion in Atenciones)
-    {
-        <Tarjeta Atencion="atencion"
-                 OnAddService="(args) => OnAddService(args.Item1, args.Item2)"
-                 OnDeleteService="(args)=> OnDeleteService(args.Item1, args.Item2)"
-                 OnSaveObservaciones="(args)=> OnSaveObservations(args.Item1, args.Item2)"
-                 AtencionId="atencion.AtencionId" />
-    }
-</div>
+<AuthorizeView Roles="Profesional">
+    <Authorized>
+        <h1>Registrar Atenciones del día</h1>
+
+        <div class="container mt-4">
+        @foreach (var atencion in Atenciones)
+        {
+            <Tarjeta Atencion="atencion"
+                     OnAddService="(args) => OnAddService(args.Item1, args.Item2)"
+                     OnDeleteService="(args)=> OnDeleteService(args.Item1, args.Item2)"
+                     OnSaveObservaciones="(args)=> OnSaveObservations(args.Item1, args.Item2)"
+                     AtencionId="atencion.AtencionId" />
+        }
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <h1>No estás autorizado a ver esta página.</h1>
+    </NotAuthorized>
+    
+</AuthorizeView>
 
 @code {
     private List<InfoAtencionesRealizadas> Atenciones { get; set; } = new List<InfoAtencionesRealizadas>();

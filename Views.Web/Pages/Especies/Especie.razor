@@ -22,9 +22,9 @@
 
 <AuthorizeView Roles="Admin, Profesional">
     <Authorized>
-        <h3>Lista de Especies</h3>
-        <table>
-            <thead>
+        <h3 class="mb-4">Lista de Especies</h3>
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
                 <tr>
                     <th>Nombre</th>
                     <th>Acciones</th>
@@ -39,24 +39,26 @@
                             <td>@especie.Nombre</td>
 
                             <td>
-                                <button @onclick="@(() => Navigation.NavigateTo($"/especie/editar/{especie.EspecieId}"))">Editar</button>
-                                <button @onclick="@(() => EliminarEspecie(especie.EspecieId))">Eliminar</button>
+                                <button class="btn btn-primary btn-sm me-2" @onclick="@(() => Navigation.NavigateTo($"/especie/editar/{especie.EspecieId}"))">Editar</button>
+                                <button class="btn btn-danger btn-sm" @onclick="@(() => EliminarEspecie(especie.EspecieId))">Eliminar</button>
                             </td>
                         </tr>
                     }
                 }
                 else
                 {
-                    <p>Cargando...</p>
+                    <tr>
+                        <td colspan="3" class="text-center"> No hay razas registradas</td>
+                    </tr>
                 }
 
             </tbody>
         </table>
-        <button @onclick="@(() => Navigation.NavigateTo("/especie/crear"))">Nueva Especie</button>
+        <button class="btn btn-success mt-3" @onclick="@(() => Navigation.NavigateTo("/especie/crear"))">Nueva Especie</button>
 
     </Authorized>
     <NotAuthorized>
-        <h3>No estás autorizado a ver esta página.</h3>
+        <h3 class="text-danger">No estás autorizado a ver esta página.</h3>
     </NotAuthorized>
 </AuthorizeView>
 

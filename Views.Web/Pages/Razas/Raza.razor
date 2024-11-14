@@ -20,14 +20,13 @@
     }
 }
 
-<AuthorizeView Roles="Admin, Profesional">
+<AuthorizeView Roles="Admin">
     <Authorized>
-        <h3>Lista de Razas</h3>
-        <table>
-            <thead>
+        <h3 class="mb-4">Lista de Razas</h3>
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
                 <tr>
                     <th>Nombre</th>
-                    <th>Descripción</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -40,24 +39,26 @@
                             <td>@raza.Nombre</td>
 
                             <td>
-                                <button @onclick="@(() => Navigation.NavigateTo($"/raza/editar/{raza.RazaId}"))">Editar</button>
-                                <button @onclick="@(() => EliminarRaza(raza.RazaId))">Eliminar</button>
+                                <button class="btn btn-primary btn-sm me-2" @onclick="@(() => Navigation.NavigateTo($"/raza/editar/{raza.RazaId}"))">Editar</button>
+                                <button class="btn btn-danger btn-sm" @onclick="@(() => EliminarRaza(raza.RazaId))">Eliminar</button>
                             </td>
                         </tr>
                     }
                 }
                 else
                 {
-                    <p>Cargando...</p>
+                    <tr>
+                        <td colspan="3" class="text-center"> No hay razas registradas</td>
+                    </tr>
                 }
 
             </tbody>
         </table>
-        <button @onclick="@(() => Navigation.NavigateTo("/raza/crear"))">Nueva Raza</button>
+        <button class="btn btn-success mt-3" @onclick="@(() => Navigation.NavigateTo("/raza/crear"))">Nueva Raza</button>
 
     </Authorized>
     <NotAuthorized>
-        <h3>No estás autorizado a ver esta página.</h3>
+        <h3 class="text-danger">No estás autorizado a ver esta página.</h3>
     </NotAuthorized>
 </AuthorizeView>
 

@@ -1,39 +1,58 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">Veterinaria San Antón</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</div>
+﻿@using System.Reflection
+@using System.Text.RegularExpressions
 
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
+    <div class="top-row ps-3 navbar navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="">Veterinaria San Antón</a>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="login">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> LogIn
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="register">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Register
-            </NavLink>
-        </div>
-    </nav>
-</div>
+    </div>
+
+    <input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+    <div class="nav-scrollable"
+         onclick="document.querySelector('.navbar-toggler').click()">
+        <nav class="flex-column">
+        <AuthorizeView Roles="Admin">
+
+            @* Recorre la lista y genera los enlaces *@
+            @foreach (var link in navLinksAdmin)
+            {
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="@link.Href">
+                        @link.Name
+                    </NavLink>
+                </div>
+            }
+        </AuthorizeView>
+
+        <AuthorizeView Roles="Profesional">
+
+            @* Recorre la lista y genera los enlaces *@
+            @foreach (var link in navLinksProfesional)
+            {
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="@link.Href">
+                        @link.Name
+                    </NavLink>
+                </div>
+            }
+        </AuthorizeView>
+
+        </nav>
+    </div>
+
+
 
 @code {
-    private bool collapseNavMenu = true;
-
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
+    // Define los enlaces manualmente
+    private List<(string Name, string Href)> navLinksAdmin = new List<(string, string)>
     {
-        collapseNavMenu = !collapseNavMenu;
-    }
+        ("Razas", "/raza"),
+        ("Especies", "/especie")
+    };
+
+    private List<(string Name, string Href)> navLinksProfesional = new List<(string, string)>
+    {
+        ("Registrar atención", "/RegistrarAtencion"),
+    };
 }
