@@ -9,7 +9,7 @@ namespace Models.Entity.Clases
     public class UsuarioLoginDTO
     {
         [Required(ErrorMessage = "El DNI es obligatorio")]
-        [RegularExpression("^[0-9]{7,10}$", ErrorMessage = "El DNI debe ser un número de entre 7 y 10 dígitos")]
+        [RegularExpression("^[0-9]{8}$", ErrorMessage = "El DNI debe tener 8 dígitos")]
         public int Dni { get; set; }
 
         // Propiedad auxiliar para enlazar como string en la vista

@@ -25,8 +25,30 @@ namespace Views.Desktop
 
         private  async void btnIngreso_Click(object sender, EventArgs e)
         {
-            int dniIngresado = int.Parse(txtBoxDni.Text);
+            // Validación del DNI
+            string dniTexto = txtBoxDni.Text;
+            if (string.IsNullOrWhiteSpace(dniTexto))
+            {
+                MessageBox.Show("El DNI es obligatorio.");
+                return;
+            }
+
+            if (!System.Text.RegularExpressions.Regex.IsMatch(dniTexto, "^[0-9]{8}$"))
+            {
+                MessageBox.Show("El DNI debe tener 8 dígitos.");
+                return;
+            }
+
+            // Convertir el DNI a entero después de la validación
+            int dniIngresado = Convert.ToInt32(dniTexto);
+
+            // Validación de la contraseña
             string contraseñaIngresada = txtBoxPassword.Text;
+            if (string.IsNullOrWhiteSpace(contraseñaIngresada))
+            {
+                MessageBox.Show("La Contraseña es requerida.");
+                return;
+            }
 
             usuarioLogueado = await UsuariosLogic.LogInEscritorio(dniIngresado, contraseñaIngresada);
 
