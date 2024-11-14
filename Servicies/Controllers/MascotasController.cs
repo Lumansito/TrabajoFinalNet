@@ -19,54 +19,51 @@ namespace Servicies.Controllers
         }
 
         [HttpGet(Name = "Mascotas")]
-        public ActionResult<IEnumerable<Mascota>> GetAll()
+        public ActionResult<List<Mascota>> GetAll()
         {
-            return _context.Mascota.ToList();
+            return _context.Mascota.Include(m => m.Raza).Include(m => m.Especie).ToList();
         }
 
         [HttpGet("cliente/{dni}")]
-        public ActionResult<IEnumerable<Mascota>> GetByDni(int dni)
+        public ActionResult<List<Mascota>> GetByDni(int dni)
         {
             Cliente? cliente = _context.Cliente.Where(c => c.Dni ==dni).FirstOrDefault();
-            return _context.Mascota.Where(m => m.Cliente == cliente).ToList();
+            return _context.Mascota.Where(m => m.Cliente == cliente).Include(m => m.Raza).Include(m => m.Especie).ToList();
         }
         
         [HttpGet("{id}")]
         public ActionResult<Mascota> GetById(int id)
         {
-            var mascota = _context.Mascota.FirstOrDefault(m => m.MascotaId == id);
+            var mascota = _context.Mascota.Include(m => m.Raza).Include(m => m.Especie).FirstOrDefault(m => m.MascotaId == id);
             if (mascota == null)
             {
                 return NotFound();
             }
             return mascota;
         }
-        
 
-        [HttpPut("{DNI}/{NRO}")]
-        public ActionResult Update(int DNI, int NRO, Mascota mascota)
+        [HttpPost]
+        public ActionResult Create(Mascota mascota)
         {
-            /*
-            if (DNI != mascota.DniCliente || NRO != mascota.NroMascota)
-            {
-                return BadRequest();
-            }
-            _context.Entry(mascota).State = EntityState.Modified; 
+            _context.Mascota.Add(mascota);
             _context.SaveChanges();
             return NoContent();
-            */
+        }
 
-            if (DNI != mascota.ClienteId || NRO != mascota.MascotaId)
+        [HttpPut("{mascotaId}")]
+        public ActionResult Update(int mascotaId, Mascota mascota)
+        {
+            if (mascotaId != mascota.MascotaId)
             {
                 return BadRequest();
             }
-            var mascotaExistente = _context.Mascota.FirstOrDefault(m => m.ClienteId == DNI && m.MascotaId == NRO);
+            var mascotaExistente = _context.Mascota.Find(mascotaId);
             if (mascotaExistente == null)
             {
                 return NotFound();
             }
-            mascotaExistente.ClienteId = mascota.ClienteId;
             mascotaExistente.MascotaId = mascota.MascotaId;
+            mascotaExistente.ClienteId = mascota.ClienteId;
             mascotaExistente.Nombre = mascota.Nombre;
             mascotaExistente.RazaId = mascota.RazaId;
             mascotaExistente.EspecieId = mascota.EspecieId;
@@ -76,17 +73,17 @@ namespace Servicies.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{DNI}/{NRO}")]
-        public ActionResult<Mascota> Delete(int DNI, int NRO)
+        [HttpDelete("{mascotaId}")]
+        public ActionResult Delete(int mascotaId)
         {
-            var mascota = _context.Mascota.FirstOrDefault(m => m.ClienteId == DNI && m.MascotaId == NRO);
+            var mascota = _context.Mascota.Find(mascotaId);
             if (mascota == null)
             {
                 return NotFound();
             }
             _context.Mascota.Remove(mascota);
             _context.SaveChanges();
-            return mascota;
+            return NoContent();
         }
     }
 }

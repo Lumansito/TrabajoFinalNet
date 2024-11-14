@@ -197,6 +197,8 @@ namespace Views.Desktop.Atenciones
                 int idAtencion = Convert.ToInt32(dgvAtenciones.Rows[e.RowIndex].Cells["AtencionId"].Value?.ToString());
                 CancelarTurno cancelarTurnoForm = new CancelarTurno(idAtencion);
                 cancelarTurnoForm.ShowDialog();
+                if(cancelarTurnoForm.seCancelo == true) { SetupDataGridViewColumns(); }
+
 
             }
 

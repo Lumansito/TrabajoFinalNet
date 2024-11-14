@@ -28,101 +28,96 @@
         /// </summary>
         private void InitializeComponent()
         {
-            button1 = new Button();
+            buttonBuscarMascotas = new Button();
             label1 = new Label();
             textBoxDni = new TextBox();
             dgvGestionDeMascotas = new DataGridView();
-            nombreMascota = new DataGridViewTextBoxColumn();
-            edad = new DataGridViewTextBoxColumn();
-            nombreRaza = new DataGridViewTextBoxColumn();
-            nombreEspecie = new DataGridViewTextBoxColumn();
-            fechaDefuncion = new DataGridViewTextBoxColumn();
+            MascotaId = new DataGridViewTextBoxColumn();
+            NombreMascota = new DataGridViewTextBoxColumn();
+            Edad = new DataGridViewTextBoxColumn();
+            NombreRaza = new DataGridViewTextBoxColumn();
+            NombreEspecie = new DataGridViewTextBoxColumn();
+            FechaDefuncion = new DataGridViewTextBoxColumn();
             editar = new DataGridViewButtonColumn();
             eliminar = new DataGridViewButtonColumn();
             label2 = new Label();
             labelNombreDueño = new Label();
+            buttonAgregar = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvGestionDeMascotas).BeginInit();
             SuspendLayout();
             // 
-            // button1
+            // buttonBuscarMascotas
             // 
-            button1.Location = new Point(357, 125);
-            button1.Margin = new Padding(3, 4, 3, 4);
-            button1.Name = "button1";
-            button1.Size = new Size(179, 31);
-            button1.TabIndex = 0;
-            button1.Text = "Buscar sus mascotas";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            buttonBuscarMascotas.Location = new Point(312, 94);
+            buttonBuscarMascotas.Name = "buttonBuscarMascotas";
+            buttonBuscarMascotas.Size = new Size(157, 23);
+            buttonBuscarMascotas.TabIndex = 0;
+            buttonBuscarMascotas.Text = "Buscar sus mascotas";
+            buttonBuscarMascotas.UseVisualStyleBackColor = true;
+            buttonBuscarMascotas.Click += buttonBuscarMascotas_Click;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(30, 129);
+            label1.Location = new Point(26, 97);
             label1.Name = "label1";
-            label1.Size = new Size(166, 20);
+            label1.Size = new Size(131, 15);
             label1.TabIndex = 1;
             label1.Text = "Ingresar DNI del dueño:";
             // 
             // textBoxDni
             // 
-            textBoxDni.Location = new Point(186, 125);
-            textBoxDni.Margin = new Padding(3, 4, 3, 4);
+            textBoxDni.Location = new Point(163, 94);
             textBoxDni.Name = "textBoxDni";
-            textBoxDni.Size = new Size(163, 27);
+            textBoxDni.Size = new Size(143, 23);
             textBoxDni.TabIndex = 2;
             // 
             // dgvGestionDeMascotas
             // 
             dgvGestionDeMascotas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvGestionDeMascotas.Columns.AddRange(new DataGridViewColumn[] { nombreMascota, edad, nombreRaza, nombreEspecie, fechaDefuncion, editar, eliminar });
-            dgvGestionDeMascotas.Location = new Point(30, 236);
-            dgvGestionDeMascotas.Margin = new Padding(3, 4, 3, 4);
+            dgvGestionDeMascotas.Columns.AddRange(new DataGridViewColumn[] { MascotaId, NombreMascota, Edad, NombreRaza, NombreEspecie, FechaDefuncion, editar, eliminar });
+            dgvGestionDeMascotas.Location = new Point(12, 169);
             dgvGestionDeMascotas.Name = "dgvGestionDeMascotas";
             dgvGestionDeMascotas.RowHeadersWidth = 51;
-            dgvGestionDeMascotas.Size = new Size(849, 200);
+            dgvGestionDeMascotas.Size = new Size(776, 150);
             dgvGestionDeMascotas.TabIndex = 3;
             dgvGestionDeMascotas.CellContentClick += dgvGestionDeMascotas_CellContentClick;
             // 
-            // nombreMascota
+            // MascotaId
             // 
-            nombreMascota.DataPropertyName = "nombreMascota";
-            nombreMascota.HeaderText = "Nombre";
-            nombreMascota.MinimumWidth = 6;
-            nombreMascota.Name = "nombreMascota";
-            nombreMascota.Width = 125;
+            MascotaId.DataPropertyName = "MascotaId";
+            MascotaId.HeaderText = "ID";
+            MascotaId.Name = "MascotaId";
             // 
-            // edad
+            // NombreMascota
             // 
-            edad.DataPropertyName = "edad";
-            edad.HeaderText = "Edad";
-            edad.MinimumWidth = 6;
-            edad.Name = "edad";
-            edad.Width = 125;
+            NombreMascota.DataPropertyName = "NombreMascota";
+            NombreMascota.HeaderText = "Nombre";
+            NombreMascota.Name = "NombreMascota";
             // 
-            // nombreRaza
+            // Edad
             // 
-            nombreRaza.DataPropertyName = "nombreRaza";
-            nombreRaza.HeaderText = "Raza";
-            nombreRaza.MinimumWidth = 6;
-            nombreRaza.Name = "nombreRaza";
-            nombreRaza.Width = 125;
+            Edad.DataPropertyName = "Edad";
+            Edad.HeaderText = "Edad";
+            Edad.Name = "Edad";
             // 
-            // nombreEspecie
+            // NombreRaza
             // 
-            nombreEspecie.DataPropertyName = "nombreEspecie";
-            nombreEspecie.HeaderText = "Especie";
-            nombreEspecie.MinimumWidth = 6;
-            nombreEspecie.Name = "nombreEspecie";
-            nombreEspecie.Width = 125;
+            NombreRaza.DataPropertyName = "NombreRaza";
+            NombreRaza.HeaderText = "Raza";
+            NombreRaza.Name = "NombreRaza";
             // 
-            // fechaDefuncion
+            // NombreEspecie
             // 
-            fechaDefuncion.DataPropertyName = "fechaDefuncion";
-            fechaDefuncion.HeaderText = "Fecha de defuncion";
-            fechaDefuncion.MinimumWidth = 6;
-            fechaDefuncion.Name = "fechaDefuncion";
-            fechaDefuncion.Width = 125;
+            NombreEspecie.DataPropertyName = "NombreEspecie";
+            NombreEspecie.HeaderText = "Especie";
+            NombreEspecie.Name = "NombreEspecie";
+            // 
+            // FechaDefuncion
+            // 
+            FechaDefuncion.DataPropertyName = "FechaDefuncion";
+            FechaDefuncion.HeaderText = "FechaDefuncion";
+            FechaDefuncion.Name = "FechaDefuncion";
             // 
             // editar
             // 
@@ -145,33 +140,43 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(30, 188);
+            label2.Location = new Point(26, 141);
             label2.Name = "label2";
-            label2.Size = new Size(208, 20);
+            label2.Size = new Size(164, 15);
             label2.TabIndex = 4;
             label2.Text = "Nombre y apellido del dueño:";
             // 
             // labelNombreDueño
             // 
             labelNombreDueño.AutoSize = true;
-            labelNombreDueño.Location = new Point(224, 188);
+            labelNombreDueño.Location = new Point(196, 141);
             labelNombreDueño.Name = "labelNombreDueño";
-            labelNombreDueño.Size = new Size(15, 20);
+            labelNombreDueño.Size = new Size(12, 15);
             labelNombreDueño.TabIndex = 5;
             labelNombreDueño.Text = "-";
             // 
+            // buttonAgregar
+            // 
+            buttonAgregar.Location = new Point(12, 336);
+            buttonAgregar.Name = "buttonAgregar";
+            buttonAgregar.Size = new Size(75, 23);
+            buttonAgregar.TabIndex = 6;
+            buttonAgregar.Text = "Agregar";
+            buttonAgregar.UseVisualStyleBackColor = true;
+            buttonAgregar.Click += buttonAgregar_Click;
+            // 
             // GestionDeMascotas
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(914, 600);
+            ClientSize = new Size(800, 450);
+            Controls.Add(buttonAgregar);
             Controls.Add(labelNombreDueño);
             Controls.Add(label2);
             Controls.Add(dgvGestionDeMascotas);
             Controls.Add(textBoxDni);
             Controls.Add(label1);
-            Controls.Add(button1);
-            Margin = new Padding(3, 4, 3, 4);
+            Controls.Add(buttonBuscarMascotas);
             Name = "GestionDeMascotas";
             Text = "GestionDeMascotas";
             ((System.ComponentModel.ISupportInitialize)dgvGestionDeMascotas).EndInit();
@@ -181,18 +186,20 @@
 
         #endregion
 
-        private Button button1;
+        private Button buttonBuscarMascotas;
         private Label label1;
         private TextBox textBoxDni;
         private DataGridView dgvGestionDeMascotas;
         private Label label2;
         private Label labelNombreDueño;
-        private DataGridViewTextBoxColumn nombreMascota;
-        private DataGridViewTextBoxColumn edad;
-        private DataGridViewTextBoxColumn nombreRaza;
-        private DataGridViewTextBoxColumn nombreEspecie;
-        private DataGridViewTextBoxColumn fechaDefuncion;
+        private DataGridViewTextBoxColumn MascotaId;
+        private DataGridViewTextBoxColumn NombreMascota;
+        private DataGridViewTextBoxColumn Edad;
+        private DataGridViewTextBoxColumn NombreRaza;
+        private DataGridViewTextBoxColumn NombreEspecie;
+        private DataGridViewTextBoxColumn FechaDefuncion;
         private DataGridViewButtonColumn editar;
         private DataGridViewButtonColumn eliminar;
+        private Button buttonAgregar;
     }
 }
