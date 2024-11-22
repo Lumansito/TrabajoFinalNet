@@ -155,7 +155,7 @@ namespace Views.Desktop.Atenciones
                 else
                 {
                     //Validacion para cuando se vuelve a clickear luego de que ya se pagó. No ejecuta el pago nuevamente.
-                    if (row.Cells["FechaHoraPago"].Value is not null)
+                    if (row.Cells["FechaHoraPago"].Value is DateTime fechaHoraPago && fechaHoraPago != DateTime.MinValue)
                     {
                         MessageBox.Show("Este servicio ya ha sido pagado.");
                         return;

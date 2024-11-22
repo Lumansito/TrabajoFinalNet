@@ -27,6 +27,7 @@ namespace Views.Desktop.Membresias
             textBoxCodigo.Text = "";
             txtDescripcion.Text = "";
             txtAntiguedad.Text = "";
+            txtDescuento.Text = "";
             buttonGuardar.Text = "Registrar";
 
         }
@@ -65,12 +66,12 @@ namespace Views.Desktop.Membresias
             }
         }
 
-     
+
 
         private async void buttonGuardar_Click(object sender, EventArgs e)
         {
-            
-            if (this.txtAntiguedad.Text == "" || this.txtDescripcion.Text == "")
+
+            if (this.txtAntiguedad.Text == "" || this.txtDescripcion.Text == "" || Convert.ToInt32(this.txtDescuento.Text) == 0)
             {
                 MessageBox.Show("Por favor, rellene todos los campos.", "Error");
             }
@@ -79,6 +80,7 @@ namespace Views.Desktop.Membresias
                 membresia.AntiguedadMinimaCliente = Convert.ToInt32(txtAntiguedad.Text);
                 membresia.Descripcion = txtDescripcion.Text.Trim();
                 membresia.Activo = true;
+                membresia.PorcentajeDescuento = Convert.ToDecimal(txtDescuento.Text) / 100;
                 await MembresiasLogic.Create(membresia);
                 MessageBox.Show("Membresia registrada con exito.", "Mensaje");
             }
@@ -88,6 +90,7 @@ namespace Views.Desktop.Membresias
                 membresia.AntiguedadMinimaCliente = Convert.ToInt32(txtAntiguedad.Text);
                 membresia.Descripcion = txtDescripcion.Text.Trim();
                 membresia.Activo = true;
+                membresia.PorcentajeDescuento = Convert.ToDecimal(txtDescuento.Text) / 100;
                 await MembresiasLogic.Update(membresia);
                 MessageBox.Show("Se han guardado todos los cambios.", "Mensaje");
             }
@@ -101,12 +104,25 @@ namespace Views.Desktop.Membresias
 
         private async void BtnPrecio_Click(object sender, EventArgs e)
         {
-            var id = Convert.ToInt32(textBoxCodigo.Text.Trim());
-            membresia = await MembresiasLogic.GetOne(id);
-            ActualizarPrecioMembresia precioForm = new(membresia, this);
-            precioForm.MdiParent = this.MdiParent;
-            this.Visible = false;
-            precioForm.Show();
+            if (dataGridViewMembresias.CurrentRow == null)
+            {
+                MessageBox.Show("Por favor, seleccione una membresía de la lista antes de continuar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                var id = Convert.ToInt32(textBoxCodigo.Text.Trim());
+                membresia = await MembresiasLogic.GetOne(id);
+                ActualizarPrecioMembresia precioForm = new(membresia, this);
+                precioForm.MdiParent = this.MdiParent;
+                this.Visible = false;
+                precioForm.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private async void dataGridViewMembresias_DoubleClick_1(object sender, EventArgs e)
@@ -118,9 +134,15 @@ namespace Views.Desktop.Membresias
                 textBoxCodigo.Text = Convert.ToString(membresia.MembresiaId);
                 txtAntiguedad.Text = membresia.AntiguedadMinimaCliente.ToString();
                 txtDescripcion.Text = membresia.Descripcion;
+                txtDescuento.Text = (membresia.PorcentajeDescuento * 100).ToString();
                 buttonGuardar.Text = "Guardar cambios";
                 buttonEliminar.Enabled = true;
             }
+        }
+
+        private void buttonCancelar_Click(object sender, EventArgs e)
+        {
+            Clear();
         }
     }
 }

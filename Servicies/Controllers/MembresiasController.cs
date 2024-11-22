@@ -60,7 +60,8 @@ namespace Servicies.Controllers
             membresiaExistente.MembresiaId = membresia.MembresiaId;
             membresiaExistente.AntiguedadMinimaCliente = membresia.AntiguedadMinimaCliente;
             membresiaExistente.Descripcion = membresia.Descripcion;
-            membresiaExistente.Precios.Clear();
+            membresiaExistente.PorcentajeDescuento = membresia.PorcentajeDescuento;
+            //membresiaExistente.Precios.Clear();
             
             _context.SaveChanges();
             return NoContent();

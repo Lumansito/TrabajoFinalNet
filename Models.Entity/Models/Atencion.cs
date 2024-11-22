@@ -16,11 +16,11 @@ namespace Models.Entity.Models
 
         public string Observaciones { get; set; } = string.Empty;
 
-        public decimal? MontoApagar { get; set; }
+        public decimal MontoApagar { get; set; } = 0;
 
         public string Motivo { get; set; } = string.Empty;
 
-        public DateTime? FechaHoraPago { get; set; } 
+        public DateTime FechaHoraPago { get; set; } = DateTime.MinValue;
 
         public bool Activo { get; set; }
 

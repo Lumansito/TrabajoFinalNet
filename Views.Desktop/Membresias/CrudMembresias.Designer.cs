@@ -39,7 +39,12 @@
             lblDescripcion = new Label();
             txtAntiguedad = new TextBox();
             txtDescripcion = new RichTextBox();
+            lblAnios = new Label();
+            lblDescuento = new Label();
+            txtDescuento = new TextBox();
+            lblPorcentaje = new Label();
             MembresiaId = new DataGridViewTextBoxColumn();
+            Descuento = new DataGridViewTextBoxColumn();
             Antiguedad = new DataGridViewTextBoxColumn();
             Descripcion = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridViewMembresias).BeginInit();
@@ -47,7 +52,7 @@
             // 
             // BtnPrecio
             // 
-            BtnPrecio.Location = new Point(79, 387);
+            BtnPrecio.Location = new Point(79, 413);
             BtnPrecio.Name = "BtnPrecio";
             BtnPrecio.Size = new Size(138, 39);
             BtnPrecio.TabIndex = 27;
@@ -58,37 +63,38 @@
             // textBoxCodigo
             // 
             textBoxCodigo.Enabled = false;
-            textBoxCodigo.Location = new Point(285, 176);
+            textBoxCodigo.Location = new Point(282, 135);
             textBoxCodigo.Margin = new Padding(3, 4, 3, 4);
             textBoxCodigo.Name = "textBoxCodigo";
-            textBoxCodigo.Size = new Size(169, 27);
+            textBoxCodigo.Size = new Size(115, 27);
             textBoxCodigo.TabIndex = 25;
             // 
             // dataGridViewMembresias
             // 
             dataGridViewMembresias.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewMembresias.Columns.AddRange(new DataGridViewColumn[] { MembresiaId, Antiguedad, Descripcion });
+            dataGridViewMembresias.Columns.AddRange(new DataGridViewColumn[] { MembresiaId, Descuento, Antiguedad, Descripcion });
             dataGridViewMembresias.Location = new Point(580, 69);
             dataGridViewMembresias.Margin = new Padding(3, 4, 3, 4);
             dataGridViewMembresias.Name = "dataGridViewMembresias";
             dataGridViewMembresias.RowHeadersWidth = 51;
-            dataGridViewMembresias.Size = new Size(427, 515);
+            dataGridViewMembresias.Size = new Size(552, 515);
             dataGridViewMembresias.TabIndex = 23;
             dataGridViewMembresias.DoubleClick += dataGridViewMembresias_DoubleClick_1;
             // 
             // buttonCancelar
             // 
-            buttonCancelar.Location = new Point(79, 459);
+            buttonCancelar.Location = new Point(79, 481);
             buttonCancelar.Margin = new Padding(3, 4, 3, 4);
             buttonCancelar.Name = "buttonCancelar";
             buttonCancelar.Size = new Size(137, 53);
             buttonCancelar.TabIndex = 22;
             buttonCancelar.Text = "Cancelar";
             buttonCancelar.UseVisualStyleBackColor = true;
+            buttonCancelar.Click += buttonCancelar_Click;
             // 
             // buttonEliminar
             // 
-            buttonEliminar.Location = new Point(419, 459);
+            buttonEliminar.Location = new Point(417, 481);
             buttonEliminar.Margin = new Padding(3, 4, 3, 4);
             buttonEliminar.Name = "buttonEliminar";
             buttonEliminar.Size = new Size(137, 53);
@@ -99,7 +105,7 @@
             // 
             // buttonGuardar
             // 
-            buttonGuardar.Location = new Point(260, 459);
+            buttonGuardar.Location = new Point(251, 481);
             buttonGuardar.Margin = new Padding(3, 4, 3, 4);
             buttonGuardar.Name = "buttonGuardar";
             buttonGuardar.Size = new Size(137, 53);
@@ -111,16 +117,16 @@
             // lblAntiguedad
             // 
             lblAntiguedad.AutoSize = true;
-            lblAntiguedad.Location = new Point(110, 242);
+            lblAntiguedad.Location = new Point(121, 191);
             lblAntiguedad.Name = "lblAntiguedad";
-            lblAntiguedad.Size = new Size(199, 20);
+            lblAntiguedad.Size = new Size(144, 20);
             lblAntiguedad.TabIndex = 16;
-            lblAntiguedad.Text = "Antiguedad Minima en años:";
+            lblAntiguedad.Text = "Antiguedad Minima:";
             // 
             // lblCodigo
             // 
             lblCodigo.AutoSize = true;
-            lblCodigo.Location = new Point(110, 179);
+            lblCodigo.Location = new Point(121, 135);
             lblCodigo.Name = "lblCodigo";
             lblCodigo.Size = new Size(58, 20);
             lblCodigo.TabIndex = 29;
@@ -129,7 +135,7 @@
             // lblDescripcion
             // 
             lblDescripcion.AutoSize = true;
-            lblDescripcion.Location = new Point(110, 303);
+            lblDescripcion.Location = new Point(121, 250);
             lblDescripcion.Name = "lblDescripcion";
             lblDescripcion.Size = new Size(90, 20);
             lblDescripcion.TabIndex = 16;
@@ -137,18 +143,52 @@
             // 
             // txtAntiguedad
             // 
-            txtAntiguedad.Location = new Point(326, 240);
+            txtAntiguedad.Location = new Point(282, 188);
             txtAntiguedad.Name = "txtAntiguedad";
-            txtAntiguedad.Size = new Size(125, 27);
+            txtAntiguedad.Size = new Size(45, 27);
             txtAntiguedad.TabIndex = 30;
             // 
             // txtDescripcion
             // 
-            txtDescripcion.Location = new Point(285, 300);
+            txtDescripcion.Location = new Point(282, 247);
             txtDescripcion.Name = "txtDescripcion";
             txtDescripcion.Size = new Size(212, 83);
             txtDescripcion.TabIndex = 31;
             txtDescripcion.Text = "";
+            // 
+            // lblAnios
+            // 
+            lblAnios.AutoSize = true;
+            lblAnios.Location = new Point(333, 195);
+            lblAnios.Name = "lblAnios";
+            lblAnios.Size = new Size(40, 20);
+            lblAnios.TabIndex = 29;
+            lblAnios.Text = "años";
+            // 
+            // lblDescuento
+            // 
+            lblDescuento.AutoSize = true;
+            lblDescuento.Location = new Point(121, 348);
+            lblDescuento.Name = "lblDescuento";
+            lblDescuento.Size = new Size(82, 20);
+            lblDescuento.TabIndex = 16;
+            lblDescuento.Text = "Descuento:";
+            // 
+            // txtDescuento
+            // 
+            txtDescuento.Location = new Point(282, 341);
+            txtDescuento.Name = "txtDescuento";
+            txtDescuento.Size = new Size(45, 27);
+            txtDescuento.TabIndex = 30;
+            // 
+            // lblPorcentaje
+            // 
+            lblPorcentaje.AutoSize = true;
+            lblPorcentaje.Location = new Point(260, 348);
+            lblPorcentaje.Name = "lblPorcentaje";
+            lblPorcentaje.Size = new Size(21, 20);
+            lblPorcentaje.TabIndex = 29;
+            lblPorcentaje.Text = "%";
             // 
             // MembresiaId
             // 
@@ -157,6 +197,15 @@
             MembresiaId.MinimumWidth = 6;
             MembresiaId.Name = "MembresiaId";
             MembresiaId.Width = 125;
+            // 
+            // Descuento
+            // 
+            Descuento.DataPropertyName = "PorcentajeDescuento";
+            Descuento.HeaderText = "Porcentaje Descuento";
+            Descuento.MinimumWidth = 6;
+            Descuento.Name = "Descuento";
+            Descuento.ReadOnly = true;
+            Descuento.Width = 125;
             // 
             // Antiguedad
             // 
@@ -178,9 +227,12 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1108, 707);
+            ClientSize = new Size(1246, 707);
             Controls.Add(txtDescripcion);
+            Controls.Add(txtDescuento);
             Controls.Add(txtAntiguedad);
+            Controls.Add(lblPorcentaje);
+            Controls.Add(lblAnios);
             Controls.Add(lblCodigo);
             Controls.Add(BtnPrecio);
             Controls.Add(textBoxCodigo);
@@ -188,6 +240,7 @@
             Controls.Add(buttonCancelar);
             Controls.Add(buttonEliminar);
             Controls.Add(buttonGuardar);
+            Controls.Add(lblDescuento);
             Controls.Add(lblDescripcion);
             Controls.Add(lblAntiguedad);
             Name = "CrudMembresias";
@@ -214,7 +267,12 @@
         private Label lblDescripcion;
         private TextBox txtAntiguedad;
         private RichTextBox txtDescripcion;
+        private Label lblAnios;
+        private Label lblDescuento;
+        private TextBox txtDescuento;
+        private Label lblPorcentaje;
         private DataGridViewTextBoxColumn MembresiaId;
+        private DataGridViewTextBoxColumn Descuento;
         private DataGridViewTextBoxColumn Antiguedad;
         private DataGridViewTextBoxColumn Descripcion;
     }
