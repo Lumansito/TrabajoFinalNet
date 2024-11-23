@@ -27,7 +27,8 @@ namespace Models.Entity.Clases
 
             // Filtrar las atenciones realizadas en el último mes
             var atencionesUltimoMes = context.Atencion
-                .Where(a => a.FechaHoraPago >= fechaUltimoMes)
+                //.Where(a => a.FechaHoraPago >= fechaUltimoMes )
+                .Where(a => a.MontoApagar != 0)
                 .Include(a => a.Mascota)
                 .ThenInclude(m => m.Cliente)
                 .ToList();

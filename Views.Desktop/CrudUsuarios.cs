@@ -31,7 +31,7 @@ namespace Views.Desktop
         }
         private async void LoadData()
         {
-            //dgvClientes.AutoGenerateColumns = true; //momentaneamente, deberian estar establecidas las columnas
+            dgvUsuarios.AutoGenerateColumns = false;
             List<Usuario> usuarios;
             usuarios = await UsuariosLogic.GetAll();
             dgvUsuarios.DataSource = usuarios;

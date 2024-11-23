@@ -49,6 +49,16 @@
             label7 = new Label();
             cboxRol = new ComboBox();
             cbIsAdmin = new CheckBox();
+            UsuarioId = new DataGridViewTextBoxColumn();
+            Dni = new DataGridViewTextBoxColumn();
+            Nombre = new DataGridViewTextBoxColumn();
+            Apellido = new DataGridViewTextBoxColumn();
+            Mail = new DataGridViewTextBoxColumn();
+            Telefono = new DataGridViewTextBoxColumn();
+            FechaAlta = new DataGridViewTextBoxColumn();
+            FechaNacimiento = new DataGridViewTextBoxColumn();
+            Contraseña = new DataGridViewTextBoxColumn();
+            Rol = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvUsuarios).BeginInit();
             SuspendLayout();
             // 
@@ -165,9 +175,12 @@
             // 
             // dgvUsuarios
             // 
+            dgvUsuarios.AllowUserToDeleteRows = false;
             dgvUsuarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvUsuarios.Columns.AddRange(new DataGridViewColumn[] { UsuarioId, Dni, Nombre, Apellido, Mail, Telefono, FechaAlta, FechaNacimiento, Contraseña, Rol });
             dgvUsuarios.Location = new Point(300, 27);
             dgvUsuarios.Name = "dgvUsuarios";
+            dgvUsuarios.ReadOnly = true;
             dgvUsuarios.RowHeadersWidth = 51;
             dgvUsuarios.Size = new Size(472, 302);
             dgvUsuarios.TabIndex = 27;
@@ -235,6 +248,96 @@
             cbIsAdmin.Text = "Es administrador";
             cbIsAdmin.UseVisualStyleBackColor = true;
             // 
+            // UsuarioId
+            // 
+            UsuarioId.DataPropertyName = "UsuarioId";
+            UsuarioId.HeaderText = "UsuarioId";
+            UsuarioId.MinimumWidth = 6;
+            UsuarioId.Name = "UsuarioId";
+            UsuarioId.ReadOnly = true;
+            UsuarioId.Width = 125;
+            // 
+            // Dni
+            // 
+            Dni.DataPropertyName = "Dni";
+            Dni.HeaderText = "Dni";
+            Dni.MinimumWidth = 6;
+            Dni.Name = "Dni";
+            Dni.ReadOnly = true;
+            Dni.Width = 125;
+            // 
+            // Nombre
+            // 
+            Nombre.DataPropertyName = "Nombre";
+            Nombre.HeaderText = "Nombre";
+            Nombre.MinimumWidth = 6;
+            Nombre.Name = "Nombre";
+            Nombre.ReadOnly = true;
+            Nombre.Width = 125;
+            // 
+            // Apellido
+            // 
+            Apellido.DataPropertyName = "Apellido";
+            Apellido.HeaderText = "Apellido";
+            Apellido.MinimumWidth = 6;
+            Apellido.Name = "Apellido";
+            Apellido.ReadOnly = true;
+            Apellido.Width = 125;
+            // 
+            // Mail
+            // 
+            Mail.DataPropertyName = "Mail";
+            Mail.HeaderText = "Mail";
+            Mail.MinimumWidth = 6;
+            Mail.Name = "Mail";
+            Mail.ReadOnly = true;
+            Mail.Width = 125;
+            // 
+            // Telefono
+            // 
+            Telefono.DataPropertyName = "Telefono";
+            Telefono.HeaderText = "Telefono";
+            Telefono.MinimumWidth = 6;
+            Telefono.Name = "Telefono";
+            Telefono.ReadOnly = true;
+            Telefono.Width = 125;
+            // 
+            // FechaAlta
+            // 
+            FechaAlta.DataPropertyName = "FechaAlta";
+            FechaAlta.HeaderText = "FechaAlta";
+            FechaAlta.MinimumWidth = 6;
+            FechaAlta.Name = "FechaAlta";
+            FechaAlta.ReadOnly = true;
+            FechaAlta.Width = 125;
+            // 
+            // FechaNacimiento
+            // 
+            FechaNacimiento.DataPropertyName = "FechaNacimiento";
+            FechaNacimiento.HeaderText = "FechaNacimiento";
+            FechaNacimiento.MinimumWidth = 6;
+            FechaNacimiento.Name = "FechaNacimiento";
+            FechaNacimiento.ReadOnly = true;
+            FechaNacimiento.Width = 125;
+            // 
+            // Contraseña
+            // 
+            Contraseña.DataPropertyName = "Contraseña";
+            Contraseña.HeaderText = "Contraseña";
+            Contraseña.MinimumWidth = 6;
+            Contraseña.Name = "Contraseña";
+            Contraseña.ReadOnly = true;
+            Contraseña.Width = 125;
+            // 
+            // Rol
+            // 
+            Rol.DataPropertyName = "Rol";
+            Rol.HeaderText = "Rol";
+            Rol.MinimumWidth = 6;
+            Rol.Name = "Rol";
+            Rol.ReadOnly = true;
+            Rol.Width = 125;
+            // 
             // CrudUsuarios
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -293,5 +396,15 @@
         private Label label7;
         private ComboBox cboxRol;
         private CheckBox cbIsAdmin;
+        private DataGridViewTextBoxColumn UsuarioId;
+        private DataGridViewTextBoxColumn Dni;
+        private DataGridViewTextBoxColumn Nombre;
+        private DataGridViewTextBoxColumn Apellido;
+        private DataGridViewTextBoxColumn Mail;
+        private DataGridViewTextBoxColumn Telefono;
+        private DataGridViewTextBoxColumn FechaAlta;
+        private DataGridViewTextBoxColumn FechaNacimiento;
+        private DataGridViewTextBoxColumn Contraseña;
+        private DataGridViewTextBoxColumn Rol;
     }
 }

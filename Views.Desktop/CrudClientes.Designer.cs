@@ -44,6 +44,13 @@
             btnBorrar = new Button();
             btnCancelar = new Button();
             dgvClientes = new DataGridView();
+            ClienteId = new DataGridViewTextBoxColumn();
+            Nombre = new DataGridViewTextBoxColumn();
+            Apellido = new DataGridViewTextBoxColumn();
+            Mail = new DataGridViewTextBoxColumn();
+            Telefono = new DataGridViewTextBoxColumn();
+            FechaAlta = new DataGridViewTextBoxColumn();
+            FechaNacimiento = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvClientes).BeginInit();
             SuspendLayout();
             // 
@@ -177,6 +184,7 @@
             // 
             dgvClientes.AllowUserToDeleteRows = false;
             dgvClientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvClientes.Columns.AddRange(new DataGridViewColumn[] { ClienteId, Nombre, Apellido, Mail, Telefono, FechaAlta, FechaNacimiento });
             dgvClientes.Location = new Point(310, 26);
             dgvClientes.Name = "dgvClientes";
             dgvClientes.ReadOnly = true;
@@ -184,6 +192,69 @@
             dgvClientes.Size = new Size(453, 274);
             dgvClientes.TabIndex = 15;
             dgvClientes.DoubleClick += dgvClientes_DoubleClick;
+            // 
+            // ClienteId
+            // 
+            ClienteId.DataPropertyName = "ClienteId";
+            ClienteId.HeaderText = "Id";
+            ClienteId.MinimumWidth = 6;
+            ClienteId.Name = "ClienteId";
+            ClienteId.ReadOnly = true;
+            ClienteId.Width = 125;
+            // 
+            // Nombre
+            // 
+            Nombre.DataPropertyName = "Nombre";
+            Nombre.HeaderText = "Nombre";
+            Nombre.MinimumWidth = 6;
+            Nombre.Name = "Nombre";
+            Nombre.ReadOnly = true;
+            Nombre.Width = 125;
+            // 
+            // Apellido
+            // 
+            Apellido.DataPropertyName = "Apellido";
+            Apellido.HeaderText = "Apellido";
+            Apellido.MinimumWidth = 6;
+            Apellido.Name = "Apellido";
+            Apellido.ReadOnly = true;
+            Apellido.Width = 125;
+            // 
+            // Mail
+            // 
+            Mail.DataPropertyName = "Mail";
+            Mail.HeaderText = "Mail";
+            Mail.MinimumWidth = 6;
+            Mail.Name = "Mail";
+            Mail.ReadOnly = true;
+            Mail.Width = 125;
+            // 
+            // Telefono
+            // 
+            Telefono.DataPropertyName = "Telefono";
+            Telefono.HeaderText = "Telefono";
+            Telefono.MinimumWidth = 6;
+            Telefono.Name = "Telefono";
+            Telefono.ReadOnly = true;
+            Telefono.Width = 125;
+            // 
+            // FechaAlta
+            // 
+            FechaAlta.DataPropertyName = "FechaAlta";
+            FechaAlta.HeaderText = "FechaAlta";
+            FechaAlta.MinimumWidth = 6;
+            FechaAlta.Name = "FechaAlta";
+            FechaAlta.ReadOnly = true;
+            FechaAlta.Width = 125;
+            // 
+            // FechaNacimiento
+            // 
+            FechaNacimiento.DataPropertyName = "FechaNacimiento";
+            FechaNacimiento.HeaderText = "FechaNacimiento";
+            FechaNacimiento.MinimumWidth = 6;
+            FechaNacimiento.Name = "FechaNacimiento";
+            FechaNacimiento.ReadOnly = true;
+            FechaNacimiento.Width = 125;
             // 
             // CrudClientes
             // 
@@ -232,5 +303,12 @@
         private Button btnBorrar;
         private Button btnCancelar;
         private DataGridView dgvClientes;
+        private DataGridViewTextBoxColumn ClienteId;
+        private DataGridViewTextBoxColumn Nombre;
+        private DataGridViewTextBoxColumn Apellido;
+        private DataGridViewTextBoxColumn Mail;
+        private DataGridViewTextBoxColumn Telefono;
+        private DataGridViewTextBoxColumn FechaAlta;
+        private DataGridViewTextBoxColumn FechaNacimiento;
     }
 }

@@ -89,7 +89,7 @@ namespace Views.Desktop
 
         private async void LoadData()
         {
-            //dgvClientes.AutoGenerateColumns = true; //momentaneamente, deberian estar establecidas las columnas
+            dgvClientes.AutoGenerateColumns = false; 
             List<Cliente> clientes = await ClientesLogic.GetAll();
             dgvClientes.DataSource = clientes;
 
