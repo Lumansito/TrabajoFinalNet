@@ -76,6 +76,7 @@
             txtBoxPassword.Name = "txtBoxPassword";
             txtBoxPassword.Size = new Size(226, 27);
             txtBoxPassword.TabIndex = 4;
+            txtBoxPassword.UseSystemPasswordChar = true;
             // 
             // LogIn
             // 

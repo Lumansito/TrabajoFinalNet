@@ -39,7 +39,6 @@ namespace Views.Desktop
                 return;
             }
 
-            // Convertir el DNI a entero después de la validación
             int dniIngresado = Convert.ToInt32(dniTexto);
 
             // Validación de la contraseña

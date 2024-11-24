@@ -56,7 +56,7 @@
             BtnPrecio.Name = "BtnPrecio";
             BtnPrecio.Size = new Size(138, 39);
             BtnPrecio.TabIndex = 27;
-            BtnPrecio.Text = "Actualizar Precio";
+            BtnPrecio.Text = "Gestionar Precio";
             BtnPrecio.UseVisualStyleBackColor = true;
             BtnPrecio.Click += BtnPrecio_Click;
             // 

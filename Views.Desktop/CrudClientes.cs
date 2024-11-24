@@ -46,13 +46,31 @@ namespace Views.Desktop
         private async void btnGuardar_Click(object sender, EventArgs e)
         {
 
-            if (txtApellido.Text == "" || txtNombre.Text == "" || txtDni.Text == "" || txtTelefono.Text == "")
+            // Validación: Campos requeridos
+            if (string.IsNullOrWhiteSpace(txtApellido.Text) ||
+                string.IsNullOrWhiteSpace(txtNombre.Text) ||
+                string.IsNullOrWhiteSpace(txtDni.Text) ||
+                string.IsNullOrWhiteSpace(txtTelefono.Text))
             {
-                MessageBox.Show("Error, algun parametro es cadena vacia", "Error");
+                MessageBox.Show("Error, algún parámetro está vacío. Complete todos los campos obligatorios.", "Error");
+                return;
             }
-            else
+
+            if (!System.Text.RegularExpressions.Regex.IsMatch(txtDni.Text, "^[0-9]{8}$"))
             {
-                cliente.Nombre = txtNombre.Text.Trim();
+                MessageBox.Show("El DNI debe tener 8 dígitos.");
+                return;
+            }
+
+            string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            if (!string.IsNullOrWhiteSpace(txtMail.Text) && !System.Text.RegularExpressions.Regex.IsMatch(txtMail.Text.Trim(), emailPattern))
+            {
+                MessageBox.Show("El correo ingresado no tiene un formato válido.", "Error");
+                return;
+            }
+
+
+            cliente.Nombre = txtNombre.Text.Trim();
                 cliente.Apellido = txtApellido.Text.Trim();
                 cliente.Mail = txtMail.Text.Trim();
                 cliente.Telefono = txtTelefono.Text.Trim();
@@ -60,6 +78,8 @@ namespace Views.Desktop
                 cliente.FechaNacimiento = timePicker.Value;
                 cliente.Dni = Convert.ToInt32(txtDni.Text.Trim());
 
+            try
+            {
                 bool success;
                 if (btnGuardar.Text == "Guardar")
                 {   
@@ -79,6 +99,10 @@ namespace Views.Desktop
                 }
                 Clear();
                 LoadData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error inesperado: {ex.Message}", "Error");
             }
 
 

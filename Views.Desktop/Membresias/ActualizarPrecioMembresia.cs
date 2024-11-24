@@ -67,7 +67,27 @@ namespace Views.Desktop.Membresias
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(txtPrecioNuevo.Text) && decimal.TryParse(txtPrecioNuevo.Text, out decimal precio))
+            string precioTexto = txtPrecioNuevo.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(precioTexto))
+            {
+                MessageBox.Show("Por favor, ingrese un precio.");
+                return;
+            }
+
+            if (!decimal.TryParse(precioTexto, out decimal precio))
+            {
+                MessageBox.Show("Por favor, ingrese un valor numérico válido para el precio.");
+                return;
+            }
+
+            if (precio <= 0)
+            {
+                MessageBox.Show("El precio debe ser mayor a 0.");
+                return;
+            }
+
+            try
             {
                 await Logic.MembresiasLogic.AsignarPrecio(membresia.MembresiaId, Convert.ToDecimal(txtPrecioNuevo.Text));
                 MessageBox.Show("Precio actualizado exitosamente");
@@ -75,9 +95,9 @@ namespace Views.Desktop.Membresias
                 hermano.Visible = true;
 
             }
-            else
+            catch(Exception ex)
             {
-                MessageBox.Show("Por favor, ingrese un precio válido.");
+                MessageBox.Show($"Ocurrió un error al actualizar el precio: {ex.Message}");
             }
         }
     }

@@ -39,45 +39,66 @@ namespace Views.Desktop
 
         private async void buttonRG_Click(object sender, EventArgs e)
         {
-            if (dtpHoraInicio.Text == "00:00" && dtpHoraFin.Text == "00:00")
             {
-                MessageBox.Show("Por favor, rellene todos los campos.", "Error");
+                MessageBox.Show("Por favor, ingrese las horas de inicio y fin.", "Error");
+                return;
             }
-            else if (buttonRG.Text == "Registrar")
+
+            if (dtpHoraInicio.Value.TimeOfDay >= dtpHoraFin.Value.TimeOfDay)
             {
-                jornada.NombreDia = cbNombreDia.Text;
-                jornada.HoraInicio = dtpHoraInicio.Value.TimeOfDay;
-                jornada.HoraFin = dtpHoraFin.Value.TimeOfDay;
-                jornada.Activo = true;
-                Boolean result = await JornadasLogic.Create(jornada);
-                if (result)
+                MessageBox.Show("La hora de inicio debe ser menor que la hora de fin.", "Error");
+                return;
+            }
+
+
+
+            try
+            {
+                if (buttonRG.Text == "Registrar")
                 {
-                    MessageBox.Show("Jornada registrada con exito!");
+                    jornada.NombreDia = cbNombreDia.Text;
+                    jornada.HoraInicio = dtpHoraInicio.Value.TimeOfDay;
+                    jornada.HoraFin = dtpHoraFin.Value.TimeOfDay;
+                    jornada.Activo = true;
+
+                    Boolean result = await JornadasLogic.Create(jornada);
+
+                    if (result)
+                    {
+                        MessageBox.Show("Jornada registrada con exito!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ha ocurrido un error al registrar la jornada.");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Ha ocurrido un error al registrar la jornada.");
+
+                    jornada.JornadaId = int.Parse(textBoxId.Text);
+                    jornada.NombreDia = cbNombreDia.Text;
+                    jornada.HoraInicio = dtpHoraInicio.Value.TimeOfDay;
+                    jornada.HoraFin = dtpHoraFin.Value.TimeOfDay;
+                    jornada.Activo = true;
+
+                    Boolean result = await JornadasLogic.Update(jornada);
+
+                    if (result)
+                    {
+                        MessageBox.Show("Se han guardado todos los cambios.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ha ocurrido un error.");
+                    }
                 }
+                Clear();
+                LoadData();
             }
-            else
+            catch (Exception ex)
             {
-                jornada.JornadaId = int.Parse(textBoxId.Text);
-                jornada.NombreDia = cbNombreDia.Text;
-                jornada.HoraInicio = dtpHoraInicio.Value.TimeOfDay;
-                jornada.HoraFin = dtpHoraFin.Value.TimeOfDay;
-                jornada.Activo = true;
-                Boolean result = await JornadasLogic.Update(jornada);
-                if (result)
-                {
-                    MessageBox.Show("Se han guardado todos los cambios.");
-                }
-                else
-                {
-                    MessageBox.Show("Ha ocurrido un error.");
-                }
+                MessageBox.Show($"Ocurrió un error inesperado: {ex.Message}", "Error");
             }
-            Clear();
-            LoadData();
         }
 
         private async void dataGridViewJornadas_DoubleClick(object sender, EventArgs e)

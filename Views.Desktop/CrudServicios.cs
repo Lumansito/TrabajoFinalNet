@@ -100,22 +100,39 @@ namespace Views.Desktop
 
         private async void buttonEspecialidades_Click(object sender, EventArgs e)
         {
-            var id = Convert.ToInt32(textBoxCodigo.Text.Trim());
-            servicio = await ServiciosLogic.GetOne(id);
-            AsignarEspecialidadesServicio asignarE = new(servicio, this);
-            asignarE.MdiParent = this.MdiParent;
-            this.Visible = false;
-            asignarE.Show();
+            try
+            {
+                var id = Convert.ToInt32(textBoxCodigo.Text.Trim());
+                servicio = await ServiciosLogic.GetOne(id);
+                AsignarEspecialidadesServicio asignarE = new(servicio, this);
+                asignarE.MdiParent = this.MdiParent;
+                this.Visible = false;
+                asignarE.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error: {ex.Message}");
+            }
+            
         }
 
         private async void BtnPrecio_Click(object sender, EventArgs e)
         {
-            var id = Convert.ToInt32(textBoxCodigo.Text.Trim());
-            servicio = await ServiciosLogic.GetOne(id);
-            ActualizarPrecioServicio precioForm = new(servicio, this);
-            precioForm.MdiParent = this.MdiParent;
-            this.Visible = false;
-            precioForm.Show();
+            try
+            {
+                var id = Convert.ToInt32(textBoxCodigo.Text.Trim());
+                servicio = await ServiciosLogic.GetOne(id);
+                ActualizarPrecioServicio precioForm = new(servicio, this);
+                precioForm.MdiParent = this.MdiParent;
+                this.Visible = false;
+                precioForm.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error al actualizar el precio: {ex.Message}");
+            }
+            
+
         }
     }
 }

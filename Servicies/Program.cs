@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Configura VeterinariaContext para la inyección de dependencias
 builder.Services.AddDbContext<VeterinariaContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ThirdConnection")));
 
 
 builder.Services.AddCors(options =>
