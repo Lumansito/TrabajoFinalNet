@@ -121,7 +121,7 @@ namespace Views.Desktop
 
                 int dni = Convert.ToInt32(this.dgvClientes.CurrentRow.Cells["Dni"].Value);
 
-                
+               
                 cliente = await ClientesLogic.GetByDni(dni);
 
                 txtApellido.Text = cliente.Apellido;

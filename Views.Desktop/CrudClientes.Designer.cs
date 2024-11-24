@@ -45,6 +45,7 @@
             btnCancelar = new Button();
             dgvClientes = new DataGridView();
             ClienteId = new DataGridViewTextBoxColumn();
+            Dni = new DataGridViewButtonColumn();
             Nombre = new DataGridViewTextBoxColumn();
             Apellido = new DataGridViewTextBoxColumn();
             Mail = new DataGridViewTextBoxColumn();
@@ -184,7 +185,7 @@
             // 
             dgvClientes.AllowUserToDeleteRows = false;
             dgvClientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvClientes.Columns.AddRange(new DataGridViewColumn[] { ClienteId, Nombre, Apellido, Mail, Telefono, FechaAlta, FechaNacimiento });
+            dgvClientes.Columns.AddRange(new DataGridViewColumn[] { ClienteId, Dni, Nombre, Apellido, Mail, Telefono, FechaAlta, FechaNacimiento });
             dgvClientes.Location = new Point(310, 26);
             dgvClientes.Name = "dgvClientes";
             dgvClientes.ReadOnly = true;
@@ -201,6 +202,15 @@
             ClienteId.Name = "ClienteId";
             ClienteId.ReadOnly = true;
             ClienteId.Width = 125;
+            // 
+            // Dni
+            // 
+            Dni.DataPropertyName = "Dni";
+            Dni.HeaderText = "Dni";
+            Dni.MinimumWidth = 6;
+            Dni.Name = "Dni";
+            Dni.ReadOnly = true;
+            Dni.Width = 125;
             // 
             // Nombre
             // 
@@ -304,6 +314,7 @@
         private Button btnCancelar;
         private DataGridView dgvClientes;
         private DataGridViewTextBoxColumn ClienteId;
+        private DataGridViewButtonColumn Dni;
         private DataGridViewTextBoxColumn Nombre;
         private DataGridViewTextBoxColumn Apellido;
         private DataGridViewTextBoxColumn Mail;

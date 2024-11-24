@@ -69,8 +69,8 @@ namespace Servicies.Controllers
             {
                 return NotFound();
             }
-
-            _context.Cliente.Remove(cliente);
+            cliente.Activo = false;
+            
             _context.SaveChanges();
             return NoContent();
         }

@@ -21,7 +21,9 @@ namespace Models.Entity.Models
 
         public DateTime FechaNacimiento { get; set; }
 
-        public  virtual ICollection<ClienteMembresia> ClienteMembresia { get; set; } = new List<ClienteMembresia>();
+        public bool Activo { get; set; }
+
+        public virtual ICollection<ClienteMembresia> ClienteMembresia { get; set; } = new List<ClienteMembresia>();
 
         public virtual ICollection<Mascota> Mascotas { get; set; } = new List<Mascota>();
     }

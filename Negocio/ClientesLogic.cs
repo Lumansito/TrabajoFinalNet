@@ -49,7 +49,9 @@ namespace Logic
                 if (response.IsSuccessStatusCode)
                 {
                     var responseBody = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<List<Cliente>>(responseBody) ?? new List<Cliente>();
+                    var clientes= JsonConvert.DeserializeObject<List<Cliente>>(responseBody) ?? new List<Cliente>();
+                    var mod = clientes.Where(c => c.Activo == true).ToList();
+                    return mod;
                 }
                 else
                 {
