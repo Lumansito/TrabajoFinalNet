@@ -158,7 +158,32 @@ namespace Servicies.Controllers
             return await _context.Atencion.Where(x => x.FechaHora.Date == date.Date).ToListAsync();
         }
 
-        
+
+        private async Task<decimal> AplicarDescuentoMembresia(decimal montoActual, Cliente cliente)
+        {
+            // Buscar la membresía activa del cliente
+            var codMembresia = await _context.ClienteMembresia
+                .Where(cm => cm.ClienteId == cliente.ClienteId && cm.FechaDesde.AddDays(30) > DateTime.Now)
+                .OrderByDescending(cm => cm.FechaDesde)
+                .Select(cm => cm.MembresiaId)
+                .FirstOrDefaultAsync();
+
+            if (codMembresia != 0) // Si se encontró una membresía activa
+            {
+                var membresia = await _context.Membresia.FindAsync(codMembresia);
+                if (membresia != null && membresia.PorcentajeDescuento > 0)
+                {
+                    // Aplicar el descuento al monto actual
+                    return Math.Round(montoActual * (1 - membresia.PorcentajeDescuento), 2);
+                }
+            }
+
+            // Si no hay membresía activa, devolver el monto sin cambios
+            return montoActual;
+        }
+
+
+
 
         [HttpPatch("{idAtencion}/ActualizarAtencion")]
         public async Task<IActionResult> PatchAtencion(int idAtencion, [FromBody] AtencionPatchDTO patchDto, [FromQuery] string accion)
@@ -200,52 +225,38 @@ namespace Servicies.Controllers
                 }
 
                 var precioValido = servicio.Precios
-                                   .Where(p => p.FechaDesde <= DateTime.Now)
-                                   .OrderByDescending(p => p.FechaDesde)
-                                   .FirstOrDefault();
+                .Where(p => p.FechaDesde <= DateTime.Now)
+                .OrderByDescending(p => p.FechaDesde)
+                .FirstOrDefault();
 
-                
                 if (accion == "Agregar" && !atencion.Servicios.Contains(servicio))
                 {
+                    // Agregar servicio y su precio
                     atencion.Servicios.Add(servicio);
-                    if (precioValido != null) atencion.MontoApagar += precioValido.Precio;
 
-                    //aplico el descuento de la membresia (si tiene)
-
-                    var montoSinDcto = atencion.MontoApagar;
-
-                    // Busco la membresía activa del cliente
-                    var cliente = atencion.Mascota.Cliente;
-                    var codMembresia = await _context.ClienteMembresia
-                        .Where(cm => cm.ClienteId == cliente.ClienteId && cm.FechaDesde.AddDays(30) > DateTime.Now)
-                        .OrderByDescending(cm => cm.FechaDesde)
-                        .Select(cm => cm.MembresiaId) // Seleccionar la membresía asociada
-                        .FirstOrDefaultAsync();
-
-                    if (codMembresia != 0) // FirstOrDefault devuelve 0 si no encuentra nada
+                    if (precioValido != null)
                     {
-                        var membresia = await _context.Membresia.FindAsync(codMembresia);
-                        if (membresia != null && membresia.PorcentajeDescuento > 0)
-                        {
-                            // Calculo el monto con descuento
-                            var montoConDscto = montoSinDcto * (1 - membresia.PorcentajeDescuento);
-
-                            // Actualizo el monto a pagar en la atención
-                            atencion.MontoApagar = Math.Round(montoConDscto, 2);
-                        }
-                    }
-                    else
-                    {
-                        atencion.MontoApagar = montoSinDcto;
+                        atencion.MontoApagar += precioValido.Precio;
                     }
 
-
+                    // Aplicar el descuento de membresía
+                    atencion.MontoApagar = await AplicarDescuentoMembresia(atencion.MontoApagar, atencion.Mascota.Cliente);
                 }
                 else if (accion == "Borrar" && atencion.Servicios.Contains(servicio))
                 {
+                    // Eliminar servicio y su precio
                     atencion.Servicios.Remove(servicio);
-                    if (precioValido != null) atencion.MontoApagar -= precioValido.Precio;
+
+                    if (precioValido != null)
+                    {
+                        var montoConDscto = await AplicarDescuentoMembresia(precioValido.Precio, atencion.Mascota.Cliente);
+                        atencion.MontoApagar -= montoConDscto;
+                    }
+
+                    // Recalcular el monto con descuento
+                    //atencion.MontoApagar = await AplicarDescuentoMembresia(atencion.MontoApagar, atencion.Mascota.Cliente);
                 }
+
             }
 
             await _context.SaveChangesAsync();
