@@ -28,7 +28,7 @@ context.InicializarBaseDatos();
 
 
 
-/*
+
 
 //var a =PDFExporter.CreateDocument();
 //QuestPDF.Settings.License = LicenseType.Community;
@@ -44,7 +44,7 @@ context.InicializarBaseDatos();
 //    return servicios;
 //}
 
-var context = new VeterinariaContext();
+//var context = new VeterinariaContext();
 
 
 Console.ReadLine();
@@ -52,7 +52,7 @@ Console.ReadLine();
 
 // Agregar usuarios (profesionales)
 
-context.InicializarBaseDatos();
+//context.InicializarBaseDatos();
 
 var especie1 = new Especie { Nombre = "Perro" };
 var especie2 = new Especie { Nombre = "Gato" };
@@ -224,7 +224,7 @@ foreach (var atencion in atenciones)
 
 
 
-*/
+
 
 
 

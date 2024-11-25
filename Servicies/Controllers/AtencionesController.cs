@@ -158,12 +158,15 @@ namespace Servicies.Controllers
             return await _context.Atencion.Where(x => x.FechaHora.Date == date.Date).ToListAsync();
         }
 
+        
 
         [HttpPatch("{idAtencion}/ActualizarAtencion")]
         public async Task<IActionResult> PatchAtencion(int idAtencion, [FromBody] AtencionPatchDTO patchDto, [FromQuery] string accion)
         {
             var atencion = await _context.Atencion
                 .Include(a => a.Servicios)
+                .Include(m => m.Mascota)
+                .ThenInclude(m => m.Cliente)
                 .FirstOrDefaultAsync(a => a.AtencionId == idAtencion);
 
             if (atencion == null)
@@ -201,10 +204,42 @@ namespace Servicies.Controllers
                                    .OrderByDescending(p => p.FechaDesde)
                                    .FirstOrDefault();
 
+                
                 if (accion == "Agregar" && !atencion.Servicios.Contains(servicio))
                 {
                     atencion.Servicios.Add(servicio);
                     if (precioValido != null) atencion.MontoApagar += precioValido.Precio;
+
+                    //aplico el descuento de la membresia (si tiene)
+
+                    var montoSinDcto = atencion.MontoApagar;
+
+                    // Busco la membresía activa del cliente
+                    var cliente = atencion.Mascota.Cliente;
+                    var codMembresia = await _context.ClienteMembresia
+                        .Where(cm => cm.ClienteId == cliente.ClienteId && cm.FechaDesde.AddDays(30) > DateTime.Now)
+                        .OrderByDescending(cm => cm.FechaDesde)
+                        .Select(cm => cm.MembresiaId) // Seleccionar la membresía asociada
+                        .FirstOrDefaultAsync();
+
+                    if (codMembresia != 0) // FirstOrDefault devuelve 0 si no encuentra nada
+                    {
+                        var membresia = await _context.Membresia.FindAsync(codMembresia);
+                        if (membresia != null && membresia.PorcentajeDescuento > 0)
+                        {
+                            // Calculo el monto con descuento
+                            var montoConDscto = montoSinDcto * (1 - membresia.PorcentajeDescuento);
+
+                            // Actualizo el monto a pagar en la atención
+                            atencion.MontoApagar = Math.Round(montoConDscto, 2);
+                        }
+                    }
+                    else
+                    {
+                        atencion.MontoApagar = montoSinDcto;
+                    }
+
+
                 }
                 else if (accion == "Borrar" && atencion.Servicios.Contains(servicio))
                 {

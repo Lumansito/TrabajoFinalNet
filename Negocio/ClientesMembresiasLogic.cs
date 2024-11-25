@@ -91,7 +91,7 @@ namespace Logic
                 .FirstOrDefault();
 
             var codUltimaMembresia = clientesMembresias?
-                    .Where(cm => cm.Cliente.Dni == dni && cm.FechaDesde.AddDays(30) > DateTime.Now) //Falta agregar la validación para que no me traiga membresias vencidas
+                    .Where(cm => cm.Cliente.Dni == dni && cm.FechaDesde.AddDays(30) > DateTime.Now) 
                     .OrderByDescending(p => p.FechaDesde)
                     .Select(cm => cm.MembresiaId) // Seleccionar la membresía asociada
                     .FirstOrDefault();

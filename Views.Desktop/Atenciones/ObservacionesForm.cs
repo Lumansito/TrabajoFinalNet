@@ -24,7 +24,7 @@ namespace Views.Desktop.Atenciones
             }
             else
             {
-                txtDescuentos.Text = $"Se aplicó un {descuentoAplicado}% de descuento. Cobertura de la membresía: {descripcionMembresia}";
+                txtDescuentos.Text = $"Se aplicó un {descuentoAplicado * 100}% de descuento. Cobertura de la membresía: {descripcionMembresia}";
             }
         }
 

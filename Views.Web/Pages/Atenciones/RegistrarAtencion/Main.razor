@@ -14,14 +14,21 @@
         <h1>Registrar Atenciones del día</h1>
 
         <div class="container mt-4">
-        @foreach (var atencion in Atenciones)
-        {
-            <Tarjeta Atencion="atencion"
-                     OnAddService="(args) => OnAddService(args.Item1, args.Item2)"
-                     OnDeleteService="(args)=> OnDeleteService(args.Item1, args.Item2)"
-                     OnSaveObservaciones="(args)=> OnSaveObservations(args.Item1, args.Item2)"
-                     AtencionId="atencion.AtencionId" />
-        }
+            @if(Atenciones.Count == 0)
+            {
+                <h2> No hay atenciones del día de hoy</h2>
+            }
+            
+            @foreach (var atencion in Atenciones)
+            {
+                <Tarjeta Atencion="atencion"
+                         OnAddService="(args) => OnAddService(args.Item1, args.Item2)"
+                         OnDeleteService="(args)=> OnDeleteService(args.Item1, args.Item2)"
+                         OnSaveObservaciones="(args)=> OnSaveObservations(args.Item1, args.Item2)"
+                         AtencionId="atencion.AtencionId" />
+            }
+            
+            
         </div>
     </Authorized>
     <NotAuthorized>
