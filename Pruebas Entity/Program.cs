@@ -10,6 +10,26 @@ using Logic;
 
 
 
+var context = new VeterinariaContext();
+
+context.InicializarBaseDatos();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
 //var a =PDFExporter.CreateDocument();
 //QuestPDF.Settings.License = LicenseType.Community;
 
@@ -204,7 +224,7 @@ foreach (var atencion in atenciones)
 
 
 
-
+*/
 
 
 

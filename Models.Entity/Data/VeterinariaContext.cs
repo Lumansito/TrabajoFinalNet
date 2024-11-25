@@ -197,7 +197,7 @@ namespace Models.Entity.Data
                                     .SetBasePath(Directory.GetCurrentDirectory())
                                     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                                     .Build();
-                optionsBuilder.UseSqlServer(configuration.GetConnectionString("ThirdConnection"))
+                optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
                               .EnableSensitiveDataLogging();  // Para ver detalles de errores
             }
         }
